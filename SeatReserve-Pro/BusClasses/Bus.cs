@@ -29,9 +29,10 @@ namespace SeatReserve_Pro.BusClasses
 {
     internal class Bus
     {
+        private int idSeat = 0;
         public List<Seat> seats { get; set; }
-        public int seatCount { get; set; }
-        private int SeatId = 0;
+        public int seatCount { get; set; }    
+        
         public Bus(int seatCount)
         {
             this.seatCount = seatCount;
@@ -41,16 +42,18 @@ namespace SeatReserve_Pro.BusClasses
                 {
                     seatCount++;
                 }
-                
-seats = new List<Seat>();
-            }seats = new List<Seat>();
+            }
+            seats = new List<Seat>();
             for (int i = 0; i < seatCount; i++)
             {
                 Seat seat = new Seat();
                 if (seat != null)
                 {
+                    seat.id= idSeat;
                     seats.Add(seat);
+                    
                 }
+                idSeat++;
             }
         }
     }

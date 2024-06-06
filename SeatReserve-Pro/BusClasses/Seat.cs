@@ -33,9 +33,14 @@ namespace SeatReserve_Pro.BusClasses
 
         public int id { get; set; }
         public int width { get; set; }
-        public int height { get; set; } 
-        private bool reserved = false;
-        private bool selected = false;
-        
+        public int height { get; set; }
+        public Rectangle seatRectangle { get; set; } 
+        public bool reserved { get; set; }
+        public bool selected { get;set; }
+
+        public Seat(){
+            width = 30;
+            height = 30;
+        }  
     }
 }

@@ -28,19 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            reserveButton = new Button();
             SuspendLayout();
+            // 
+            // reserveButton
+            // 
+            reserveButton.Location = new Point(675, 375);
+            reserveButton.Name = "reserveButton";
+            reserveButton.Size = new Size(75, 23);
+            reserveButton.TabIndex = 0;
+            reserveButton.Text = "Reservieren";
+            reserveButton.UseVisualStyleBackColor = true;
+            reserveButton.Click += reserveButton_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(reserveButton);
             Name = "Form1";
             Text = "Form1";
             Paint += Form1_Paint;
+            MouseClick += Form1_MouseClick;
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Button reserveButton;
     }
 }
