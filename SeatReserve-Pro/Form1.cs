@@ -22,7 +22,7 @@
      * 
      ******************************************************************************/
 
-using SeatReserve_Pro.BusClasses;
+using BusDBClasses;
 using System.CodeDom.Compiler;
 using System.Diagnostics.Metrics;
 using System.Drawing;
