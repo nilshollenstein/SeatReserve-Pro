@@ -30,17 +30,17 @@ namespace SeatReserve_Pro.BusClasses
 {
     internal class Seat
     {
-
         public int id { get; set; }
         public int width { get; set; }
         public int height { get; set; }
-        public Rectangle seatRectangle { get; set; } 
+        public Rectangle seatRectangle { get; set; }
         public bool reserved { get; set; }
-        public bool selected { get;set; }
-
-        public Seat(){
+        public bool selected { get; set; }
+        public Seat()
+        { 
+            selected = false;
             width = 30;
             height = 30;
-        }  
+        }
     }
 }

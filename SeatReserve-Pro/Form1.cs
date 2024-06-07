@@ -2,7 +2,7 @@
      * File:        Form1.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-05
-	 * Version:     1.0
+	 * Version:     1.1
      * Description: This file contains the partial Form1 class, which contains the handlers for the different UI-elements.
      * 
      * History:
@@ -10,6 +10,8 @@
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-05  Nils Hollenstein   Initial creation.
      * 2024-06-06  Nils Hollenstein   Draw the Bus
+     * 2024-06-06  Nils Hollenstein   Enable Seat Reservation
+     * 2024-06-07  Nils Hollenstein   Busselection is working
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -21,52 +23,197 @@
      ******************************************************************************/
 
 using SeatReserve_Pro.BusClasses;
+using System.CodeDom.Compiler;
 using System.Diagnostics.Metrics;
 using System.Drawing;
+using System.Xml.Serialization;
 
 namespace SeatReserve_Pro
 {
     public partial class Form1 : Form
     {
+        // Variables
+        List<Bus> busses = new List<Bus>();
+        private Bus userBusSelected;
+        private bool busSelected = false;
 
-        private Bus bus = new Bus(50);
+        List<string> targetDestinations = new List<string>
+        {
+            "Berlin, Deutschland",
+            "Prag, Tschechien",
+            "Wien, Österreich",
+            "Budapest, Ungarn",
+            "Krakau, Polen",
+            "Amsterdam, Niederlande",
+            "Brüssel, Belgien",
+            "Paris, Frankreich",
+            "Zürich, Schweiz",
+            "München, Deutschland",
+            "Moskau, Russland"
+        };
+        // Constructor
         public Form1()
         {
             InitializeComponent();
-
+            GenerateBusSelection();
         }
 
-        // Drawing of the Form and get the Form Width and Heigth,
+        // Methods
+        // Event-Handler
+
+        // Paint event of the Form
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            DrawBus();
+            if (busSelected)
+            {
+                DrawBus(userBusSelected);
+            }
         }
+ 
+        // Click handler for a click in the form on a seat
+        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (busSelected)
+            {
+                foreach (var seat in userBusSelected.seats)
+                {
+                    if (seat.seatRectangle.Contains(e.Location))
+                    {
+                        if (seat.seatRectangle.Contains(e.Location) && !seat.selected && !seat.reserved)
+                            // Set selected to true
+                            seat.selected = true;
+                        else if (seat.seatRectangle.Contains(e.Location) && seat.selected && !seat.reserved)
+                            seat.selected = false;
+                        else if (seat.seatRectangle.Contains(e.Location) && seat.reserved)
+                            MessageBox.Show("Seat already reserved");
+                        Invalidate();
+                    }
+                }
+            }
+
+        }
+
+        // React to the Button Click
+        private void ReserveButton_Click(object sender, EventArgs e)
+        {
+
+            foreach (var seat in userBusSelected.seats)
+            {
+                if (seat.selected)
+                {
+                    seat.reserved = true;
+                    seat.selected = false;
+                }
+            }
+            Invalidate();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // https://stackoverflow.com/questions/6901070/getting-selected-value-of-a-combobox
+            ComboBox comboBox = (ComboBox)sender;
+            string? selectedValue = comboBox.SelectedItem as string;
+
+            if (selectedValue != null)
+            {
+                foreach (var bus in busses)
+                {
+                    if (bus.destination == selectedValue)
+                    {
+                        bus.destination = selectedValue;
+                        userBusSelected = bus;
+                        busTitle.Text = bus.destination;
+                        SetBusSelectionPartsVisibility(false);
+                        SetSeatReservePartsVisibility(true);
+                    }
+                }
+                DrawBus(userBusSelected);
+                busSelected = true;
+            }
+           
+
+        }
+        private void backToSelectionButton_Click(object sender, EventArgs e)
+        {
+            busSelected = false;
+            SetBusSelectionPartsVisibility(true);
+            SetSeatReservePartsVisibility(false);
+            Invalidate();
+        }
+
+        // Generates a List of busses with random length for the busses
+        private void GenerateBusSelection()
+        {
+            busTitle.Location = new Point(Width/2-busTitle.Width, 30);
+            foreach (var target in targetDestinations)
+            {
+                // https://code-maze.com/csharp-generate-random-numbers-range/
+                // Randomnumber in a range
+                var random = new Random();
+                int randomNumber = random.Next(20, 40);
+                busses.Add(new Bus(randomNumber, target));
+
+                // Add bus destination to the selection
+                busSelection.Items.Add(target);
+                // If needed because this function gets called on invalidate (because its in the constructor)
+                if (busSelected)
+                {
+                    SetSeatReservePartsVisibility(true);
+                    SetBusSelectionPartsVisibility(false);
+                }
+                else
+                {
+                    SetSeatReservePartsVisibility(false);
+                    SetBusSelectionPartsVisibility(true);
+                }
+
+            }
+        }
+
+
         // Function to draw the whole bus
-        private void DrawBus()
+        private void DrawBus(Bus bus)
         {
             Graphics graphics;
             graphics = this.CreateGraphics();
             int yCounter = 0;
-            DrawSeats(graphics, yCounter);
+            CreateDrawingUtilities(graphics, yCounter, bus);
         }
-        // Function which draws all the seats and also saves them in the seat objects
-        private void DrawSeats(Graphics graphics, int yCounter)
+
+        // Method to Create all things needed to draw a bus
+        private void CreateDrawingUtilities(Graphics graphics, int yCounter, Bus bus)
         {
             // Needed informations to draw the rectangle
             int xPos = 80;
             int yPos = 80;
-
             // Needed informations
             int maxWidth = 0;
             int maxHeight = 0;
-
             // Brushes and pens to draw the bus
-            SolidBrush grayBrush = new SolidBrush(Color.Gray);
             SolidBrush darkGreyBrush = new SolidBrush(Color.FromArgb(255, 64, 63, 63));
+
+            Pen blackPen = new Pen(Color.Black);
+            DrawSeats(graphics, yCounter, xPos, yPos, maxWidth, maxHeight, darkGreyBrush, blackPen, bus);
+        }
+
+        // Method to choose the color for the bus seats
+        private void DrawSeatCorrectColor(Seat seat, Graphics graphics, Bus bus)
+        {
+            SolidBrush grayBrush = new SolidBrush(Color.Gray);
+
             SolidBrush selectedBrush = new SolidBrush(Color.FromArgb(255, 87, 119, 150));
             SolidBrush reservedBrush = new SolidBrush(Color.FromArgb(255, 247, 101, 116));
-            Pen blackPen = new Pen(Color.Black);
 
+            if (seat.selected)
+                graphics.FillRectangle(selectedBrush, seat.seatRectangle);
+            else if (seat.reserved)
+                graphics.FillRectangle(reservedBrush, seat.seatRectangle);
+            else
+                graphics.FillRectangle(grayBrush, seat.seatRectangle);
+        }
+        // Method which draws all the seats and also saves them in the seat objects
+        private void DrawSeats(Graphics graphics, int yCounter, int xPos, int yPos, int maxWidth, int maxHeight, SolidBrush darkGreyBrush, Pen blackPen, Bus bus)
+        {
             // Foreach to iterate throug the seats list
             foreach (var seat in bus.seats)
             {
@@ -76,20 +223,11 @@ namespace SeatReserve_Pro
                     Rectangle seatRectangle = new Rectangle(xPos, yPos, seat.width, seat.height);
                     seat.seatRectangle = seatRectangle;
                 }
-
-                // If the seat is selected, draw it with blue(selectedBrush)
-                if (seat.selected)
-                    graphics.FillRectangle(selectedBrush, seat.seatRectangle);
-                else if (seat.reserved)
-                    graphics.FillRectangle(reservedBrush, seat.seatRectangle);
-                else
-                    graphics.FillRectangle(grayBrush, seat.seatRectangle);
-
+                // Choose the color for the seat
+                DrawSeatCorrectColor(seat, graphics, bus);
                 // Draw the border for the seat
                 graphics.DrawRectangle(blackPen, seat.seatRectangle);
                 yCounter++;
-
-                // If to check if there should be a new column with seats and also the gaps between
                 if (yCounter == 4)
                 {
                     yPos = 80;
@@ -114,7 +252,8 @@ namespace SeatReserve_Pro
             // Call the DrawOutline Method with fiting parameters
             DrawOutline(80, 80, graphics, maxWidth - 80, maxHeight - 80, blackPen);
         }
-        // Function to draw the bus outlines/detailes
+
+        // Method to draw the bus outlines/detailes
         private void DrawOutline(int startSeatXpos, int startSeatYpos, Graphics graphics, int totalWidth, int totalHeight, Pen blackPen)
         {
             // Brush for the driver seat
@@ -135,39 +274,22 @@ namespace SeatReserve_Pro
 
             graphics.DrawRectangle(blackPen, rectOuterLines);
         }
-        // Click handler for a click in the form on a seat
-        private void Form1_MouseClick(object sender, MouseEventArgs e)
-        {
-            foreach (var seat in bus.seats)
-            {
-                if (seat.seatRectangle.Contains(e.Location))
-                {
-                    if (seat.seatRectangle.Contains(e.Location) && !seat.selected && !seat.reserved)
-                        // Set selected to true
-                        seat.selected = true;
-                    else if (seat.seatRectangle.Contains(e.Location) && seat.selected && !seat.reserved)
-                        seat.selected = false;
-                    else if (seat.seatRectangle.Contains(e.Location) && seat.reserved)
-                        MessageBox.Show("Seat already reserved");
-                    Invalidate();
-                }
-            }
-        }
+        
 
-        // React to the Button Click
-        private void reserveButton_Click(object sender, EventArgs e)
+        private void SetSeatReservePartsVisibility(bool setVisibility)
         {
-            foreach (var seat in bus.seats)
-            {
-                if (seat.selected)
-                {
-                    seat.reserved = true;
-                    seat.selected = false;
-                }
-            }
-            Invalidate();
-        }
+            ReserveButton.Visible = setVisibility;
+            backToSelectionButton.Visible = setVisibility;
+            busTitle.Visible = setVisibility;
 
+        }
+        private void SetBusSelectionPartsVisibility(bool setVisibility)
+        {
+            appTitle.Visible = setVisibility;
+            subTitleBusSelection.Visible = setVisibility;
+            busSelection.Visible = setVisibility;
+
+        }
 
     }
 }

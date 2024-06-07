@@ -28,34 +28,99 @@
         /// </summary>
         private void InitializeComponent()
         {
-            reserveButton = new Button();
+            ReserveButton = new Button();
+            busSelection = new ComboBox();
+            appTitle = new Label();
+            subTitleBusSelection = new Label();
+            backToSelectionButton = new Button();
+            busTitle = new Label();
             SuspendLayout();
             // 
-            // reserveButton
+            // ReserveButton
             // 
-            reserveButton.Location = new Point(675, 375);
-            reserveButton.Name = "reserveButton";
-            reserveButton.Size = new Size(75, 23);
-            reserveButton.TabIndex = 0;
-            reserveButton.Text = "Reservieren";
-            reserveButton.UseVisualStyleBackColor = true;
-            reserveButton.Click += reserveButton_Click;
+            ReserveButton.Location = new Point(713, 415);
+            ReserveButton.Name = "ReserveButton";
+            ReserveButton.Size = new Size(75, 23);
+            ReserveButton.TabIndex = 0;
+            ReserveButton.Text = "Reservieren";
+            ReserveButton.UseVisualStyleBackColor = true;
+            ReserveButton.Click += ReserveButton_Click;
+            // 
+            // busSelection
+            // 
+            busSelection.FormattingEnabled = true;
+            busSelection.Location = new Point(12, 104);
+            busSelection.Name = "busSelection";
+            busSelection.Size = new Size(121, 23);
+            busSelection.TabIndex = 1;
+            busSelection.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // appTitle
+            // 
+            appTitle.AutoSize = true;
+            appTitle.Font = new Font("Segoe UI", 20F);
+            appTitle.Location = new Point(12, 9);
+            appTitle.Name = "appTitle";
+            appTitle.Size = new Size(209, 37);
+            appTitle.TabIndex = 2;
+            appTitle.Text = "SeatReserve-Pro";
+            // 
+            // subTitleBusSelection
+            // 
+            subTitleBusSelection.AutoSize = true;
+            subTitleBusSelection.Font = new Font("Segoe UI", 12F);
+            subTitleBusSelection.Location = new Point(12, 77);
+            subTitleBusSelection.Name = "subTitleBusSelection";
+            subTitleBusSelection.Size = new Size(172, 21);
+            subTitleBusSelection.TabIndex = 3;
+            subTitleBusSelection.Text = "Wählen sie den Bus aus";
+            // 
+            // backToSelectionButton
+            // 
+            backToSelectionButton.Location = new Point(632, 415);
+            backToSelectionButton.Name = "backToSelectionButton";
+            backToSelectionButton.Size = new Size(75, 23);
+            backToSelectionButton.TabIndex = 4;
+            backToSelectionButton.Text = "Zurück";
+            backToSelectionButton.UseVisualStyleBackColor = true;
+            backToSelectionButton.Click += backToSelectionButton_Click;
+            // 
+            // busTitle
+            // 
+            busTitle.AutoSize = true;
+            busTitle.Font = new Font("Segoe UI", 13F);
+            busTitle.Location = new Point(380, 50);
+            busTitle.Name = "busTitle";
+            busTitle.Size = new Size(59, 25);
+            busTitle.TabIndex = 5;
+            busTitle.Text = "label1";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(reserveButton);
+            Controls.Add(busTitle);
+            Controls.Add(backToSelectionButton);
+            Controls.Add(subTitleBusSelection);
+            Controls.Add(appTitle);
+            Controls.Add(busSelection);
+            Controls.Add(ReserveButton);
             Name = "Form1";
-            Text = "Form1";
+            Text = "SeatReserve-Pro";
             Paint += Form1_Paint;
             MouseClick += Form1_MouseClick;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private Button reserveButton;
+        private Button ReserveButton;
+        private ComboBox busSelection;
+        private Label appTitle;
+        private Label subTitleBusSelection;
+        private Button backToSelectionButton;
+        private Label busTitle;
     }
 }

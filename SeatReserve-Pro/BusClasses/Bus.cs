@@ -31,10 +31,12 @@ namespace SeatReserve_Pro.BusClasses
     {
         private int idSeat = 0;
         public List<Seat> seats { get; set; }
+        public string destination { get; set; }
         public int seatCount { get; set; }    
         
-        public Bus(int seatCount)
+        public Bus(int seatCount, string destination)
         {
+            this.destination = destination;
             this.seatCount = seatCount;
             if (seatCount % 4 != 0)
             {
