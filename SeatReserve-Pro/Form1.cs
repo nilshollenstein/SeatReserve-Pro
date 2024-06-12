@@ -98,6 +98,7 @@ namespace SeatReserve_Pro
             Invalidate();
         }
 
+        // Handler for the combobox
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             // https://stackoverflow.com/questions/6901070/getting-selected-value-of-a-combobox
@@ -123,6 +124,7 @@ namespace SeatReserve_Pro
             }
         }
 
+        // Buttonhandler for the menu button
         private void backToSelectionButton_Click(object sender, EventArgs e)
         {
             busSelected = false;
@@ -136,6 +138,7 @@ namespace SeatReserve_Pro
         {
             busTitle.Location = new Point(Width / 2 - busTitle.Width, 30);
 
+            // check what should be displayed
             foreach (var bus in busses)
             {
                 if (bus.destination != "")
@@ -257,7 +260,7 @@ namespace SeatReserve_Pro
             graphics.DrawRectangle(blackPen, rectOuterLines);
         }
 
-
+        // Set the visibility of the SeatReservationParts
         private void SetSeatReservePartsVisibility(bool setVisibility)
         {
             ReserveButton.Visible = setVisibility;
@@ -265,6 +268,8 @@ namespace SeatReserve_Pro
             busTitle.Visible = setVisibility;
 
         }
+
+        // Set the visibility of the SetBusSelection
         private void SetBusSelectionPartsVisibility(bool setVisibility)
         {
             appTitle.Visible = setVisibility;
@@ -276,7 +281,7 @@ namespace SeatReserve_Pro
         private void updateDB()
         {
             var dbService = new SeatReserve_ProDBService();
-            dbService.updateDB(busses);
+            dbService.UpdateDB(busses);
             GetDataFromDB();
 
         }
@@ -284,7 +289,7 @@ namespace SeatReserve_Pro
         private void GetDataFromDB()
         {
             var dbService = new SeatReserve_ProDBService();
-            busses = dbService.readDB();
+            busses = dbService.ReadDB();
         }
 
     }

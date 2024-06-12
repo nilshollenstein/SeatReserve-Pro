@@ -30,12 +30,10 @@ namespace BusDBClasses
 {
     public class Bus
     {
-
         public int id { get; set; }
         public List<Seat> seats { get; set; }
         public string destination { get; set; }
         public int seatCount { get; set; }
-
         public Bus(int id, int seatCount, string destination)
         {
             this.id = id;
@@ -58,8 +56,5 @@ namespace BusDBClasses
             this.seatCount = seatCount;
             this.seats = seats;
         }
-
     }
-
 }
-
