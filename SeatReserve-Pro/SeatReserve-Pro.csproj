@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BusDBClasses\BusDBClasses.csproj" />
+    <ProjectReference Include="..\SeatReserve-Pro_DBService\SeatReserve-Pro_DBService.csproj" />
   </ItemGroup>
 
 </Project>

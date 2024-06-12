@@ -30,8 +30,8 @@ namespace BusDBClasses
 {
     public class Bus
     {
-        
-        public int id {  get; set; }
+
+        public int id { get; set; }
         public List<Seat> seats { get; set; }
         public string destination { get; set; }
         public int seatCount { get; set; }
@@ -41,13 +41,6 @@ namespace BusDBClasses
             this.id = id;
             this.destination = destination;
             this.seatCount = seatCount;
-            if (seatCount % 4 != 0)
-            {
-                while (seatCount % 4 != 0)
-                {
-                    seatCount++;
-                }
-            }
             seats = new List<Seat>();
             for (int i = 0; i < seatCount; i++)
             {
@@ -56,8 +49,17 @@ namespace BusDBClasses
                 {
                     seats.Add(seat);
                 }
-
             }
         }
+        public Bus(int id, string destination, int seatCount, List<Seat> seats)
+        {
+            this.id = id;
+            this.destination = destination;
+            this.seatCount = seatCount;
+            this.seats = seats;
+        }
+
     }
+
 }
+

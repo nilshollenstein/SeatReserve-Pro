@@ -60,7 +60,7 @@ namespace SeatReserve_Pro
             // 
             // ReserveButton
             // 
-            ReserveButton.Location = new Point(713, 415);
+            ReserveButton.Location = new Point(961, 415);
             ReserveButton.Name = "ReserveButton";
             ReserveButton.Size = new Size(75, 23);
             ReserveButton.TabIndex = 0;
@@ -99,7 +99,7 @@ namespace SeatReserve_Pro
             // 
             // backToSelectionButton
             // 
-            backToSelectionButton.Location = new Point(632, 415);
+            backToSelectionButton.Location = new Point(880, 415);
             backToSelectionButton.Name = "backToSelectionButton";
             backToSelectionButton.Size = new Size(75, 23);
             backToSelectionButton.TabIndex = 4;
@@ -121,7 +121,7 @@ namespace SeatReserve_Pro
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1048, 450);
             Controls.Add(busTitle);
             Controls.Add(backToSelectionButton);
             Controls.Add(subTitleBusSelection);

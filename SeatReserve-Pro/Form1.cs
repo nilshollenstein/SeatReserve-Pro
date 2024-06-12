@@ -23,6 +23,7 @@
      ******************************************************************************/
 
 using BusDBClasses;
+using SeatReserve_Pro_DBService;
 using System.CodeDom.Compiler;
 using System.Diagnostics.Metrics;
 using System.Drawing;
@@ -37,25 +38,13 @@ namespace SeatReserve_Pro
         private Bus userBusSelected;
         private bool busSelected = false;
 
-        List<string> targetDestinations = new List<string>
-        {
-            "Berlin, Deutschland",
-            "Prag, Tschechien",
-            "Wien, Österreich",
-            "Budapest, Ungarn",
-            "Krakau, Polen",
-            "Amsterdam, Niederlande",
-            "Brüssel, Belgien",
-            "Paris, Frankreich",
-            "Zürich, Schweiz",
-            "München, Deutschland",
-            "Moskau, Russland"
-        };
+
         // Constructor
         public Form1()
         {
+            GetDataFromDB();
             InitializeComponent();
-            GenerateBusSelection();
+            DisplayCorrectUI();
         }
 
         // Methods
@@ -69,7 +58,7 @@ namespace SeatReserve_Pro
                 DrawBus(userBusSelected);
             }
         }
- 
+
         // Click handler for a click in the form on a seat
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -105,6 +94,7 @@ namespace SeatReserve_Pro
                     seat.selected = false;
                 }
             }
+            updateDB();
             Invalidate();
         }
 
@@ -125,14 +115,14 @@ namespace SeatReserve_Pro
                         busTitle.Text = bus.destination;
                         SetBusSelectionPartsVisibility(false);
                         SetSeatReservePartsVisibility(true);
+
                     }
                 }
                 DrawBus(userBusSelected);
                 busSelected = true;
             }
-           
-
         }
+
         private void backToSelectionButton_Click(object sender, EventArgs e)
         {
             busSelected = false;
@@ -141,21 +131,15 @@ namespace SeatReserve_Pro
             Invalidate();
         }
 
-        // Generates a List of busses with random length for the busses
-        private void GenerateBusSelection()
+        // Decides which UI should be displayed
+        private void DisplayCorrectUI()
         {
-            busTitle.Location = new Point(Width/2-busTitle.Width, 30);
-            foreach (var target in targetDestinations)
-            {
-                // https://code-maze.com/csharp-generate-random-numbers-range/
-                // Randomnumber in a range
-                var random = new Random();
-                int randomNumber = random.Next(20, 40);
-                busses.Add(new Bus(0, randomNumber, target));
+            busTitle.Location = new Point(Width / 2 - busTitle.Width, 30);
 
-                // Add bus destination to the selection
-                busSelection.Items.Add(target);
-                // If needed because this function gets called on invalidate (because its in the constructor)
+            foreach (var bus in busses)
+            {
+                if (bus.destination != "")
+                    busSelection.Items.Add(bus.destination);
                 if (busSelected)
                 {
                     SetSeatReservePartsVisibility(true);
@@ -166,10 +150,8 @@ namespace SeatReserve_Pro
                     SetSeatReservePartsVisibility(false);
                     SetBusSelectionPartsVisibility(true);
                 }
-
             }
         }
-
 
         // Function to draw the whole bus
         private void DrawBus(Bus bus)
@@ -274,7 +256,7 @@ namespace SeatReserve_Pro
 
             graphics.DrawRectangle(blackPen, rectOuterLines);
         }
-        
+
 
         private void SetSeatReservePartsVisibility(bool setVisibility)
         {
@@ -289,6 +271,20 @@ namespace SeatReserve_Pro
             subTitleBusSelection.Visible = setVisibility;
             busSelection.Visible = setVisibility;
 
+        }
+        // Methodes to update the database
+        private void updateDB()
+        {
+            var dbService = new SeatReserve_ProDBService();
+            dbService.updateDB(busses);
+            GetDataFromDB();
+
+        }
+        // Methodes to get the data from databases
+        private void GetDataFromDB()
+        {
+            var dbService = new SeatReserve_ProDBService();
+            busses = dbService.readDB();
         }
 
     }

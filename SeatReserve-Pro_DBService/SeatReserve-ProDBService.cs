@@ -8,6 +8,7 @@ using Npgsql;
 using BusDBClasses;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Text;
 /******************************************************************************
      * File:        SeatReserve_ProDBService.cs
      * Author:      Nils Hollenstein
@@ -31,7 +32,7 @@ using System.Drawing;
 
 namespace SeatReserve_Pro_DBService
 {
-    internal class SeatReserve_ProDBService
+    public class SeatReserve_ProDBService
     {
         private List<Bus> busses = new List<Bus>();
         private string connectionString = "Host=localhost:5432;Username=postgres;Password=postgres;Database=SeatReserve-Pro";
@@ -49,6 +50,7 @@ namespace SeatReserve_Pro_DBService
             "München, Deutschland",
             "Moskau, Russland"
         };
+
         public void initDB()
         {
             GenerateBusList();
@@ -60,6 +62,27 @@ namespace SeatReserve_Pro_DBService
                     DeleteDBContent(connection);
                     InsertBusData(connection);
                     InsertSeatData(connection);
+                }
+            }
+        }
+        public List<Bus> readDB()
+        {
+            using (var dataSource = NpgsqlDataSource.Create(connectionString))
+            {
+                using (var connection = dataSource.OpenConnection())
+                {
+                    ReadBusData(connection);
+                }
+            }
+            return busses;
+        }
+        public void updateDB(List<Bus> busses)
+        {
+            using (var dataSource = NpgsqlDataSource.Create(connectionString))
+            {
+                using (var connection = dataSource.OpenConnection())
+                {
+                    updateSeats(busses, connection);
                 }
             }
         }
@@ -88,7 +111,7 @@ namespace SeatReserve_Pro_DBService
             {
                 foreach (var bus in busses)
                 {
-                    using var cmd = new NpgsqlCommand("INSERT INTO bus(busID, destination, seatcount) VALUES (@p1, @p2, @p3)", connection)
+                    using var cmd = new NpgsqlCommand("INSERT INTO bus (busid, destination, seatcount) VALUES (@p1, @p2, @p3)", connection)
                     {
                         Parameters =
                             {
@@ -104,14 +127,17 @@ namespace SeatReserve_Pro_DBService
         }
         private void InsertSeatData(NpgsqlConnection connection)
         {
+            int seatID = 1;
             foreach (var bus in busses)
             {
                 foreach (var seat in bus.seats)
                 {
-                    using var cmd = new NpgsqlCommand("INSERT INTO seat(width, height, reserved, busID) VALUES (@p1, @p2, @p3, @p4)", connection)
+
+                    using var cmd = new NpgsqlCommand("INSERT INTO seat(seatid, width, height, reserved, busID) VALUES (@p0, @p1, @p2, @p3, @p4)", connection)
                     {
                         Parameters =
                             {
+                                new("p0", seatID),
                                 new("p1", seat.width),
                                 new("p2", seat.height),
                                 new("p3", seat.reserved),
@@ -119,8 +145,92 @@ namespace SeatReserve_Pro_DBService
                             }
                     };
                     cmd.ExecuteNonQuery();
+                    seatID++;
                 }
             }
+        }
+
+        private void ReadBusData(NpgsqlConnection connection)
+        {
+            busses = new List<Bus>();
+            int busID = 0;
+            string destination = "";
+            int seatCount = 0;
+            int seatid = 0;
+            int width = 0;
+            int height = 0;
+            bool reserved = false;
+            int previousSeatCounts = 0;
+            int j = 1 + previousSeatCounts;
+
+            for (int i = 1; i <= targetDestinations.Count; i++)
+            {
+                List<Seat> seats = new List<Seat>();
+                // Busse lesen
+                using (var selectAllBusInformation = new NpgsqlCommand("SELECT bus.busid, bus.destination, bus.seatcount FROM bus WHERE bus.busid = :i;", connection))
+                {
+                    selectAllBusInformation.Parameters.AddWithValue("i", i);
+                    using (var reader = selectAllBusInformation.ExecuteReader())
+                    {
+
+                        while (reader.Read())
+                        {
+                            busID = reader.GetInt32(0);
+                            destination = reader.GetString(1);
+                            seatCount = reader.GetInt32(2);
+                        }
+                    }
+                }
+                while (seatCount % 4 != 0)
+                {
+                    seatCount++;
+                }
+                previousSeatCounts += seatCount;
+                for (; j <= seatCount + previousSeatCounts; j++)
+                {
+                    using (var selectAllSeatInformation = new NpgsqlCommand("SELECT seat.seatid, seat.width, seat.height, seat.reserved FROM seat JOIN bus ON bus.busid = seat.busid WHERE bus.busid = :i AND seat.seatid = :j;", connection))
+                    {
+                        selectAllSeatInformation.Parameters.AddWithValue("i", i);
+                        selectAllSeatInformation.Parameters.AddWithValue("j", j);
+                        using (var reader = selectAllSeatInformation.ExecuteReader())
+                        {
+
+                            while (reader.Read())
+                            {
+                                seatid = reader.GetInt32(0);
+                                width = reader.GetInt32(1);
+                                height = reader.GetInt32(2);
+                                reserved = reader.GetBoolean(3);
+                            }
+                        }
+                    }
+                    seats.Add(new Seat(seatid, width, height, reserved, busID));
+                }
+                busses.Add(new Bus(busID, destination, seatCount, seats));
+            }
+        }
+        public void updateSeats(List<Bus> busses, NpgsqlConnection connection)
+        {
+
+            foreach (var bus in busses)
+            {
+                foreach (var seat in bus.seats)
+                {
+                    using var cmd = new NpgsqlCommand("UPDATE seat SET seatid = @p1 ,width = @p2, height = @p3, reserved = @p4, busid = @p5 WHERE seatid = @p1 AND busid = @p5", connection)
+                    {
+                        Parameters =
+                            {
+                                new("p1", seat.id),
+                                new("p2", seat.width),
+                                new("p3", seat.height),
+                                new("p4", seat.reserved),
+                                new("p5", seat.busid),
+                            }
+                    };
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
         }
     }
 }

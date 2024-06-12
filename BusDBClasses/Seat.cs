@@ -36,11 +36,21 @@ namespace BusDBClasses
         public Rectangle seatRectangle { get; set; }
         public bool reserved { get; set; }
         public bool selected { get; set; }
+        public int busid { get; set; } 
         public Seat()
         {
             selected = false;
             width = 30;
             height = 30;
+        }
+        public Seat(int id, int width, int height, bool reserved, int busid)
+        {
+            this.id = id;
+            this.width = width;
+            this.height = height;
+            this.reserved = reserved;
+            selected = false;
+            this.busid = busid;
         }
     }
 }
