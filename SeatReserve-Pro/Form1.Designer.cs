@@ -1,4 +1,26 @@
-﻿namespace SeatReserve_Pro
+﻿
+/******************************************************************************
+     * File:        Form1.Designer.cs
+     * Author:      Nils Hollenstein
+     * Created:     2024-06-05
+	 * Version:     1.0
+     * Description: This file contains the partial Form1 class, which sets the design for the UI parts
+     * 
+     * History:
+     * Date        Author             Changes
+     * ----------  ----------------   ----------------------------------------------------
+     * 2024-06-05  Nils Hollenstein   Initial creation.
+     * 
+     * License:
+     * This software is provided 'as-is', without any express or implied
+     * warranty. In no event will the authors be held liable for any damages
+     * arising from the use of this software.
+     * 
+     * This file is part of the SeatReserve-Pro project.
+     * 
+     ******************************************************************************/
+
+namespace SeatReserve_Pro
 {
     partial class Form1
     {

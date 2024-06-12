@@ -22,7 +22,7 @@ using System.Web;
      * warranty. In no event will the authors be held liable for any damages
      * arising from the use of this software.
      * 
-     * This file is part of the SeatReserve-Pro project.
+     * This file is part of the BusDBClasses project.
      * 
      ******************************************************************************/
 

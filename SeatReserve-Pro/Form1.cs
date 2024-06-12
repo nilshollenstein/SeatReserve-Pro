@@ -151,7 +151,7 @@ namespace SeatReserve_Pro
                 // Randomnumber in a range
                 var random = new Random();
                 int randomNumber = random.Next(20, 40);
-                busses.Add(new Bus(randomNumber, target));
+                busses.Add(new Bus(0, randomNumber, target));
 
                 // Add bus destination to the selection
                 busSelection.Items.Add(target);

@@ -18,14 +18,14 @@ using System.Drawing;
      * History:
      * Date        Author             Changes
      * ----------  ----------------   ----------------------------------------------------
-     * 2024-06-07  Nils Hollenstein   Initial creation.
+     * 2024-06-07  Nils Hollenstein   Initial creation, able to insert Data to DB
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
      * warranty. In no event will the authors be held liable for any damages
      * arising from the use of this software.
      * 
-     * This file is part of the SeatReserve-Pro project.
+     * This file is part of the SeatReserve-Pro_DBService project.
      * 
      ******************************************************************************/
 
@@ -51,7 +51,7 @@ namespace SeatReserve_Pro_DBService
         };
         public void initDB()
         {
-            GenerateBusSelection();
+            GenerateBusList();
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
                 using (var connection = dataSource.OpenConnection())
@@ -63,7 +63,7 @@ namespace SeatReserve_Pro_DBService
                 }
             }
         }
-        private void GenerateBusSelection()
+        private void GenerateBusList()
         {
             int busID = 1;
             foreach (var target in targetDestinations)
@@ -81,8 +81,6 @@ namespace SeatReserve_Pro_DBService
             cmd.ExecuteNonQuery();
             using var cmd2 = new NpgsqlCommand("DELETE FROM bus", connection);
             cmd2.ExecuteNonQuery();
-
-
         }
         private void InsertBusData(NpgsqlConnection connection)
         {
@@ -123,7 +121,6 @@ namespace SeatReserve_Pro_DBService
                     cmd.ExecuteNonQuery();
                 }
             }
-
         }
     }
 }
