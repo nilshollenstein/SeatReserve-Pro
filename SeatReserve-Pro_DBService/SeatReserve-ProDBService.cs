@@ -5,10 +5,11 @@ using System.Text;
 using System;
 using System.Data;
 using Npgsql;
-using BusDBClasses;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Text;
+using BusDBClasses.DrawBusClasses;
+using BusDBClasses.UserManagementClasses;
 /******************************************************************************
      * File:        SeatReserve_ProDBService.cs
      * Author:      Nils Hollenstein
@@ -89,7 +90,7 @@ namespace SeatReserve_Pro_DBService
             {
                 using (var connection = dataSource.OpenConnection())
                 {
-                    updateSeats(busses, connection);
+                    UpdateSeats(busses, connection);
                 }
             }
         }
@@ -110,7 +111,6 @@ namespace SeatReserve_Pro_DBService
         // Method to delete the whole data in the database
         private void DeleteDBContent(NpgsqlConnection connection)
         {
-
             using var cmd = new NpgsqlCommand("DELETE FROM seat", connection);
             cmd.ExecuteNonQuery();
             using var cmd2 = new NpgsqlCommand("DELETE FROM bus", connection);
@@ -227,9 +227,9 @@ namespace SeatReserve_Pro_DBService
                 busses.Add(new Bus(busID, destination, seatCount, seats));
             }
         }
-    
+
         // Method to update the seats
-        public void updateSeats(List<Bus> busses, NpgsqlConnection connection)
+        public void UpdateSeats(List<Bus> busses, NpgsqlConnection connection)
         {
             // Rewrite all the data into the database
             foreach (var bus in busses)
@@ -250,7 +250,68 @@ namespace SeatReserve_Pro_DBService
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+        public int getUserCount(NpgsqlConnection connection)
+        {
+            int usercount = 0;
+            using (var selectAllSeatInformation = new NpgsqlCommand("SELECT COUNT(userid) FROM users;", connection))
+            {
 
+                using (var reader = selectAllSeatInformation.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        usercount = reader.GetInt32(0);
+                    }
+                }
+            }
+            return usercount;
+        }
+        public void InsertUserData(NpgsqlConnection connection, string username, string password, string userPassword, string rolekey)
+        {
+            int usercount = getUserCount(connection);
+            int newID = usercount++;
+            using var cmd = new NpgsqlCommand("INSERT INTO user (userid, username, password, rolekey) VALUES (@p1, @p2, @p3, @p4) ", connection)
+            {
+                Parameters =
+                    {
+                        new("p1", newID),
+                        new("p2", username),
+                        new("p3", userPassword),
+                        new("p4", rolekey),
+                    }
+            };
+            cmd.ExecuteNonQuery();
+        }
+        public List<User> readUserData(NpgsqlConnection connection)
+        {
+            int usercount = getUserCount(connection);
+            int userid = 0;
+            string username = "";
+            string password = "";
+            string rolekey = "";
+            List<User> users = new List<User>();
+
+            for (int i = 0; i < usercount; i++)
+            {
+                using (var selectAllSeatInformation = new NpgsqlCommand("SELECT userid, username, password, rolekey FROM users WHERE userid = :i;", connection))
+                {
+                    selectAllSeatInformation.Parameters.AddWithValue("i", i);
+
+                    using (var reader = selectAllSeatInformation.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            userid = reader.GetInt32(0);
+                            username = reader.GetString(1);
+                            password = reader.GetString(2);
+                            rolekey = reader.GetString(3);
+                        }
+                    }
+                }
+                users.Add(new User(userid, username, password, rolekey));
+            }
+            return users;
         }
     }
 }

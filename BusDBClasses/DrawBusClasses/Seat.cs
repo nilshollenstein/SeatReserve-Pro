@@ -26,7 +26,7 @@ using System.Web;
      * 
      ******************************************************************************/
 
-namespace BusDBClasses
+namespace BusDBClasses.DrawBusClasses
 {
     public class Seat
     {
@@ -36,7 +36,7 @@ namespace BusDBClasses
         public Rectangle seatRectangle { get; set; }
         public bool reserved { get; set; }
         public bool selected { get; set; }
-        public int busid { get; set; } 
+        public int busid { get; set; }
         public Seat()
         {
             selected = false;

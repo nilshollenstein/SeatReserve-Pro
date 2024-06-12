@@ -26,7 +26,7 @@ using System.Threading.Tasks;
      * 
      ******************************************************************************/
 
-namespace BusDBClasses
+namespace BusDBClasses.DrawBusClasses
 {
     public class Bus
     {

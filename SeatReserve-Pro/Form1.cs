@@ -2,16 +2,17 @@
      * File:        Form1.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-05
-	 * Version:     1.1
+	 * Version:     1.2
      * Description: This file contains the partial Form1 class, which contains the handlers for the different UI-elements.
      * 
      * History:
      * Date        Author             Changes
      * ----------  ----------------   ----------------------------------------------------
-     * 2024-06-05  Nils Hollenstein   Initial creation.
+     * 2024-06-05  Nils Hollenstein   Initial creation
      * 2024-06-06  Nils Hollenstein   Draw the Bus
      * 2024-06-06  Nils Hollenstein   Enable Seat Reservation
      * 2024-06-07  Nils Hollenstein   Busselection is working
+     * 2024-06-12  Nils Hollenstein   Database is now connected
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -22,7 +23,7 @@
      * 
      ******************************************************************************/
 
-using BusDBClasses;
+using BusDBClasses.DrawBusClasses;
 using SeatReserve_Pro_DBService;
 using System.CodeDom.Compiler;
 using System.Diagnostics.Metrics;
