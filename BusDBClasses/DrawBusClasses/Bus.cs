@@ -34,6 +34,8 @@ namespace BusDBClasses.DrawBusClasses
         public List<Seat> seats { get; set; }
         public string destination { get; set; }
         public int seatCount { get; set; }
+
+        // Constructor to create the seats with the bus
         public Bus(int id, int seatCount, string destination)
         {
             this.id = id;
@@ -49,6 +51,8 @@ namespace BusDBClasses.DrawBusClasses
                 }
             }
         }
+
+        // Constructor to give the seats
         public Bus(int id, string destination, int seatCount, List<Seat> seats)
         {
             this.id = id;

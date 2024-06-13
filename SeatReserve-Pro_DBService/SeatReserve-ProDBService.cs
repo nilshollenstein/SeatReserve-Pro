@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using BusDBClasses.DrawBusClasses;
 using BusDBClasses.UserManagementClasses;
+using Microsoft.VisualBasic.ApplicationServices;
 /******************************************************************************
      * File:        SeatReserve_ProDBService.cs
      * Author:      Nils Hollenstein
@@ -22,6 +23,8 @@ using BusDBClasses.UserManagementClasses;
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-07  Nils Hollenstein   Initial creation, able to insert Data to DB
      * 2024-06-12  Nils Hollenstein   Able to read from DB and to write to DB
+     * 2024-06-12  Nils Hollenstein   Basic operations with User-Table possible
+
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -83,6 +86,7 @@ namespace SeatReserve_Pro_DBService
             return busses;
         }
 
+
         // Method to update the whole database
         public void UpdateDB(List<Bus> busses)
         {
@@ -94,7 +98,6 @@ namespace SeatReserve_Pro_DBService
                 }
             }
         }
-
         // Method to generate the busses for the database
         private void GenerateBusList()
         {
@@ -107,7 +110,6 @@ namespace SeatReserve_Pro_DBService
                 busID++;
             }
         }
-
         // Method to delete the whole data in the database
         private void DeleteDBContent(NpgsqlConnection connection)
         {
@@ -116,7 +118,6 @@ namespace SeatReserve_Pro_DBService
             using var cmd2 = new NpgsqlCommand("DELETE FROM bus", connection);
             cmd2.ExecuteNonQuery();
         }
-
         // Method to insert the bus data into the db
         private void InsertBusData(NpgsqlConnection connection)
         {
@@ -163,7 +164,6 @@ namespace SeatReserve_Pro_DBService
                 }
             }
         }
-
         // Method to read all the data from the database
         private void ReadBusData(NpgsqlConnection connection)
         {
@@ -177,6 +177,7 @@ namespace SeatReserve_Pro_DBService
             bool reserved = false;
             int previousSeatCounts = 0;
             int j = 1 + previousSeatCounts;
+            int reservedByUser = 0;
 
             for (int i = 1; i <= targetDestinations.Count; i++)
             {
@@ -206,28 +207,32 @@ namespace SeatReserve_Pro_DBService
                 // Read the whole data of the seats that belong to the correct bus
                 for (; j <= seatCount + previousSeatCounts; j++)
                 {
-                    using (var selectAllSeatInformation = new NpgsqlCommand("SELECT seat.seatid, seat.width, seat.height, seat.reserved FROM seat JOIN bus ON bus.busid = seat.busid WHERE bus.busid = :i AND seat.seatid = :j;", connection))
+                    using (var selectAllSeatInformation = new NpgsqlCommand("SELECT seat.seatid, seat.width, seat.height, seat.reserved, seat.reservedbyuser FROM seat JOIN bus ON bus.busid = seat.busid WHERE bus.busid = :i AND seat.seatid = :j;", connection))
                     {
                         selectAllSeatInformation.Parameters.AddWithValue("i", i);
                         selectAllSeatInformation.Parameters.AddWithValue("j", j);
                         using (var reader = selectAllSeatInformation.ExecuteReader())
                         {
-
                             while (reader.Read())
                             {
                                 seatid = reader.GetInt32(0);
                                 width = reader.GetInt32(1);
                                 height = reader.GetInt32(2);
                                 reserved = reader.GetBoolean(3);
+                                // If the database has a null value in this column, the variable gets the value -1
+                                if (!reader.IsDBNull(4))
+                                    reservedByUser = reader.GetInt32(4);
+                                else
+                                    reservedByUser = -1;
                             }
                         }
                     }
-                    seats.Add(new Seat(seatid, width, height, reserved, busID));
+
+                    seats.Add(new Seat(seatid, width, height, reserved, busID, reservedByUser));
                 }
                 busses.Add(new Bus(busID, destination, seatCount, seats));
             }
         }
-
         // Method to update the seats
         public void UpdateSeats(List<Bus> busses, NpgsqlConnection connection)
         {
@@ -251,7 +256,8 @@ namespace SeatReserve_Pro_DBService
                 }
             }
         }
-        public int getUserCount(NpgsqlConnection connection)
+        // Method to get the count of all users
+        public int GetUserCount(NpgsqlConnection connection)
         {
             int usercount = 0;
             using (var selectAllSeatInformation = new NpgsqlCommand("SELECT COUNT(userid) FROM users;", connection))
@@ -267,51 +273,111 @@ namespace SeatReserve_Pro_DBService
             }
             return usercount;
         }
-        public void InsertUserData(NpgsqlConnection connection, string username, string password, string userPassword, string rolekey)
+        // Insert single user
+        public void InsertUserData(BusDBClasses.UserManagementClasses.User user)
         {
-            int usercount = getUserCount(connection);
-            int newID = usercount++;
-            using var cmd = new NpgsqlCommand("INSERT INTO user (userid, username, password, rolekey) VALUES (@p1, @p2, @p3, @p4) ", connection)
+            using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
-                Parameters =
+                using (var connection = dataSource.OpenConnection())
+                {
+                    int usercount = GetUserCount(connection);
+                    int newID = usercount++;
+                    using var cmd = new NpgsqlCommand("INSERT INTO users (userid, username, password, rolekey) VALUES (@p1, @p2, @p3, @p4) ", connection)
+                    {
+                        Parameters =
                     {
                         new("p1", newID),
-                        new("p2", username),
-                        new("p3", userPassword),
-                        new("p4", rolekey),
+                        new("p2", user.username),
+                        new("p3", user.password),
+                        new("p4", user.rolekey),
                     }
-            };
-            cmd.ExecuteNonQuery();
+                    };
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
         }
-        public List<User> readUserData(NpgsqlConnection connection)
+        // Reads all users from the database
+        public List<BusDBClasses.UserManagementClasses.User> ReadUserData()
         {
-            int usercount = getUserCount(connection);
             int userid = 0;
             string username = "";
             string password = "";
             string rolekey = "";
-            List<User> users = new List<User>();
-
-            for (int i = 0; i < usercount; i++)
+            List<BusDBClasses.UserManagementClasses.User> users = new List<BusDBClasses.UserManagementClasses.User>();
+            using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
-                using (var selectAllSeatInformation = new NpgsqlCommand("SELECT userid, username, password, rolekey FROM users WHERE userid = :i;", connection))
+                using (var connection = dataSource.OpenConnection())
                 {
-                    selectAllSeatInformation.Parameters.AddWithValue("i", i);
+                    int usercount = GetUserCount(connection);
 
-                    using (var reader = selectAllSeatInformation.ExecuteReader())
+                    for (int i = 0; i < usercount; i++)
                     {
-                        while (reader.Read())
+                        using (var selectAllSeatInformation = new NpgsqlCommand("SELECT userid, username, password, rolekey FROM users WHERE userid = :i;", connection))
                         {
-                            userid = reader.GetInt32(0);
-                            username = reader.GetString(1);
-                            password = reader.GetString(2);
-                            rolekey = reader.GetString(3);
+                            selectAllSeatInformation.Parameters.AddWithValue("i", i);
+
+                            using (var reader = selectAllSeatInformation.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    userid = reader.GetInt32(0);
+                                    username = reader.GetString(1);
+                                    password = reader.GetString(2);
+                                    rolekey = reader.GetString(3);
+                                }
+                            }
                         }
+                        users.Add(new BusDBClasses.UserManagementClasses.User(userid, username, password, rolekey));
                     }
                 }
-                users.Add(new User(userid, username, password, rolekey));
             }
             return users;
+        }
+
+        public List<string> ReadRoleKeys()
+        {
+            List<string> allKeys = new List<string>();
+            int keyID = 0;
+            string key = "";
+
+            using (var dataSource = NpgsqlDataSource.Create(connectionString))
+            {
+                using (var connection = dataSource.OpenConnection())
+                {
+                    int keyCount = 0;
+                    using (var selectAllSeatInformation = new NpgsqlCommand("SELECT COUNT(keyid) FROM rolekeys;", connection))
+                    {
+
+                        using (var reader = selectAllSeatInformation.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                keyCount = reader.GetInt32(0);
+                            }
+                        }
+                    }
+                    for (int i = 0; i <= keyCount; i++)
+                    {
+                        using (var selectAllSeatInformation = new NpgsqlCommand("SELECT keyid, rolekey FROM rolekeys;", connection))
+                        {
+                            selectAllSeatInformation.Parameters.AddWithValue("i", i);
+
+                            using (var reader = selectAllSeatInformation.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    keyID = reader.GetInt32(0);
+                                    key = reader.GetString(1);
+                                }
+                            }
+                        }
+                        allKeys.Add(key);
+                    }
+                }
+            }
+            return allKeys;
+
         }
     }
 }

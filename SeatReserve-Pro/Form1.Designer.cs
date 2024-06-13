@@ -56,6 +56,21 @@ namespace SeatReserve_Pro
             subTitleBusSelection = new Label();
             backToSelectionButton = new Button();
             busTitle = new Label();
+            loginSignUpLabel = new Label();
+            openLoginButton = new Button();
+            openSignUpButton = new Button();
+            usernameLoginInput = new TextBox();
+            passwordLoginInput = new TextBox();
+            usernameLoginLabel = new Label();
+            passwordLoginLabel = new Label();
+            passwordSignUpLabel = new Label();
+            usernameSignUpLabel = new Label();
+            passwordSignUpInput = new TextBox();
+            usernameSignUpInput = new TextBox();
+            rolekeySignUpLabel = new Label();
+            rolekeySignUpInput = new TextBox();
+            loginButton = new Button();
+            signUpButton = new Button();
             SuspendLayout();
             // 
             // ReserveButton
@@ -117,11 +132,162 @@ namespace SeatReserve_Pro
             busTitle.TabIndex = 5;
             busTitle.Text = "label1";
             // 
+            // loginSignUpLabel
+            // 
+            loginSignUpLabel.AutoSize = true;
+            loginSignUpLabel.Font = new Font("Segoe UI", 12F);
+            loginSignUpLabel.Location = new Point(449, 104);
+            loginSignUpLabel.Name = "loginSignUpLabel";
+            loginSignUpLabel.Size = new Size(171, 21);
+            loginSignUpLabel.TabIndex = 6;
+            loginSignUpLabel.Text = "Anmelden/Registrieren";
+            // 
+            // openLoginButton
+            // 
+            openLoginButton.Location = new Point(465, 128);
+            openLoginButton.Name = "openLoginButton";
+            openLoginButton.Size = new Size(127, 23);
+            openLoginButton.TabIndex = 7;
+            openLoginButton.Text = "Login";
+            openLoginButton.UseVisualStyleBackColor = true;
+            // 
+            // openSignUpButton
+            // 
+            openSignUpButton.Location = new Point(465, 157);
+            openSignUpButton.Name = "openSignUpButton";
+            openSignUpButton.Size = new Size(127, 23);
+            openSignUpButton.TabIndex = 8;
+            openSignUpButton.Text = "Registrieren";
+            openSignUpButton.UseVisualStyleBackColor = true;
+            openSignUpButton.Click += openSignUpButton_Click;
+            // 
+            // usernameLoginInput
+            // 
+            usernameLoginInput.Location = new Point(330, 186);
+            usernameLoginInput.Name = "usernameLoginInput";
+            usernameLoginInput.PlaceholderText = "Benutzername";
+            usernameLoginInput.Size = new Size(127, 23);
+            usernameLoginInput.TabIndex = 9;
+            // 
+            // passwordLoginInput
+            // 
+            passwordLoginInput.Location = new Point(330, 237);
+            passwordLoginInput.Name = "passwordLoginInput";
+            passwordLoginInput.PasswordChar = '*';
+            passwordLoginInput.PlaceholderText = "Benutzername";
+            passwordLoginInput.Size = new Size(127, 23);
+            passwordLoginInput.TabIndex = 10;
+            // 
+            // usernameLoginLabel
+            // 
+            usernameLoginLabel.AutoSize = true;
+            usernameLoginLabel.Location = new Point(330, 168);
+            usernameLoginLabel.Name = "usernameLoginLabel";
+            usernameLoginLabel.Size = new Size(83, 15);
+            usernameLoginLabel.TabIndex = 11;
+            usernameLoginLabel.Text = "Benutzername";
+            // 
+            // passwordLoginLabel
+            // 
+            passwordLoginLabel.AutoSize = true;
+            passwordLoginLabel.Location = new Point(330, 219);
+            passwordLoginLabel.Name = "passwordLoginLabel";
+            passwordLoginLabel.Size = new Size(54, 15);
+            passwordLoginLabel.TabIndex = 12;
+            passwordLoginLabel.Text = "Passwort";
+            // 
+            // passwordSignUpLabel
+            // 
+            passwordSignUpLabel.AutoSize = true;
+            passwordSignUpLabel.Location = new Point(605, 219);
+            passwordSignUpLabel.Name = "passwordSignUpLabel";
+            passwordSignUpLabel.Size = new Size(54, 15);
+            passwordSignUpLabel.TabIndex = 16;
+            passwordSignUpLabel.Text = "Passwort";
+            // 
+            // usernameSignUpLabel
+            // 
+            usernameSignUpLabel.AutoSize = true;
+            usernameSignUpLabel.Location = new Point(605, 168);
+            usernameSignUpLabel.Name = "usernameSignUpLabel";
+            usernameSignUpLabel.Size = new Size(83, 15);
+            usernameSignUpLabel.TabIndex = 15;
+            usernameSignUpLabel.Text = "Benutzername";
+            // 
+            // passwordSignUpInput
+            // 
+            passwordSignUpInput.Location = new Point(605, 237);
+            passwordSignUpInput.Name = "passwordSignUpInput";
+            passwordSignUpInput.PasswordChar = '*';
+            passwordSignUpInput.PlaceholderText = "Passwort";
+            passwordSignUpInput.Size = new Size(127, 23);
+            passwordSignUpInput.TabIndex = 14;
+            // 
+            // usernameSignUpInput
+            // 
+            usernameSignUpInput.Location = new Point(605, 186);
+            usernameSignUpInput.Name = "usernameSignUpInput";
+            usernameSignUpInput.PlaceholderText = "Benutzername";
+            usernameSignUpInput.Size = new Size(127, 23);
+            usernameSignUpInput.TabIndex = 13;
+            // 
+            // rolekeySignUpLabel
+            // 
+            rolekeySignUpLabel.AutoSize = true;
+            rolekeySignUpLabel.Location = new Point(605, 274);
+            rolekeySignUpLabel.Name = "rolekeySignUpLabel";
+            rolekeySignUpLabel.Size = new Size(87, 15);
+            rolekeySignUpLabel.TabIndex = 18;
+            rolekeySignUpLabel.Text = "Rollenschlüssel";
+            // 
+            // rolekeySignUpInput
+            // 
+            rolekeySignUpInput.Location = new Point(605, 292);
+            rolekeySignUpInput.Name = "rolekeySignUpInput";
+            rolekeySignUpInput.PasswordChar = '*';
+            rolekeySignUpInput.PlaceholderText = "Rollenschlüssel";
+            rolekeySignUpInput.Size = new Size(127, 23);
+            rolekeySignUpInput.TabIndex = 17;
+            // 
+            // loginButton
+            // 
+            loginButton.Location = new Point(330, 266);
+            loginButton.Name = "loginButton";
+            loginButton.Size = new Size(127, 23);
+            loginButton.TabIndex = 19;
+            loginButton.Text = "Anmelden";
+            loginButton.UseVisualStyleBackColor = true;
+            // 
+            // signUpButton
+            // 
+            signUpButton.Location = new Point(605, 321);
+            signUpButton.Name = "signUpButton";
+            signUpButton.Size = new Size(127, 23);
+            signUpButton.TabIndex = 20;
+            signUpButton.Text = "Registrieren";
+            signUpButton.UseVisualStyleBackColor = true;
+            signUpButton.Click += signUpButton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1048, 450);
+            Controls.Add(signUpButton);
+            Controls.Add(loginButton);
+            Controls.Add(rolekeySignUpLabel);
+            Controls.Add(rolekeySignUpInput);
+            Controls.Add(passwordSignUpLabel);
+            Controls.Add(usernameSignUpLabel);
+            Controls.Add(passwordSignUpInput);
+            Controls.Add(usernameSignUpInput);
+            Controls.Add(passwordLoginLabel);
+            Controls.Add(usernameLoginLabel);
+            Controls.Add(passwordLoginInput);
+            Controls.Add(usernameLoginInput);
+            Controls.Add(openSignUpButton);
+            Controls.Add(openLoginButton);
+            Controls.Add(loginSignUpLabel);
             Controls.Add(busTitle);
             Controls.Add(backToSelectionButton);
             Controls.Add(subTitleBusSelection);
@@ -144,5 +310,20 @@ namespace SeatReserve_Pro
         private Label subTitleBusSelection;
         private Button backToSelectionButton;
         private Label busTitle;
+        private Label loginSignUpLabel;
+        private Button openLoginButton;
+        private Button openSignUpButton;
+        private TextBox usernameLoginInput;
+        private TextBox passwordLoginInput;
+        private Label usernameLoginLabel;
+        private Label passwordLoginLabel;
+        private Label passwordSignUpLabel;
+        private Label usernameSignUpLabel;
+        private TextBox passwordSignUpInput;
+        private TextBox usernameSignUpInput;
+        private Label rolekeySignUpLabel;
+        private TextBox rolekeySignUpInput;
+        private Button loginButton;
+        private Button signUpButton;
     }
 }

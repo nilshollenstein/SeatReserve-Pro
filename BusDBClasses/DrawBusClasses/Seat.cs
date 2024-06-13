@@ -16,6 +16,8 @@ using System.Web;
      * Date        Author             Changes
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-05  Nils Hollenstein   Initial creation.
+     * 2024-06-12  Nils Hollenstein   Added second constructor and reserveByUser attribute
+
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -37,13 +39,14 @@ namespace BusDBClasses.DrawBusClasses
         public bool reserved { get; set; }
         public bool selected { get; set; }
         public int busid { get; set; }
+        public int reserveByUser { get; set; }
         public Seat()
         {
             selected = false;
             width = 30;
             height = 30;
         }
-        public Seat(int id, int width, int height, bool reserved, int busid)
+        public Seat(int id, int width, int height, bool reserved, int busid, int reserveByUser)
         {
             this.id = id;
             this.width = width;
@@ -51,6 +54,8 @@ namespace BusDBClasses.DrawBusClasses
             this.reserved = reserved;
             selected = false;
             this.busid = busid;
+            this.reserveByUser = reserveByUser;
         }
+        
     }
 }
