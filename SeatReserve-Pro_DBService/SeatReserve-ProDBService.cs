@@ -24,7 +24,7 @@ using Microsoft.VisualBasic.ApplicationServices;
      * 2024-06-07  Nils Hollenstein   Initial creation, able to insert Data to DB
      * 2024-06-12  Nils Hollenstein   Able to read from DB and to write to DB
      * 2024-06-12  Nils Hollenstein   Basic operations with User-Table possible
-
+     * 2024-06-13  Nils Hollenstein   Seat-Table insert modified
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -74,7 +74,7 @@ namespace SeatReserve_Pro_DBService
         }
 
         // Method to read the whole Database
-        public List<Bus> ReadDB()
+        public List<Bus> ReadBusPartsDB()
         {
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
@@ -88,7 +88,7 @@ namespace SeatReserve_Pro_DBService
 
 
         // Method to update the whole database
-        public void UpdateDB(List<Bus> busses)
+        public void UpdateBusPartsDB(List<Bus> busses)
         {
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
@@ -241,18 +241,39 @@ namespace SeatReserve_Pro_DBService
             {
                 foreach (var seat in bus.seats)
                 {
-                    using var cmd = new NpgsqlCommand("UPDATE seat SET seatid = @p1 ,width = @p2, height = @p3, reserved = @p4, busid = @p5 WHERE seatid = @p1 AND busid = @p5", connection)
+                    if (seat.reserveByUser != -1)
                     {
-                        Parameters =
+                        using var cmd = new NpgsqlCommand("UPDATE seat SET seatid = @p1 ,width = @p2, height = @p3, reserved = @p4, busid = @p5, reservedbyuser = @p6 WHERE seatid = @p1 AND busid = @p5", connection)
+                        {
+                            Parameters =
                             {
                                 new("p1", seat.id),
                                 new("p2", seat.width),
                                 new("p3", seat.height),
                                 new("p4", seat.reserved),
                                 new("p5", seat.busid),
+                                new("p6", seat.reserveByUser)
                             }
-                    };
-                    cmd.ExecuteNonQuery();
+                        };
+                        cmd.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        using var cmd = new NpgsqlCommand("UPDATE seat SET seatid = @p1 ,width = @p2, height = @p3, reserved = @p4, busid = @p5, reservedbyuser = @p6 WHERE seatid = @p1 AND busid = @p5", connection)
+                        {
+                            Parameters =
+                            {
+                                new("p1", seat.id),
+                                new("p2", seat.width),
+                                new("p3", seat.height),
+                                new("p4", seat.reserved),
+                                new("p5", seat.busid),
+                                new("p6", DBNull.Value)
+                            }
+                        };
+                        cmd.ExecuteNonQuery();
+
+                    }
                 }
             }
         }
@@ -297,6 +318,8 @@ namespace SeatReserve_Pro_DBService
             }
 
         }
+
+
         // Reads all users from the database
         public List<BusDBClasses.UserManagementClasses.User> ReadUserData()
         {

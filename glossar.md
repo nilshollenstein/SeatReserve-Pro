@@ -24,5 +24,5 @@ In C#/.Net kann BCrypt mit dem BCrypt.Net-Next Nuget-Paket verwendet werden.
 #### Npgsql
 
 Npgsql ist ein Nuget für .Net  
-Dieses ermöglicht es dem Anwender, PostgreSQL Abfragen an einen PostgreSQL-Server zu senden  
+Dieses ermöglicht es dem Anwender, PostgreSQL Abfragen an einen PostgreSQL-Server zu senden, sowie andere Datenbankoperationen durchführen.  
 [Npgsql Nuget](https://www.npgsql.org/doc/index.html)

@@ -71,6 +71,7 @@ namespace SeatReserve_Pro
             rolekeySignUpInput = new TextBox();
             loginButton = new Button();
             signUpButton = new Button();
+            logoutButton = new Button();
             SuspendLayout();
             // 
             // ReserveButton
@@ -90,7 +91,7 @@ namespace SeatReserve_Pro
             busSelection.Name = "busSelection";
             busSelection.Size = new Size(121, 23);
             busSelection.TabIndex = 1;
-            busSelection.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            busSelection.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
             // 
             // appTitle
             // 
@@ -120,7 +121,7 @@ namespace SeatReserve_Pro
             backToSelectionButton.TabIndex = 4;
             backToSelectionButton.Text = "Zurück";
             backToSelectionButton.UseVisualStyleBackColor = true;
-            backToSelectionButton.Click += backToSelectionButton_Click;
+            backToSelectionButton.Click += BackToSelectionButton_Click;
             // 
             // busTitle
             // 
@@ -150,6 +151,7 @@ namespace SeatReserve_Pro
             openLoginButton.TabIndex = 7;
             openLoginButton.Text = "Login";
             openLoginButton.UseVisualStyleBackColor = true;
+            openLoginButton.Click += OpenLoginButton_Click;
             // 
             // openSignUpButton
             // 
@@ -159,7 +161,7 @@ namespace SeatReserve_Pro
             openSignUpButton.TabIndex = 8;
             openSignUpButton.Text = "Registrieren";
             openSignUpButton.UseVisualStyleBackColor = true;
-            openSignUpButton.Click += openSignUpButton_Click;
+            openSignUpButton.Click += OpenSignUpButton_Click;
             // 
             // usernameLoginInput
             // 
@@ -174,7 +176,7 @@ namespace SeatReserve_Pro
             passwordLoginInput.Location = new Point(330, 237);
             passwordLoginInput.Name = "passwordLoginInput";
             passwordLoginInput.PasswordChar = '*';
-            passwordLoginInput.PlaceholderText = "Benutzername";
+            passwordLoginInput.PlaceholderText = "Passwort";
             passwordLoginInput.Size = new Size(127, 23);
             passwordLoginInput.TabIndex = 10;
             // 
@@ -257,6 +259,7 @@ namespace SeatReserve_Pro
             loginButton.TabIndex = 19;
             loginButton.Text = "Anmelden";
             loginButton.UseVisualStyleBackColor = true;
+            loginButton.Click += LoginButton_Click;
             // 
             // signUpButton
             // 
@@ -266,13 +269,25 @@ namespace SeatReserve_Pro
             signUpButton.TabIndex = 20;
             signUpButton.Text = "Registrieren";
             signUpButton.UseVisualStyleBackColor = true;
-            signUpButton.Click += signUpButton_Click;
+            signUpButton.Click += SignUpButton_Click;
+            // 
+            // logoutButton
+            // 
+            logoutButton.Font = new Font("Segoe UI", 10F);
+            logoutButton.Location = new Point(956, 12);
+            logoutButton.Name = "logoutButton";
+            logoutButton.Size = new Size(80, 30);
+            logoutButton.TabIndex = 21;
+            logoutButton.Text = "Abmelden";
+            logoutButton.UseVisualStyleBackColor = true;
+            logoutButton.Click += logoutButton_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1048, 450);
+            Controls.Add(logoutButton);
             Controls.Add(signUpButton);
             Controls.Add(loginButton);
             Controls.Add(rolekeySignUpLabel);
@@ -325,5 +340,6 @@ namespace SeatReserve_Pro
         private TextBox rolekeySignUpInput;
         private Button loginButton;
         private Button signUpButton;
+        private Button logoutButton;
     }
 }

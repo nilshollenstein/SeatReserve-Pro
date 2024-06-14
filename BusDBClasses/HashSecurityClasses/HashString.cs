@@ -34,7 +34,7 @@ namespace BusDBClasses.HashSecurityClasses
     {
         // https://www.claudiobernasconi.ch/2023/06/23/how-to-hash-passwords-with-bcrypt-in-csharp/
         // Method to hash a string with BCrypt
-        public string HashText(string toHashText)
+        public string HashBCrypt(string toHashText)
         {
             string passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(toHashText);
             return passwordHash;

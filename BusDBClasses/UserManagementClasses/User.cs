@@ -41,11 +41,12 @@ namespace BusDBClasses.UserManagementClasses
             this.password = password;
             this.rolekey = rolekey;
         }
-        public User( string username, string password, string rolekey)
+        public User(string username, string password, string rolekey)
         {
             this.username = username;
             this.password = password;
             this.rolekey = rolekey;
         }
+        public User() { }
     }
 }

@@ -13,7 +13,9 @@
      * 2024-06-06  Nils Hollenstein   Enable Seat Reservation
      * 2024-06-07  Nils Hollenstein   Busselection is working
      * 2024-06-12  Nils Hollenstein   Database is now connected
-     * 2024-06-13  Nils Hollenstein   Registration is 
+     * 2024-06-13  Nils Hollenstein   Registration is implemented
+     * 2024-06-13  Nils Hollenstein   Login is implemented
+     * 2024-06-14  Nils Hollenstein   Login is implemented
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -45,15 +47,15 @@ namespace SeatReserve_Pro
         private bool loggedIn = false;
         private bool openedLoginForm = false;
         private bool openedSignUpForm = false;
+        BusDBClasses.UserManagementClasses.User loggedInUser;
 
 
         // Constructor
         public Form1()
         {
-            GetDataFromDB();
+            GetBusPartsDB();
             InitializeComponent();
-            DisplayCorrectUI();
-
+            DisplayCorrectUIComponents();
         }
 
         // Methods
@@ -67,7 +69,6 @@ namespace SeatReserve_Pro
                 DrawBus(userBusSelected);
             }
         }
-
         // Click handler for a click in the form on a seat
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
@@ -78,8 +79,10 @@ namespace SeatReserve_Pro
                     if (seat.seatRectangle.Contains(e.Location))
                     {
                         if (seat.seatRectangle.Contains(e.Location) && !seat.selected && !seat.reserved)
+                        {
                             // Set selected to true
                             seat.selected = true;
+                        }
                         else if (seat.seatRectangle.Contains(e.Location) && seat.selected && !seat.reserved)
                             seat.selected = false;
                         else if (seat.seatRectangle.Contains(e.Location) && seat.reserved)
@@ -88,9 +91,13 @@ namespace SeatReserve_Pro
                     }
                 }
             }
-
         }
-
+        // Opens the login-formular
+        private void OpenLoginButton_Click(object sender, EventArgs e)
+        {
+            openedLoginForm = true;
+            DisplayCorrectUIComponents();
+        }
         // React to the Button Click
         private void ReserveButton_Click(object sender, EventArgs e)
         {
@@ -101,14 +108,14 @@ namespace SeatReserve_Pro
                 {
                     seat.reserved = true;
                     seat.selected = false;
+                    seat.reserveByUser = loggedInUser.userid;
                 }
             }
-            updateDB();
+            UpdateBusPartsDB();
             Invalidate();
         }
-
         // Handler for the combobox
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             // https://stackoverflow.com/questions/6901070/getting-selected-value-of-a-combobox
             ComboBox comboBox = (ComboBox)sender;
@@ -131,26 +138,128 @@ namespace SeatReserve_Pro
                 busSelected = true;
             }
         }
-
         // Buttonhandler for the menu button
-        private void backToSelectionButton_Click(object sender, EventArgs e)
+        private void BackToSelectionButton_Click(object sender, EventArgs e)
         {
             busSelected = false;
             SetBusSelectionPartsVisibility(true);
             SetSeatReservePartsVisibility(false);
             Invalidate();
         }
+        // Opens the sign up form
+        private void OpenSignUpButton_Click(object sender, EventArgs e)
+        {
+            openedSignUpForm = true;
+            DisplayCorrectUIComponents();
+        }
+        // Buttonhandler for the registration button
+        private void SignUpButton_Click(object sender, EventArgs e)
+        {
+            var hashString = new HashString();
+            var dbClient = new SeatReserve_ProDBService();
+            var users = dbClient.ReadUserData();
+            bool usernameUsed = false;
+
+            // Checks if someone has the same username
+            var username = usernameSignUpInput.Text;
+            foreach (var oldUser in users)
+            {
+                if (oldUser.username == username)
+                {
+                    MessageBox.Show("Dieser Benutzernamen wird bereits verwendet");
+                    usernameUsed = true;
+                    break;
+                }
+            }
+            var password = passwordSignUpInput.Text;
+            var rolekey = rolekeySignUpInput.Text;
+            // Hash the two informations
+            var passwordHashed = hashString.HashBCrypt(password);
+            var rolekeyHashed = hashString.Hash512(rolekey);
+
+            var user = new BusDBClasses.UserManagementClasses.User(username, passwordHashed, rolekeyHashed);
+
+            // Checks if a field is empty
+            if (username == null || password == null || rolekey == null || username == "" || password == "" || rolekey == "")
+                MessageBox.Show("Bitte füllens sie alle Felder aus");
+            else if (!usernameUsed)
+            {
+                // Registrates the user
+                dbClient.InsertUserData(user);
+                openedSignUpForm = false;
+                loggedIn = false;
+                DisplayCorrectUIComponents();
+            }
+        }
+        // Buttonhandler for the login button
+        private void LoginButton_Click(object sender, EventArgs e)
+        {
+            var hashString = new HashString();
+            var dbClient = new SeatReserve_ProDBService();
+            string username = usernameLoginInput.Text;
+            string password = passwordLoginInput.Text;
+            var users = dbClient.ReadUserData();
+            bool wrongLoginData = false;
+
+            // Check if a field is empty
+            if (username == null || password == null || username == "" || password == "")
+                MessageBox.Show("Bitte füllens sie alle Felder aus");
+            else
+            {
+                // Check if the inputs fit to an existing user
+                foreach (var user in users)
+                {
+                    // This if loggs the user in
+                    if (hashString.VerifyBCrypt(user.password, password) && user.username == username)
+                    {
+                        loggedIn = true;
+                        openedLoginForm = false;
+                        loggedInUser = user;
+                        wrongLoginData = false;
+                        DisplayCorrectUIComponents();
+                        break;
+                    }
+                    else
+                        wrongLoginData = true;
+                }
+                if (wrongLoginData)
+                {
+                    // Error message in case of no fitting inputs
+                    MessageBox.Show("Benutzername und Passwort stimmen nicht überein");
+                    wrongLoginData = false;
+                }
+            }
+        }
+        // Buttonhandler for the logout button
+        // logs the user out
+        private void logoutButton_Click(object sender, EventArgs e)
+        {
+            loggedIn = false;
+            openedSignUpForm = false;
+            openedLoginForm = false;
+            loggedInUser = new BusDBClasses.UserManagementClasses.User();
+            DisplayCorrectUIComponents();
+        }
+
+        // Other methods
 
         // Decides which UI should be displayed
-        private void DisplayCorrectUI()
+        private void DisplayCorrectUIComponents()
         {
             busTitle.Location = new Point(Width / 2 - busTitle.Width / 2, 30);
 
+            HashSet<string> existingDestinations = new HashSet<string>();
+            foreach (var item in busSelection.Items)
+            {
+                existingDestinations.Add(item.ToString());
+            }
+
             foreach (var bus in busses)
             {
-                // Insert the destinations into the selection, if not already done
-                if (bus.destination != "")
+                if (!string.IsNullOrEmpty(bus.destination) && !existingDestinations.Contains(bus.destination))
+                {
                     busSelection.Items.Add(bus.destination);
+                }
             }
             // check what should be displayed
 
@@ -195,7 +304,6 @@ namespace SeatReserve_Pro
                 SetBusSelectionPartsVisibility(false);
             }
         }
-
         // Function to draw the whole bus
         private void DrawBus(Bus bus)
         {
@@ -204,7 +312,6 @@ namespace SeatReserve_Pro
             int yCounter = 0;
             CreateDrawingUtilities(graphics, yCounter, bus);
         }
-
         // Method to Create all things needed to draw a bus
         private void CreateDrawingUtilities(Graphics graphics, int yCounter, Bus bus)
         {
@@ -220,7 +327,6 @@ namespace SeatReserve_Pro
             Pen blackPen = new Pen(Color.Black);
             DrawSeats(graphics, yCounter, xPos, yPos, maxWidth, maxHeight, darkGreyBrush, blackPen, bus);
         }
-
         // Method to choose the color for the bus seats
         private void DrawSeatCorrectColor(Seat seat, Graphics graphics, Bus bus)
         {
@@ -236,7 +342,6 @@ namespace SeatReserve_Pro
             else
                 graphics.FillRectangle(grayBrush, seat.seatRectangle);
         }
-
         // Method which draws all the seats and also saves them in the seat objects
         private void DrawSeats(Graphics graphics, int yCounter, int xPos, int yPos, int maxWidth, int maxHeight, SolidBrush darkGreyBrush, Pen blackPen, Bus bus)
         {
@@ -278,7 +383,6 @@ namespace SeatReserve_Pro
             // Call the DrawOutline Method with fiting parameters
             DrawOutline(80, 80, graphics, maxWidth - 80, maxHeight - 80, blackPen);
         }
-
         // Method to draw the bus outlines/detailes
         private void DrawOutline(int startSeatXpos, int startSeatYpos, Graphics graphics, int totalWidth, int totalHeight, Pen blackPen)
         {
@@ -300,7 +404,6 @@ namespace SeatReserve_Pro
 
             graphics.DrawRectangle(blackPen, rectOuterLines);
         }
-
         // Set the visibility of the SeatReservationParts
         private void SetSeatReservePartsVisibility(bool setVisibility)
         {
@@ -309,19 +412,22 @@ namespace SeatReserve_Pro
             busTitle.Visible = setVisibility;
 
         }
-
         // Set the visibility of the bus selection
         private void SetBusSelectionPartsVisibility(bool setVisibility)
         {
             subTitleBusSelection.Visible = setVisibility;
             busSelection.Visible = setVisibility;
+            logoutButton.Visible = setVisibility;
         }
-
         // Set the visibility of the login/signup selection
         private void SetLoginSignUpPartsVisibility(bool setVisibility)
         {
+            if (setVisibility)
+            {
+
+                loginSignUpLabel.Text = "Anmelden/Registrieren";
+            }
             loginSignUpLabel.Visible = setVisibility;
-            loginSignUpLabel.Text = "Anmelden/Registrieren";
             openLoginButton.Visible = setVisibility;
             openSignUpButton.Visible = setVisibility;
             loginSignUpLabel.Location = new Point(Width / 2 - loginSignUpLabel.Width / 2, loginSignUpLabel.Location.Y);
@@ -330,7 +436,6 @@ namespace SeatReserve_Pro
 
 
         }
-
         // Set the visibility of the login form
         private void SetLoginFormVisibility(bool setVisibility)
         {
@@ -344,6 +449,7 @@ namespace SeatReserve_Pro
             {
                 loginSignUpLabel.Text = "Anmelden";
                 loginSignUpLabel.Visible = setVisibility;
+
                 loginSignUpLabel.Location = new Point(Width / 2 - loginSignUpLabel.Width / 2, loginSignUpLabel.Location.Y);
                 usernameLoginLabel.Location = new Point(Width / 2 - usernameLoginLabel.Width / 2, usernameLoginLabel.Location.Y);
                 usernameLoginInput.Location = new Point(Width / 2 - usernameLoginInput.Width / 2, usernameLoginInput.Location.Y);
@@ -353,7 +459,6 @@ namespace SeatReserve_Pro
             }
 
         }
-
         // Set the visibility of the signup selection
         private void SetSignUpFormVisibility(bool setVisibility)
         {
@@ -368,8 +473,8 @@ namespace SeatReserve_Pro
             if (setVisibility)
             {
                 loginSignUpLabel.Text = "Registrieren";
-
                 loginSignUpLabel.Visible = setVisibility;
+
                 loginSignUpLabel.Location = new Point(Width / 2 - loginSignUpLabel.Width / 2, loginSignUpLabel.Location.Y);
                 usernameSignUpInput.Location = new Point(Width / 2 - usernameSignUpInput.Width / 2, usernameSignUpInput.Location.Y);
                 usernameSignUpLabel.Location = new Point(Width / 2 - usernameSignUpLabel.Width / 2, usernameSignUpLabel.Location.Y);
@@ -381,64 +486,21 @@ namespace SeatReserve_Pro
             }
 
         }
-
         // Methodes to update the database
-        private void updateDB()
+        private void UpdateBusPartsDB()
         {
             var dbService = new SeatReserve_ProDBService();
-            dbService.UpdateDB(busses);
-            GetDataFromDB();
+            dbService.UpdateBusPartsDB(busses);
+            GetBusPartsDB();
 
         }
         // Methodes to get the data from databases
-        private void GetDataFromDB()
+        private void GetBusPartsDB()
         {
             var dbService = new SeatReserve_ProDBService();
-            busses = dbService.ReadDB();
+            busses = dbService.ReadBusPartsDB();
         }
 
-        // Opens the sign up form
-        private void openSignUpButton_Click(object sender, EventArgs e)
-        {
-            openedSignUpForm = true;
-            DisplayCorrectUI();
-            Invalidate();
-        }
 
-        // Buttonhandler for the registration button
-        private void signUpButton_Click(object sender, EventArgs e)
-        {
-            var hashString = new HashString();
-            var dbClient = new SeatReserve_ProDBService();
-            var users = dbClient.ReadUserData();
-            bool usernameUsed = false;
-
-            var username = usernameSignUpInput.Text;
-            foreach (var oldUser in users)
-            {
-                if (oldUser.username == username)
-                {
-                    MessageBox.Show("Dieser Benutzernamen wird bereits verwendet");
-                    usernameUsed = true;
-                    break;
-                }
-            }
-            var password = passwordSignUpInput.Text;
-            var rolekey = rolekeySignUpInput.Text;
-            var passwordHashed = hashString.HashText(password);
-            var rolekeyHashed = hashString.Hash512(rolekey);
-
-            var user = new BusDBClasses.UserManagementClasses.User(username, passwordHashed, rolekeyHashed);
-
-            if (username == null || password == null || rolekey == null || username == "" || password == "" || rolekey == "")
-                MessageBox.Show("Bitte füllens sie alle Felder aus");
-            else if (!usernameUsed)
-            {
-                dbClient.InsertUserData(user);
-                openedSignUpForm = false;
-                loggedIn = false;
-                DisplayCorrectUI();
-            }
-        }
     }
 }
