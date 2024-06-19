@@ -27,7 +27,7 @@ using System.Threading.Tasks;
      * 
      ******************************************************************************/
 
-namespace BusDBClasses.UserManagementClasses
+namespace SeatReserveLibrary.UserManagementClasses
 {
     public class User
     {

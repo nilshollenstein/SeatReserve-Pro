@@ -1,4 +1,4 @@
-﻿using BusDBClasses.DrawBusClasses;
+﻿using SeatReserveLibrary.DrawBusClasses;
 using Npgsql;
 
 /******************************************************************************
@@ -22,7 +22,7 @@ using Npgsql;
      * 
      ******************************************************************************/
 
-namespace BusDBClasses.DBOperations
+namespace SeatReserveLibrary.DBOperations
 {
     public class DBOperations
     {
@@ -233,7 +233,7 @@ namespace BusDBClasses.DBOperations
             string username = "";
             string password = "";
             bool admin = false;
-            List<BusDBClasses.UserManagementClasses.User> users = new List<BusDBClasses.UserManagementClasses.User>();
+            List<SeatReserveLibrary.UserManagementClasses.User> users = new List<SeatReserveLibrary.UserManagementClasses.User>();
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
                 using (var connection = dataSource.OpenConnection())
@@ -257,7 +257,7 @@ namespace BusDBClasses.DBOperations
                                 }
                             }
                         }
-                        users.Add(new BusDBClasses.UserManagementClasses.User(userid, username, password, admin));
+                        users.Add(new SeatReserveLibrary.UserManagementClasses.User(userid, username, password, admin));
                     }
                 }
             }

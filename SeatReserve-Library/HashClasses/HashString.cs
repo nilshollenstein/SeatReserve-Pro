@@ -28,7 +28,7 @@ using static System.Net.Mime.MediaTypeNames;
      * 
      ******************************************************************************/
 
-namespace BusDBClasses.HashSecurityClasses
+namespace SeatReserveLibrary.HashSecurityClasses
 {
     public class HashString
     {

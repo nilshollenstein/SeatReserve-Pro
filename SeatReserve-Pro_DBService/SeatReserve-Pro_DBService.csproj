@@ -12,8 +12,4 @@
     <PackageReference Include="Npgsql" Version="8.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BusDBClasses\SeatReserve-Library.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -19,9 +19,9 @@
      * 
      ******************************************************************************/
 
-using BusDBClasses.DrawBusClasses;
-using BusDBClasses.HashSecurityClasses;
-using BusDBClasses.DBOperations;
+using SeatReserveLibrary.DrawBusClasses;
+using SeatReserveLibrary.HashSecurityClasses;
+using SeatReserveLibrary.DBOperations;
 namespace SeatReserve_Pro
 {
     public partial class Form1 : Form
@@ -33,7 +33,7 @@ namespace SeatReserve_Pro
         private bool loggedIn = false;
         private bool openedLoginForm = false;
         private bool openedSignUpForm = false;
-        BusDBClasses.UserManagementClasses.User loggedInUser = new();
+        SeatReserveLibrary.UserManagementClasses.User loggedInUser = new();
 
 
         // Constructor
@@ -161,7 +161,7 @@ namespace SeatReserve_Pro
             // Hash the two informations
             var passwordHashed = hashString.HashBCrypt(password);
 
-            var user = new BusDBClasses.UserManagementClasses.User(username, passwordHashed, false);
+            var user = new SeatReserveLibrary.UserManagementClasses.User(username, passwordHashed, false);
 
             // Checks if a field is empty
             if (username == null || password == null || username == "" || password == "")
@@ -222,7 +222,7 @@ namespace SeatReserve_Pro
             loggedIn = false;
             openedSignUpForm = false;
             openedLoginForm = false;
-            loggedInUser = new BusDBClasses.UserManagementClasses.User();
+            loggedInUser = new SeatReserveLibrary.UserManagementClasses.User();
             DisplayCorrectUIComponents();
         }
         // Cancle Reservations with button

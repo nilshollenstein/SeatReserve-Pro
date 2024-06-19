@@ -27,7 +27,7 @@ using System.Web;
      * 
      ******************************************************************************/
 
-namespace BusDBClasses.DrawBusClasses
+namespace SeatReserveLibrary.DrawBusClasses
 {
     public class Seat
     {

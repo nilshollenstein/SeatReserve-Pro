@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BusDBClasses\SeatReserve-Library.csproj" />
+    <ProjectReference Include="..\SeatReserve-Library\SeatReserve-Library.csproj" />
   </ItemGroup>
 
 </Project>
