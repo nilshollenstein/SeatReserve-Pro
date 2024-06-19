@@ -67,11 +67,11 @@ namespace SeatReserve_Pro
             usernameSignUpLabel = new Label();
             passwordSignUpInput = new TextBox();
             usernameSignUpInput = new TextBox();
-            rolekeySignUpLabel = new Label();
-            rolekeySignUpInput = new TextBox();
             loginButton = new Button();
             signUpButton = new Button();
             logoutButton = new Button();
+            cancelReservationButton = new Button();
+            backToStartButton = new Button();
             SuspendLayout();
             // 
             // ReserveButton
@@ -115,7 +115,7 @@ namespace SeatReserve_Pro
             // 
             // backToSelectionButton
             // 
-            backToSelectionButton.Location = new Point(880, 415);
+            backToSelectionButton.Location = new Point(742, 415);
             backToSelectionButton.Name = "backToSelectionButton";
             backToSelectionButton.Size = new Size(75, 23);
             backToSelectionButton.TabIndex = 4;
@@ -233,24 +233,6 @@ namespace SeatReserve_Pro
             usernameSignUpInput.Size = new Size(127, 23);
             usernameSignUpInput.TabIndex = 13;
             // 
-            // rolekeySignUpLabel
-            // 
-            rolekeySignUpLabel.AutoSize = true;
-            rolekeySignUpLabel.Location = new Point(605, 274);
-            rolekeySignUpLabel.Name = "rolekeySignUpLabel";
-            rolekeySignUpLabel.Size = new Size(87, 15);
-            rolekeySignUpLabel.TabIndex = 18;
-            rolekeySignUpLabel.Text = "Rollenschlüssel";
-            // 
-            // rolekeySignUpInput
-            // 
-            rolekeySignUpInput.Location = new Point(605, 292);
-            rolekeySignUpInput.Name = "rolekeySignUpInput";
-            rolekeySignUpInput.PasswordChar = '*';
-            rolekeySignUpInput.PlaceholderText = "Rollenschlüssel";
-            rolekeySignUpInput.Size = new Size(127, 23);
-            rolekeySignUpInput.TabIndex = 17;
-            // 
             // loginButton
             // 
             loginButton.Location = new Point(330, 266);
@@ -263,7 +245,7 @@ namespace SeatReserve_Pro
             // 
             // signUpButton
             // 
-            signUpButton.Location = new Point(605, 321);
+            signUpButton.Location = new Point(605, 266);
             signUpButton.Name = "signUpButton";
             signUpButton.Size = new Size(127, 23);
             signUpButton.TabIndex = 20;
@@ -282,16 +264,36 @@ namespace SeatReserve_Pro
             logoutButton.UseVisualStyleBackColor = true;
             logoutButton.Click += logoutButton_Click;
             // 
+            // cancelReservationButton
+            // 
+            cancelReservationButton.Location = new Point(823, 415);
+            cancelReservationButton.Name = "cancelReservationButton";
+            cancelReservationButton.Size = new Size(132, 23);
+            cancelReservationButton.TabIndex = 22;
+            cancelReservationButton.Text = "Reservation aufheben";
+            cancelReservationButton.UseVisualStyleBackColor = true;
+            cancelReservationButton.Click += CancelReservationButton_Click;
+            // 
+            // backToStartButton
+            // 
+            backToStartButton.Location = new Point(12, 415);
+            backToStartButton.Name = "backToStartButton";
+            backToStartButton.Size = new Size(134, 23);
+            backToStartButton.TabIndex = 23;
+            backToStartButton.Text = "Zurück zur Startseite";
+            backToStartButton.UseVisualStyleBackColor = true;
+            backToStartButton.Click += backToStartButton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1048, 450);
+            Controls.Add(backToStartButton);
+            Controls.Add(cancelReservationButton);
             Controls.Add(logoutButton);
             Controls.Add(signUpButton);
             Controls.Add(loginButton);
-            Controls.Add(rolekeySignUpLabel);
-            Controls.Add(rolekeySignUpInput);
             Controls.Add(passwordSignUpLabel);
             Controls.Add(usernameSignUpLabel);
             Controls.Add(passwordSignUpInput);
@@ -336,10 +338,10 @@ namespace SeatReserve_Pro
         private Label usernameSignUpLabel;
         private TextBox passwordSignUpInput;
         private TextBox usernameSignUpInput;
-        private Label rolekeySignUpLabel;
-        private TextBox rolekeySignUpInput;
         private Button loginButton;
         private Button signUpButton;
         private Button logoutButton;
+        private Button cancelReservationButton;
+        private Button backToStartButton;
     }
 }

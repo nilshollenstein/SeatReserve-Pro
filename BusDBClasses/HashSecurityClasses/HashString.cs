@@ -49,17 +49,6 @@ namespace BusDBClasses.HashSecurityClasses
 
         // Code from https://gist.github.com/grandsilence/e74d0fca294d0cbeda6baf581c32a306
         // Method to hash a string with SHA-512
-        public string Hash512(string text)
-        {
-            var sb = new StringBuilder();
-            using (var hash = SHA512.Create())
-            {
-                var result = hash.ComputeHash(Encoding.UTF8.GetBytes(text));
-                for (int i = 0; i < result.Length; i++)
-                sb.Append(result[i].ToString("x2"));
-            }
-            Console.WriteLine(sb.ToString());
-            return sb.ToString();
-        }
+        
     }
 }

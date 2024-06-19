@@ -78,15 +78,18 @@ namespace SeatReserve_Pro
                 {
                     if (seat.seatRectangle.Contains(e.Location))
                     {
-                        if (seat.seatRectangle.Contains(e.Location) && !seat.selected && !seat.reserved)
+                        if (!seat.selected && !seat.reserved)
                         {
-                            // Set selected to true
                             seat.selected = true;
                         }
-                        else if (seat.seatRectangle.Contains(e.Location) && seat.selected && !seat.reserved)
+                        else if (seat.selected && !seat.reserved)
                             seat.selected = false;
-                        else if (seat.seatRectangle.Contains(e.Location) && seat.reserved)
-                            MessageBox.Show("Seat already reserved");
+                        else if (!seat.selected && seat.reserved && seat.reservedBy == loggedInUser.userid)
+                            seat.selected = true;
+                        else if (!seat.selected && seat.reserved && seat.reservedBy == loggedInUser.userid)
+                            seat.selected = false;
+                        else if (seat.reserved && seat.reservedBy != loggedInUser.userid)
+                            MessageBox.Show("Seat already reserved by another user");
                         Invalidate();
                     }
                 }
@@ -101,14 +104,13 @@ namespace SeatReserve_Pro
         // React to the Button Click
         private void ReserveButton_Click(object sender, EventArgs e)
         {
-
             foreach (var seat in userBusSelected.seats)
             {
-                if (seat.selected)
+                if (seat.selected && !seat.reserved)
                 {
                     seat.reserved = true;
                     seat.selected = false;
-                    seat.reserveByUser = loggedInUser.userid;
+                    seat.reservedBy = loggedInUser.userid;
                 }
             }
             UpdateBusPartsDB();
@@ -172,15 +174,13 @@ namespace SeatReserve_Pro
                 }
             }
             var password = passwordSignUpInput.Text;
-            var rolekey = rolekeySignUpInput.Text;
             // Hash the two informations
             var passwordHashed = hashString.HashBCrypt(password);
-            var rolekeyHashed = hashString.Hash512(rolekey);
 
-            var user = new BusDBClasses.UserManagementClasses.User(username, passwordHashed, rolekeyHashed);
+            var user = new BusDBClasses.UserManagementClasses.User(username, passwordHashed, false);
 
             // Checks if a field is empty
-            if (username == null || password == null || rolekey == null || username == "" || password == "" || rolekey == "")
+            if (username == null || password == null || username == "" || password == "")
                 MessageBox.Show("Bitte füllens sie alle Felder aus");
             else if (!usernameUsed)
             {
@@ -239,6 +239,21 @@ namespace SeatReserve_Pro
             openedLoginForm = false;
             loggedInUser = new BusDBClasses.UserManagementClasses.User();
             DisplayCorrectUIComponents();
+        }
+        // Cancle Reservations with button
+        private void CancelReservationButton_Click(object sender, EventArgs e)
+        {
+            foreach (var seat in userBusSelected.seats)
+            {
+                if (seat.selected && seat.reserved && seat.reservedBy == loggedInUser.userid)
+                {
+                    seat.reserved = false;
+                    seat.selected = false;
+                    seat.reservedBy = -1;
+                }
+            }
+            UpdateBusPartsDB();
+            Invalidate();
         }
 
         // Other methods
@@ -410,7 +425,7 @@ namespace SeatReserve_Pro
             ReserveButton.Visible = setVisibility;
             backToSelectionButton.Visible = setVisibility;
             busTitle.Visible = setVisibility;
-
+            cancelReservationButton.Visible = setVisibility;
         }
         // Set the visibility of the bus selection
         private void SetBusSelectionPartsVisibility(bool setVisibility)
@@ -466,8 +481,7 @@ namespace SeatReserve_Pro
             usernameSignUpInput.Visible = setVisibility;
             passwordSignUpInput.Visible = setVisibility;
             passwordSignUpLabel.Visible = setVisibility;
-            rolekeySignUpInput.Visible = setVisibility;
-            rolekeySignUpLabel.Visible = setVisibility;
+
             signUpButton.Visible = setVisibility;
 
             if (setVisibility)
@@ -480,8 +494,6 @@ namespace SeatReserve_Pro
                 usernameSignUpLabel.Location = new Point(Width / 2 - usernameSignUpLabel.Width / 2, usernameSignUpLabel.Location.Y);
                 passwordSignUpInput.Location = new Point(Width / 2 - passwordSignUpInput.Width / 2, passwordSignUpInput.Location.Y);
                 passwordSignUpLabel.Location = new Point(Width / 2 - passwordSignUpLabel.Width / 2, passwordSignUpLabel.Location.Y);
-                rolekeySignUpLabel.Location = new Point(Width / 2 - rolekeySignUpLabel.Width / 2, rolekeySignUpLabel.Location.Y);
-                rolekeySignUpInput.Location = new Point(Width / 2 - rolekeySignUpInput.Width / 2, rolekeySignUpInput.Location.Y);
                 signUpButton.Location = new Point(Width / 2 - signUpButton.Width / 2, signUpButton.Location.Y);
             }
 
@@ -490,7 +502,7 @@ namespace SeatReserve_Pro
         private void UpdateBusPartsDB()
         {
             var dbService = new SeatReserve_ProDBService();
-            dbService.UpdateBusPartsDB(busses);
+            dbService.UpdateBusPartsDB(userBusSelected);
             GetBusPartsDB();
 
         }
@@ -500,7 +512,14 @@ namespace SeatReserve_Pro
             var dbService = new SeatReserve_ProDBService();
             busses = dbService.ReadBusPartsDB();
         }
-
-
+        // 
+        private void backToStartButton_Click(object sender, EventArgs e)
+        {
+            if (openedSignUpForm)
+                openedSignUpForm = false;
+            else if (openedLoginForm)
+                openedLoginForm = false;
+            DisplayCorrectUIComponents();
+        }
     }
 }

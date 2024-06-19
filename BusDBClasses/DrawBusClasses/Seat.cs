@@ -39,7 +39,7 @@ namespace BusDBClasses.DrawBusClasses
         public bool reserved { get; set; }
         public bool selected { get; set; }
         public int busid { get; set; }
-        public int reserveByUser { get; set; }
+        public int reservedBy { get; set; }
         public Seat()
         {
             selected = false;
@@ -54,7 +54,7 @@ namespace BusDBClasses.DrawBusClasses
             this.reserved = reserved;
             selected = false;
             this.busid = busid;
-            this.reserveByUser = reserveByUser;
+            this.reservedBy = reserveByUser;
         }
         
     }

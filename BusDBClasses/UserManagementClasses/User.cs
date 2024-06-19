@@ -33,19 +33,19 @@ namespace BusDBClasses.UserManagementClasses
         public int userid { get; set; }
         public string username { get; set; }
         public string password { get; set; }
-        public string rolekey { get; set; }
-        public User(int userid, string username, string password, string rolekey)
+        public bool admin { get; set; }
+        public User(int userid, string username, string password, bool admin)
         {
             this.userid = userid;
             this.username = username;
             this.password = password;
-            this.rolekey = rolekey;
+            this.admin = admin;
         }
-        public User(string username, string password, string rolekey)
+        public User(string username, string password, bool admin)
         {
             this.username = username;
             this.password = password;
-            this.rolekey = rolekey;
+            this.admin = admin;
         }
         public User() { }
     }
