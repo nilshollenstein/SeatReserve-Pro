@@ -17,7 +17,6 @@ using System.Web;
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-05  Nils Hollenstein   Initial creation.
      * 2024-06-12  Nils Hollenstein   Added second constructor and reserveByUser attribute
-
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -56,6 +55,5 @@ namespace BusDBClasses.DrawBusClasses
             this.busid = busid;
             this.reservedBy = reserveByUser;
         }
-        
     }
 }

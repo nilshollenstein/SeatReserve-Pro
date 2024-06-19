@@ -16,6 +16,7 @@ using System.Threading.Tasks;
      * Date        Author             Changes
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-12  Nils Hollenstein   Initial creation.
+     * 2024-06-13  Nils Hollenstein   Modified the class
      * 
      * License:
      * This software is provided 'as-is', without any express or implied

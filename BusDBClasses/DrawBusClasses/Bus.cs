@@ -16,6 +16,7 @@ using System.Threading.Tasks;
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-05  Nils Hollenstein   Initial creation.
      * 2024-06-07  Nils Hollenstein   Added id and removed the seat-id giver.
+     * 2024-06-12  Nils Hollenstein   Added second constructor
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -42,6 +43,10 @@ namespace BusDBClasses.DrawBusClasses
             this.destination = destination;
             this.seatCount = seatCount;
             seats = new List<Seat>();
+            while (seatCount % 4 != 0)
+            {
+                seatCount++;
+            }
             for (int i = 0; i < seatCount; i++)
             {
                 Seat seat = new Seat();
@@ -52,7 +57,7 @@ namespace BusDBClasses.DrawBusClasses
             }
         }
 
-        // Constructor to give the seats
+        // Constructor to give the seats to the bus
         public Bus(int id, string destination, int seatCount, List<Seat> seats)
         {
             this.id = id;
@@ -60,5 +65,6 @@ namespace BusDBClasses.DrawBusClasses
             this.seatCount = seatCount;
             this.seats = seats;
         }
+        public Bus() { }
     }
 }
