@@ -40,15 +40,12 @@ namespace BusDBClasses.HashSecurityClasses
             return passwordHash;
         }
 
+        // https://www.claudiobernasconi.ch/2023/06/23/how-to-hash-passwords-with-bcrypt-in-csharp/
         // Method to check if two BCrypt hashes are the same
         public bool VerifyBCrypt(string passwordHash, string inputToVerify)
         {
             bool correctinput = BCrypt.Net.BCrypt.EnhancedVerify(inputToVerify, passwordHash);
             return correctinput;
         }
-
-        // Code from https://gist.github.com/grandsilence/e74d0fca294d0cbeda6baf581c32a306
-        // Method to hash a string with SHA-512
-        
     }
 }

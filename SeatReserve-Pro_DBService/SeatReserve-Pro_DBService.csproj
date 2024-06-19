@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BusDBClasses\BusDBClasses.csproj" />
+    <ProjectReference Include="..\BusDBClasses\SeatReserve-Library.csproj" />
   </ItemGroup>
 
 </Project>

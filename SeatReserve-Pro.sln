@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeatReserve-Pro_DBService",
 		{72CD1E20-2B64-48E8-B1C6-1DEB8687479A} = {72CD1E20-2B64-48E8-B1C6-1DEB8687479A}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusDBClasses", "BusDBClasses\BusDBClasses.csproj", "{72CD1E20-2B64-48E8-B1C6-1DEB8687479A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeatReserve-Library", "BusDBClasses\SeatReserve-Library.csproj", "{72CD1E20-2B64-48E8-B1C6-1DEB8687479A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
