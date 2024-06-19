@@ -6,7 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeatReserve-Pro", "SeatReserve-Pro\SeatReserve-Pro.csproj", "{B4A435E5-5C72-4F3A-8AA9-65A664A2C698}"
 	ProjectSection(ProjectDependencies) = postProject
 		{72CD1E20-2B64-48E8-B1C6-1DEB8687479A} = {72CD1E20-2B64-48E8-B1C6-1DEB8687479A}
-		{A7F3B87D-F4FB-4192-A6CE-D28ED1356096} = {A7F3B87D-F4FB-4192-A6CE-D28ED1356096}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeatReserve-Pro_DBService", "SeatReserve-Pro_DBService\SeatReserve-Pro_DBService.csproj", "{A7F3B87D-F4FB-4192-A6CE-D28ED1356096}"

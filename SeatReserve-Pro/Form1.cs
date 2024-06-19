@@ -9,13 +9,6 @@
      * Date        Author             Changes
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-05  Nils Hollenstein   Initial creation
-     * 2024-06-06  Nils Hollenstein   Draw the Bus
-     * 2024-06-06  Nils Hollenstein   Enable Seat Reservation
-     * 2024-06-07  Nils Hollenstein   Busselection is working
-     * 2024-06-12  Nils Hollenstein   Database is now connected
-     * 2024-06-13  Nils Hollenstein   Registration is implemented
-     * 2024-06-13  Nils Hollenstein   Login is implemented
-     * 2024-06-14  Nils Hollenstein   Login is implemented
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -28,26 +21,19 @@
 
 using BusDBClasses.DrawBusClasses;
 using BusDBClasses.HashSecurityClasses;
-using BusDBClasses.UserManagementClasses;
-using Microsoft.VisualBasic.ApplicationServices;
-using SeatReserve_Pro_DBService;
-using System.CodeDom.Compiler;
-using System.Diagnostics.Metrics;
-using System.Drawing;
-using System.Xml.Serialization;
-
+using BusDBClasses.DBOperations;
 namespace SeatReserve_Pro
 {
     public partial class Form1 : Form
     {
         // Variables
         List<Bus> busses = new List<Bus>();
-        private Bus userBusSelected;
+        private Bus userBusSelected = new();
         private bool busSelected = false;
         private bool loggedIn = false;
         private bool openedLoginForm = false;
         private bool openedSignUpForm = false;
-        BusDBClasses.UserManagementClasses.User loggedInUser;
+        BusDBClasses.UserManagementClasses.User loggedInUser = new();
 
 
         // Constructor
@@ -65,9 +51,7 @@ namespace SeatReserve_Pro
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             if (busSelected)
-            {
                 DrawBus(userBusSelected);
-            }
         }
         // Click handler for a click in the form on a seat
         private void Form1_MouseClick(object sender, MouseEventArgs e)
@@ -79,16 +63,15 @@ namespace SeatReserve_Pro
                     if (seat.seatRectangle.Contains(e.Location))
                     {
                         if (!seat.selected && !seat.reserved)
-                        {
                             seat.selected = true;
-                        }
                         else if (seat.selected && !seat.reserved)
                             seat.selected = false;
                         else if (!seat.selected && seat.reserved && seat.reservedBy == loggedInUser.userid)
                             seat.selected = true;
-                        else if (!seat.selected && seat.reserved && seat.reservedBy == loggedInUser.userid)
+                        else if (seat.selected && seat.reserved && seat.reservedBy == loggedInUser.userid)
                             seat.selected = false;
                         else if (seat.reserved && seat.reservedBy != loggedInUser.userid)
+
                             MessageBox.Show("Seat already reserved by another user");
                         Invalidate();
                     }
@@ -116,7 +99,7 @@ namespace SeatReserve_Pro
             UpdateBusPartsDB();
             Invalidate();
         }
-        // Handler for the combobox
+        // Handler for the combobox, lets you select the busses
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             // https://stackoverflow.com/questions/6901070/getting-selected-value-of-a-combobox
@@ -157,8 +140,9 @@ namespace SeatReserve_Pro
         // Buttonhandler for the registration button
         private void SignUpButton_Click(object sender, EventArgs e)
         {
+            // Variables
             var hashString = new HashString();
-            var dbClient = new SeatReserve_ProDBService();
+            var dbClient = new DBOperations();
             var users = dbClient.ReadUserData();
             bool usernameUsed = false;
 
@@ -194,8 +178,9 @@ namespace SeatReserve_Pro
         // Buttonhandler for the login button
         private void LoginButton_Click(object sender, EventArgs e)
         {
+            // Variables
             var hashString = new HashString();
-            var dbClient = new SeatReserve_ProDBService();
+            var dbClient = new DBOperations();
             string username = usernameLoginInput.Text;
             string password = passwordLoginInput.Text;
             var users = dbClient.ReadUserData();
@@ -231,9 +216,9 @@ namespace SeatReserve_Pro
             }
         }
         // Buttonhandler for the logout button
-        // logs the user out
         private void logoutButton_Click(object sender, EventArgs e)
         {
+            // logs the user out
             loggedIn = false;
             openedSignUpForm = false;
             openedLoginForm = false;
@@ -255,7 +240,15 @@ namespace SeatReserve_Pro
             UpdateBusPartsDB();
             Invalidate();
         }
-
+        // Button to get out of the Login/Sign-up form
+        private void backToStartButton_Click(object sender, EventArgs e)
+        {
+            if (openedSignUpForm)
+                openedSignUpForm = false;
+            else if (openedLoginForm)
+                openedLoginForm = false;
+            DisplayCorrectUIComponents();
+        }
         // Other methods
 
         // Decides which UI should be displayed
@@ -263,28 +256,29 @@ namespace SeatReserve_Pro
         {
             busTitle.Location = new Point(Width / 2 - busTitle.Width / 2, 30);
 
-            HashSet<string> existingDestinations = new HashSet<string>();
+            // Only adds the locations to the selection if it does not contain the location
+            List<string> existingDestinations = new List<string>();
             foreach (var item in busSelection.Items)
             {
-                existingDestinations.Add(item.ToString());
+                if (item != null)
+                    existingDestinations.Add(item.ToString());
             }
 
             foreach (var bus in busses)
             {
                 if (!string.IsNullOrEmpty(bus.destination) && !existingDestinations.Contains(bus.destination))
-                {
                     busSelection.Items.Add(bus.destination);
-                }
             }
-            // check what should be displayed
 
+            // check what should be displayed
             if (busSelected && loggedIn && !openedLoginForm && !openedSignUpForm)
             {
                 SetLoginFormVisibility(false);
                 SetLoginSignUpPartsVisibility(false);
                 SetSignUpFormVisibility(false);
-                SetSeatReservePartsVisibility(true);
                 SetBusSelectionPartsVisibility(false);
+                SetSeatReservePartsVisibility(true);
+
             }
             else if (loggedIn && !openedSignUpForm && !openedLoginForm)
             {
@@ -296,29 +290,34 @@ namespace SeatReserve_Pro
             }
             else if (openedLoginForm && !loggedIn)
             {
-                SetLoginFormVisibility(true);
                 SetLoginSignUpPartsVisibility(false);
                 SetSignUpFormVisibility(false);
                 SetSeatReservePartsVisibility(false);
                 SetBusSelectionPartsVisibility(false);
+                SetLoginFormVisibility(true);
+
             }
             else if (openedSignUpForm && !loggedIn)
             {
                 SetLoginFormVisibility(false);
                 SetLoginSignUpPartsVisibility(false);
-                SetSignUpFormVisibility(true);
                 SetSeatReservePartsVisibility(false);
                 SetBusSelectionPartsVisibility(false);
+                SetSignUpFormVisibility(true);
+
             }
             else
             {
                 SetLoginFormVisibility(false);
-                SetLoginSignUpPartsVisibility(true);
                 SetSignUpFormVisibility(false);
                 SetSeatReservePartsVisibility(false);
                 SetBusSelectionPartsVisibility(false);
+                SetLoginSignUpPartsVisibility(true);
             }
         }
+
+        // Methods to draw the bus
+
         // Function to draw the whole bus
         private void DrawBus(Bus bus)
         {
@@ -347,12 +346,15 @@ namespace SeatReserve_Pro
         {
             SolidBrush grayBrush = new SolidBrush(Color.Gray);
 
-            SolidBrush selectedBrush = new SolidBrush(Color.FromArgb(255, 87, 119, 150));
+            SolidBrush selectedNotReservedBrush = new SolidBrush(Color.FromArgb(255, 87, 119, 150));
+            SolidBrush selectedReservedBrush = new SolidBrush(Color.FromArgb(255, 240, 196, 91));
             SolidBrush reservedBrush = new SolidBrush(Color.FromArgb(255, 247, 101, 116));
 
-            if (seat.selected)
-                graphics.FillRectangle(selectedBrush, seat.seatRectangle);
-            else if (seat.reserved)
+            if (seat.selected && !seat.reserved)
+                graphics.FillRectangle(selectedNotReservedBrush, seat.seatRectangle);
+            else if (seat.selected && seat.reserved)
+                graphics.FillRectangle(selectedReservedBrush, seat.seatRectangle);
+            else if (!seat.selected && seat.reserved)
                 graphics.FillRectangle(reservedBrush, seat.seatRectangle);
             else
                 graphics.FillRectangle(grayBrush, seat.seatRectangle);
@@ -419,6 +421,9 @@ namespace SeatReserve_Pro
 
             graphics.DrawRectangle(blackPen, rectOuterLines);
         }
+       
+        // Set the visibility of the UI elements
+        
         // Set the visibility of the SeatReservationParts
         private void SetSeatReservePartsVisibility(bool setVisibility)
         {
@@ -426,6 +431,7 @@ namespace SeatReserve_Pro
             backToSelectionButton.Visible = setVisibility;
             busTitle.Visible = setVisibility;
             cancelReservationButton.Visible = setVisibility;
+
         }
         // Set the visibility of the bus selection
         private void SetBusSelectionPartsVisibility(bool setVisibility)
@@ -459,6 +465,7 @@ namespace SeatReserve_Pro
             passwordLoginInput.Visible = setVisibility;
             passwordLoginLabel.Visible = setVisibility;
             loginButton.Visible = setVisibility;
+            backToStartButton.Visible = setVisibility;
 
             if (setVisibility)
             {
@@ -481,6 +488,7 @@ namespace SeatReserve_Pro
             usernameSignUpInput.Visible = setVisibility;
             passwordSignUpInput.Visible = setVisibility;
             passwordSignUpLabel.Visible = setVisibility;
+            backToStartButton.Visible = setVisibility;
 
             signUpButton.Visible = setVisibility;
 
@@ -498,10 +506,13 @@ namespace SeatReserve_Pro
             }
 
         }
+
+        // Operate with the database 
+
         // Methodes to update the database
         private void UpdateBusPartsDB()
         {
-            var dbService = new SeatReserve_ProDBService();
+            var dbService = new DBOperations();
             dbService.UpdateBusPartsDB(userBusSelected);
             GetBusPartsDB();
 
@@ -509,17 +520,9 @@ namespace SeatReserve_Pro
         // Methodes to get the data from databases
         private void GetBusPartsDB()
         {
-            var dbService = new SeatReserve_ProDBService();
+            var dbService = new DBOperations();
             busses = dbService.ReadBusPartsDB();
         }
-        // 
-        private void backToStartButton_Click(object sender, EventArgs e)
-        {
-            if (openedSignUpForm)
-                openedSignUpForm = false;
-            else if (openedLoginForm)
-                openedLoginForm = false;
-            DisplayCorrectUIComponents();
-        }
+
     }
 }

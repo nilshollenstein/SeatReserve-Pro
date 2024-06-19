@@ -1,9 +1,30 @@
 ﻿using BusDBClasses.DrawBusClasses;
 using Npgsql;
 
+/******************************************************************************
+     * File:        DBOperations.cs
+     * Author:      Nils Hollenstein
+     * Created:     2024-06-19
+	 * Version:     1.0
+     * Description: This file contains the DBOperations class, gives the programm access to the needed DB-Methods
+     * 
+     * History:
+     * Date        Author             Changes
+     * ----------  ----------------   ----------------------------------------------------
+     * 2024-06-19  Nils Hollenstein   Initial creation
+     * 
+     * License:
+     * This software is provided 'as-is', without any express or implied
+     * warranty. In no event will the authors be held liable for any damages
+     * arising from the use of this software.
+     * 
+     * This file is part of the SeatReserve-Pro project.
+     * 
+     ******************************************************************************/
+
 namespace BusDBClasses.DBOperations
 {
-    internal class DBOperations
+    public class DBOperations
     {
         //  Variables
         private List<Bus> busses = new List<Bus>();
@@ -182,7 +203,7 @@ namespace BusDBClasses.DBOperations
             return usercount;
         }
         // Insert single user
-        public void InsertUserData(BusDBClasses.UserManagementClasses.User user)
+        public void InsertUserData(UserManagementClasses.User user)
         {
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
@@ -206,7 +227,7 @@ namespace BusDBClasses.DBOperations
 
         }
         // Reads all users from the database
-        public List<BusDBClasses.UserManagementClasses.User> ReadUserData()
+        public List<UserManagementClasses.User> ReadUserData()
         {
             int userid = 0;
             string username = "";

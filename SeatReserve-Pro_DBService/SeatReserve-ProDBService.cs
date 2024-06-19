@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System;
-using System.Data;
-using Npgsql;
-using System.Threading.Tasks;
-using System.Drawing;
-using System.Drawing.Text;
+﻿using Npgsql;
 using BusDBClasses.DrawBusClasses;
-using BusDBClasses.UserManagementClasses;
-using Microsoft.VisualBasic.ApplicationServices;
+
+
 /******************************************************************************
      * File:        SeatReserve_ProDBService.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-05
 	 * Version:     1.2
-     * Description: This file contains the SeatReserve_ProDBService class, which contains methods to initialize the database and get the content from it
+     * Description: This file contains the SeatReserve_ProDBService class, which contains methods to initialize the database
      * 
      * History:
      * Date        Author             Changes
@@ -25,6 +16,8 @@ using Microsoft.VisualBasic.ApplicationServices;
      * 2024-06-12  Nils Hollenstein   Able to read from DB and to write to DB
      * 2024-06-12  Nils Hollenstein   Basic operations with User-Table possible
      * 2024-06-13  Nils Hollenstein   Seat-Table insert modified
+     * 2024-06-19  Nils Hollenstein   Seat-Table modified
+     * 2024-06-19  Nils Hollenstein   Moved everything thats not needed for the init method
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -39,9 +32,9 @@ namespace SeatReserve_Pro_DBService
 {
     public class SeatReserve_ProDBService
     {
-        // Initialize Variables
+        //  Variables
         private List<Bus> busses = new List<Bus>();
-        private string connectionString = "Host=localhost:5432;Username=postgres;Password=postgres;Database=SeatReserve-Pro";
+        private string connectionString = "Host=10.80.4.136:5432;Username=postgres;Password=postgres;Database=SeatReserve-Pro";
         List<string> targetDestinations = new List<string>
         {
             "Berlin, Deutschland",
@@ -57,6 +50,8 @@ namespace SeatReserve_Pro_DBService
             "Moskau, Russland"
         };
 
+        // Methods
+
         // Method to initialize the Database
         public void InitDB()
         {
@@ -69,41 +64,6 @@ namespace SeatReserve_Pro_DBService
                     InsertBusData(connection);
                     InsertSeatData(connection);
                 }
-            }
-        }
-        // Method to read the whole Database
-        public List<Bus> ReadBusPartsDB()
-        {
-            using (var dataSource = NpgsqlDataSource.Create(connectionString))
-            {
-                using (var connection = dataSource.OpenConnection())
-                {
-                    ReadBusData(connection);
-                }
-            }
-            return busses;
-        }
-        // Method to update the whole database
-        public void UpdateBusPartsDB(Bus bus)
-        {
-            using (var dataSource = NpgsqlDataSource.Create(connectionString))
-            {
-                using (var connection = dataSource.OpenConnection())
-                {
-                    UpdateSeats(bus, connection);
-                }
-            }
-        }
-        // Method to generate the busses for the database
-        private void GenerateBusList()
-        {
-            int busID = 1;
-            foreach (var target in targetDestinations)
-            {
-                var random = new Random();
-                int randomNumber = random.Next(20, 40);
-                busses.Add(new Bus(busID, randomNumber, target));
-                busID++;
             }
         }
         // Method to delete the whole data in the database
@@ -160,6 +120,45 @@ namespace SeatReserve_Pro_DBService
                 }
             }
         }
+        // Method to generate the Bus list
+        private void GenerateBusList()
+        {
+            int busID = 1;
+            foreach (var target in targetDestinations)
+            {
+                var random = new Random();
+                int randomNumber = random.Next(20, 40);
+                busses.Add(new Bus(busID, randomNumber, target));
+                busID++;
+            }
+        }
+
+
+        // Method to read the whole Database
+        public List<Bus> ReadBusPartsDB()
+        {
+            using (var dataSource = NpgsqlDataSource.Create(connectionString))
+            {
+                using (var connection = dataSource.OpenConnection())
+                {
+                    ReadBusData(connection);
+                }
+            }
+            return busses;
+        }
+        // Method to update the whole database
+        public void UpdateBusPartsDB(Bus bus)
+        {
+            using (var dataSource = NpgsqlDataSource.Create(connectionString))
+            {
+                using (var connection = dataSource.OpenConnection())
+                {
+                    UpdateSeats(bus, connection);
+                }
+            }
+        }
+        // Method to generate the busses for the database
+
         // Method to read all the data from the database
         private void ReadBusData(NpgsqlConnection connection)
         {
@@ -198,7 +197,7 @@ namespace SeatReserve_Pro_DBService
                 {
                     seatCount++;
                 }
-                previousSeatCounts += seatCount;
+
 
                 // Read the whole data of the seats that belong to the correct bus
                 for (; j <= seatCount + previousSeatCounts; j++)
@@ -226,6 +225,7 @@ namespace SeatReserve_Pro_DBService
 
                     seats.Add(new Seat(seatid, width, height, reserved, busID, reservedByUser));
                 }
+                previousSeatCounts += seatCount;
                 busses.Add(new Bus(busID, destination, seatCount, seats));
             }
         }
