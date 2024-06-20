@@ -119,7 +119,7 @@ namespace SeatReserve_Pro_DBService
                 }
             }
         }
-        // Method to generate the Bus list
+        // Method to generate the busses for the database
         private void GenerateBusList()
         {
             int busID = 1;

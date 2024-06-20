@@ -18,6 +18,7 @@ using static System.Net.Mime.MediaTypeNames;
      * Date        Author             Changes
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-13  Nils Hollenstein   Initial creation.
+     * 2024-06-13  Nils Hollenstein   Strings get Hashed and can be verified
      * 
      * License:
      * This software is provided 'as-is', without any express or implied

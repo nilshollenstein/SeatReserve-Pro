@@ -1,5 +1,5 @@
-﻿using SeatReserveLibrary.DrawBusClasses;
-using Npgsql;
+﻿using Npgsql;
+using SeatReserveLibrary.DrawBusClasses;
 
 /******************************************************************************
      * File:        DBOperations.cs
@@ -12,6 +12,7 @@ using Npgsql;
      * Date        Author             Changes
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-19  Nils Hollenstein   Initial creation
+     * 2024-06-19  Nils Hollenstein   Added all Methods from the DBService that are inserts, updates and selects
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -44,8 +45,6 @@ namespace SeatReserveLibrary.DBOperations
             "Moskau, Russland"
         };
 
-
-
         // Method to read the whole Database
         public List<Bus> ReadBusPartsDB()
         {
@@ -69,8 +68,6 @@ namespace SeatReserveLibrary.DBOperations
                 }
             }
         }
-        // Method to generate the busses for the database
-
         // Method to read all the data from the database
         private void ReadBusData(NpgsqlConnection connection)
         {
@@ -233,7 +230,8 @@ namespace SeatReserveLibrary.DBOperations
             string username = "";
             string password = "";
             bool admin = false;
-            List<SeatReserveLibrary.UserManagementClasses.User> users = new List<SeatReserveLibrary.UserManagementClasses.User>();
+            List<UserManagementClasses.User> users = new List<UserManagementClasses.User>();
+
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
                 using (var connection = dataSource.OpenConnection())
@@ -257,7 +255,7 @@ namespace SeatReserveLibrary.DBOperations
                                 }
                             }
                         }
-                        users.Add(new SeatReserveLibrary.UserManagementClasses.User(userid, username, password, admin));
+                        users.Add(new UserManagementClasses.User(userid, username, password, admin));
                     }
                 }
             }

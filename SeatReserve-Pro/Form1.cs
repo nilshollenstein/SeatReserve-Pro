@@ -20,6 +20,7 @@
      * 2024-06-14  Nils Hollenstein   Seats get reserved on a user
      * 2024-06-19  Nils Hollenstein   User can cancel his own reservation
      * 2024-06-20  Nils Hollenstein   Admin interface blocks reservations
+     * 2024-06-20  Nils Hollenstein   Admin can cancel reservations of all users
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -95,7 +96,6 @@ namespace SeatReserve_Pro
                         }
                         else if (seat.reserved && seat.reservedBy != loggedInUser.userid && !loggedInUser.admin)
                             MessageBox.Show("Seat already reserved by another user");
-
                     }
                 }
             }

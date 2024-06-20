@@ -16,7 +16,7 @@ using System.Web;
      * Date        Author             Changes
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-05  Nils Hollenstein   Initial creation.
-     * 2024-06-12  Nils Hollenstein   Added second constructor and reserveByUser attribute
+     * 2024-06-12  Nils Hollenstein   Added second constructor and reserveBy attribute
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
