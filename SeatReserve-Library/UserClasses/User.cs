@@ -48,6 +48,8 @@ namespace SeatReserveLibrary.UserManagementClasses
             this.password = password;
             this.admin = admin;
         }
-        public User() { }
+        public User() {
+            userid = -1;
+        }
     }
 }

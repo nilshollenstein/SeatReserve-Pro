@@ -9,6 +9,17 @@
      * Date        Author             Changes
      * ----------  ----------------   ----------------------------------------------------
      * 2024-06-05  Nils Hollenstein   Initial creation
+     * 2024-06-06  Nils Hollenstein   Bus gets drawn, seats can be reserved
+     * 2024-06-07  Nils Hollenstein   Busses can be selected
+     * 2024-06-07  Nils Hollenstein   Database inserts integrated
+     * 2024-06-12  Nils Hollenstein   Database read and update integratet
+     * 2024-06-13  Nils Hollenstein   User is able to sign-up and log in
+     * 2024-06-13  Nils Hollenstein   User gets error message on sign-up
+     * 2024-06-14  Nils Hollenstein   Error message on login
+     * 2024-06-14  Nils Hollenstein   User is able to logout
+     * 2024-06-14  Nils Hollenstein   Seats get reserved on a user
+     * 2024-06-19  Nils Hollenstein   User can cancel his own reservation
+     * 2024-06-20  Nils Hollenstein   Admin interface blocks reservations
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -19,9 +30,9 @@
      * 
      ******************************************************************************/
 
+using SeatReserveLibrary.DBOperations;
 using SeatReserveLibrary.DrawBusClasses;
 using SeatReserveLibrary.HashSecurityClasses;
-using SeatReserveLibrary.DBOperations;
 namespace SeatReserve_Pro
 {
     public partial class Form1 : Form
@@ -62,18 +73,29 @@ namespace SeatReserve_Pro
                 {
                     if (seat.seatRectangle.Contains(e.Location))
                     {
-                        if (!seat.selected && !seat.reserved)
+                        if (!seat.selected && !seat.reserved && !loggedInUser.admin)
+                        {
                             seat.selected = true;
-                        else if (seat.selected && !seat.reserved)
+                            Invalidate();
+                        }
+                        else if (seat.selected && !seat.reserved && !loggedInUser.admin)
+                        {
                             seat.selected = false;
-                        else if (!seat.selected && seat.reserved && seat.reservedBy == loggedInUser.userid)
+                            Invalidate();
+                        }
+                        else if (!seat.selected && seat.reserved && (seat.reservedBy == loggedInUser.userid || loggedInUser.admin))
+                        {
                             seat.selected = true;
-                        else if (seat.selected && seat.reserved && seat.reservedBy == loggedInUser.userid)
+                            Invalidate();
+                        }
+                        else if (seat.selected && seat.reserved && (seat.reservedBy == loggedInUser.userid || loggedInUser.admin))
+                        {
                             seat.selected = false;
-                        else if (seat.reserved && seat.reservedBy != loggedInUser.userid)
-
+                            Invalidate();
+                        }
+                        else if (seat.reserved && seat.reservedBy != loggedInUser.userid && !loggedInUser.admin)
                             MessageBox.Show("Seat already reserved by another user");
-                        Invalidate();
+
                     }
                 }
             }
@@ -94,6 +116,21 @@ namespace SeatReserve_Pro
                     seat.reserved = true;
                     seat.selected = false;
                     seat.reservedBy = loggedInUser.userid;
+                }
+            }
+            UpdateBusPartsDB();
+            Invalidate();
+        }
+        // Cancle Reservations with button
+        private void CancelReservationButton_Click(object sender, EventArgs e)
+        {
+            foreach (var seat in userBusSelected.seats)
+            {
+                if (seat.selected && seat.reserved && (seat.reservedBy == loggedInUser.userid || loggedInUser.admin))
+                {
+                    seat.reserved = false;
+                    seat.selected = false;
+                    seat.reservedBy = -1;
                 }
             }
             UpdateBusPartsDB();
@@ -174,6 +211,8 @@ namespace SeatReserve_Pro
                 loggedIn = false;
                 DisplayCorrectUIComponents();
             }
+            usernameSignUpInput.Text = "";
+            passwordSignUpInput.Text = "";
         }
         // Buttonhandler for the login button
         private void LoginButton_Click(object sender, EventArgs e)
@@ -214,6 +253,8 @@ namespace SeatReserve_Pro
                     wrongLoginData = false;
                 }
             }
+            usernameLoginInput.Text = "";
+            passwordLoginInput.Text = "";
         }
         // Buttonhandler for the logout button
         private void logoutButton_Click(object sender, EventArgs e)
@@ -225,21 +266,7 @@ namespace SeatReserve_Pro
             loggedInUser = new SeatReserveLibrary.UserManagementClasses.User();
             DisplayCorrectUIComponents();
         }
-        // Cancle Reservations with button
-        private void CancelReservationButton_Click(object sender, EventArgs e)
-        {
-            foreach (var seat in userBusSelected.seats)
-            {
-                if (seat.selected && seat.reserved && seat.reservedBy == loggedInUser.userid)
-                {
-                    seat.reserved = false;
-                    seat.selected = false;
-                    seat.reservedBy = -1;
-                }
-            }
-            UpdateBusPartsDB();
-            Invalidate();
-        }
+
         // Button to get out of the Login/Sign-up form
         private void backToStartButton_Click(object sender, EventArgs e)
         {
@@ -250,7 +277,6 @@ namespace SeatReserve_Pro
             DisplayCorrectUIComponents();
         }
         // Other methods
-
         // Decides which UI should be displayed
         private void DisplayCorrectUIComponents()
         {
@@ -346,16 +372,23 @@ namespace SeatReserve_Pro
         {
             SolidBrush grayBrush = new SolidBrush(Color.Gray);
 
+            // Brush when seat selected and its not reserved
             SolidBrush selectedNotReservedBrush = new SolidBrush(Color.FromArgb(255, 87, 119, 150));
-            SolidBrush selectedReservedBrush = new SolidBrush(Color.FromArgb(255, 240, 196, 91));
-            SolidBrush reservedBrush = new SolidBrush(Color.FromArgb(255, 247, 101, 116));
+            // Brush when seat selected and its reserved
+            SolidBrush selectedReservedBrush = new SolidBrush(Color.FromArgb(255, 247, 216, 12));
+            // Brush when seat is reserved by this user
+            SolidBrush reservedByLogedInUserBrush = new SolidBrush(Color.FromArgb(255, 191, 31, 15));
+            // Brush when seat is reserved by another user
+            SolidBrush reservedByOtherUserBrush = new SolidBrush(Color.FromArgb(255, 94, 12, 5));
 
             if (seat.selected && !seat.reserved)
                 graphics.FillRectangle(selectedNotReservedBrush, seat.seatRectangle);
             else if (seat.selected && seat.reserved)
                 graphics.FillRectangle(selectedReservedBrush, seat.seatRectangle);
-            else if (!seat.selected && seat.reserved)
-                graphics.FillRectangle(reservedBrush, seat.seatRectangle);
+            else if (!seat.selected && seat.reserved && (seat.reservedBy == loggedInUser.userid || loggedInUser.admin))
+                graphics.FillRectangle(reservedByLogedInUserBrush, seat.seatRectangle);
+            else if (!seat.selected && seat.reserved && seat.reservedBy != loggedInUser.userid)
+                graphics.FillRectangle(reservedByOtherUserBrush, seat.seatRectangle);
             else
                 graphics.FillRectangle(grayBrush, seat.seatRectangle);
         }
@@ -421,17 +454,19 @@ namespace SeatReserve_Pro
 
             graphics.DrawRectangle(blackPen, rectOuterLines);
         }
-       
+
         // Set the visibility of the UI elements
-        
+
         // Set the visibility of the SeatReservationParts
         private void SetSeatReservePartsVisibility(bool setVisibility)
         {
-            ReserveButton.Visible = setVisibility;
             backToSelectionButton.Visible = setVisibility;
             busTitle.Visible = setVisibility;
             cancelReservationButton.Visible = setVisibility;
-
+            if (!loggedInUser.admin)
+                ReserveButton.Visible = true;
+            else
+                ReserveButton.Visible = false;
         }
         // Set the visibility of the bus selection
         private void SetBusSelectionPartsVisibility(bool setVisibility)

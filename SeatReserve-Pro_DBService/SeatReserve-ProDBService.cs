@@ -1,6 +1,5 @@
 ﻿using Npgsql;
-using BusDBClasses.DrawBusClasses;
-
+using SeatReserveLibrary.DrawBusClasses;
 
 /******************************************************************************
      * File:        SeatReserve_ProDBService.cs
@@ -17,7 +16,7 @@ using BusDBClasses.DrawBusClasses;
      * 2024-06-12  Nils Hollenstein   Basic operations with User-Table possible
      * 2024-06-13  Nils Hollenstein   Seat-Table insert modified
      * 2024-06-19  Nils Hollenstein   Seat-Table modified
-     * 2024-06-19  Nils Hollenstein   Moved everything thats not needed for the init method
+     * 2024-06-19  Nils Hollenstein   Moved everything thats not needed for the init method to another file
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
