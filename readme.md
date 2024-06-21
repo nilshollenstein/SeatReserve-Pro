@@ -22,10 +22,24 @@ Dieses Projekt ist dazu da, einem Nutzer die Möglichkeit zu geben, Sitzplätze 
 ### Administratoren erstellen
 
 Es gibt zwei Methoden wie ein Administrator erstellt werden kann:
+
 1. Das erste Profil das erstellt wird, ist immer ein Administrator. Dieses Profil ist auch für die zweite Methode sehr wichtig. Aus diesem Grund sollte das Passwort zu diesem Profil immer bekannt sein.
+
 2. Diese Methode funktioniert mithilfe eines anderen Administratoren-Profil. Ein Administrator kann aus einer Liste aller Nutzer, die keine Administratoren-Rechte haben, auswählen. Danach kann er, wenn er das Passwort des ersten Nutzers kennt, das ausgewählte Profil zum Administrator befördern.
 
 ## Nutzen des Projektes
 
 Um das Projekt zu nutzen muss man die Solution mithilfe von Visual Studio aus diesem Repository klonen.  
-Das benötigte ERD und SQL für die Datenbank sind im Ordner (Datenbankinformationen)[]
+
+Das benötigte ERD und SQL für die Datenbank sind im Ordner ./Database zu finden. Das Programm läuft über eine PostgreSQL Datenbank. Dem Repository liegt ein Docker-Compose File bei, das einen Docker erstellt, der auf die gezeigten Beispieldaten passt. Die Datenbank selber (SeatReserve-Pro) muss noch erstellt werden. Dies kann mit einem Programm wie [pgAdmin](https://www.pgadmin.org/download/) gelöst werden.  
+
+Um das Programm auf diese zu verbinden, muss man zwei Mal einen String bearbeiten. Diese sind in den Files ![DBOperations.cs](./SeatReserve-Library/DBOperations/DBOperations.cs) und ![SeatReserve-ProDBService.cs](./SeatReserve-Pro_DBService/SeatReserve-ProDBService.cs) zu finden. Die Variable hat den Namen connectionString.  
+
+Dieser String enthält folgende Informationen:  
+
+- Host der Datenbank, z.B. localhost:5432
+- Benutzername des Datenbanknutzers, z.B. postgres
+- Password des Datenbanknutzers, z.B. postgres
+- Datenbankname, z.B. SeatReserve-Pro
+
+Die Beispieldaten oben sind die, die in den beiden Files eingetragen sind.
