@@ -35,7 +35,7 @@ namespace SeatReserveLibrary.HashSecurityClasses
     {
         // https://www.claudiobernasconi.ch/2023/06/23/how-to-hash-passwords-with-bcrypt-in-csharp/
         // Method to hash a string with BCrypt
-        public string HashBCrypt(string toHashText)
+        public static string HashBCrypt(string toHashText)
         {
             string passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(toHashText);
             return passwordHash;
@@ -43,7 +43,7 @@ namespace SeatReserveLibrary.HashSecurityClasses
 
         // https://www.claudiobernasconi.ch/2023/06/23/how-to-hash-passwords-with-bcrypt-in-csharp/
         // Method to check if two BCrypt hashes are the same
-        public bool VerifyBCrypt(string passwordHash, string inputToVerify)
+        public static bool VerifyBCrypt(string passwordHash, string inputToVerify)
         {
             bool correctinput = BCrypt.Net.BCrypt.EnhancedVerify(inputToVerify, passwordHash);
             return correctinput;

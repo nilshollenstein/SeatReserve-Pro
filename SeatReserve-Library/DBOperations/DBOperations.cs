@@ -140,25 +140,25 @@ namespace SeatReserveLibrary.DBOperations
             }
         }
         // Method to update the seats
-        public void UpdateSeats(Bus bus, NpgsqlConnection connection)
+        public static void UpdateSeats(Bus bus, NpgsqlConnection connection)
         {
             // Rewrite all the data of the current bus into the database
-            foreach (var seat in bus.seats)
+            foreach (var seat in bus.Seats)
             {
                 // Insert correct user id
-                if (seat.reservedBy != -1)
+                if (seat.ReservedBy != -1)
                 {
                     using var cmd = new NpgsqlCommand("UPDATE seat SET seatid = @p1 ,width = @p2, height = @p3, reserved = @p4, busid = @p5, reservedbyuser = @p6 FROM bus WHERE seat.seatid = @p1 AND bus.busid = @p7", connection)
                     {
                         Parameters =
                             {
-                                new("p1", seat.id),
-                                new("p2", seat.width),
-                                new("p3", seat.height),
-                                new("p4", seat.reserved),
-                                new("p5", seat.busid),
-                                new("p6", seat.reservedBy),
-                                new("p7", bus.id),
+                                new("p1", seat.Id),
+                                new("p2", seat.Width),
+                                new("p3", seat.Height),
+                                new("p4", seat.Reserved),
+                                new("p5", seat.Busid),
+                                new("p6", seat.ReservedBy),
+                                new("p7", bus.Id),
                             }
                     };
                     cmd.ExecuteNonQuery();
@@ -170,13 +170,13 @@ namespace SeatReserveLibrary.DBOperations
                     {
                         Parameters =
                             {
-                                new("p1", seat.id),
-                                new("p2", seat.width),
-                                new("p3", seat.height),
-                                new("p4", seat.reserved),
-                                new("p5", seat.busid),
+                                new("p1", seat.Id),
+                                new("p2", seat.Width),
+                                new("p3", seat.Height),
+                                new("p4", seat.Reserved),
+                                new("p5", seat.Busid),
                                 new("p6", DBNull.Value),
-                                new("p7", bus.id),
+                                new("p7", bus.Id),
                             }
                     };
                     cmd.ExecuteNonQuery();
@@ -184,7 +184,7 @@ namespace SeatReserveLibrary.DBOperations
             }
         }
         // Method to get the count of all users
-        public int GetUserCount(NpgsqlConnection connection)
+        public static int GetUserCount(NpgsqlConnection connection)
         {
             int usercount = 0;
             using (var selectAllSeatInformation = new NpgsqlCommand("SELECT COUNT(userid) FROM users;", connection))
@@ -210,15 +210,15 @@ namespace SeatReserveLibrary.DBOperations
                     int usercount = GetUserCount(connection);
                     int newID = usercount++;
                     if (newID == 0)
-                        user.admin = true;
+                        user.Admin = true;
                     using var cmd = new NpgsqlCommand("INSERT INTO users (userid, username, password, admin) VALUES (@p1, @p2, @p3, @p4) ", connection)
                     {
                         Parameters =
                     {
                         new("p1", newID),
-                        new("p2", user.username),
-                        new("p3", user.password),
-                        new("p4", user.admin),
+                        new("p2", user.Username),
+                        new("p3", user.Password),
+                        new("p4", user.Admin),
                     }
                     };
                     cmd.ExecuteNonQuery();

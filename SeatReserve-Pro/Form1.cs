@@ -77,31 +77,31 @@ namespace SeatReserve_Pro
         {
             if (busSelected)
             {
-                foreach (var seat in userBusSelected.seats)
+                foreach (var seat in userBusSelected.Seats)
                 {
-                    if (seat.seatRectangle.Contains(e.Location))
+                    if (seat.SeatRectangle.Contains(e.Location))
                     {
-                        if (!seat.selected && !seat.reserved && !loggedInUser.admin)
+                        if (!seat.Selected && !seat.Reserved && !loggedInUser.Admin)
                         {
-                            seat.selected = true;
+                            seat.Selected = true;
                             Invalidate();
                         }
-                        else if (seat.selected && !seat.reserved && !loggedInUser.admin)
+                        else if (seat.Selected && !seat.Reserved && !loggedInUser.Admin)
                         {
-                            seat.selected = false;
+                            seat.Selected = false;
                             Invalidate();
                         }
-                        else if (!seat.selected && seat.reserved && (seat.reservedBy == loggedInUser.userid || loggedInUser.admin))
+                        else if (!seat.Selected && seat.Reserved && (seat.ReservedBy == loggedInUser.Userid || loggedInUser.Admin))
                         {
-                            seat.selected = true;
+                            seat.Selected = true;
                             Invalidate();
                         }
-                        else if (seat.selected && seat.reserved && (seat.reservedBy == loggedInUser.userid || loggedInUser.admin))
+                        else if (seat.Selected && seat.Reserved && (seat.ReservedBy == loggedInUser.Userid || loggedInUser.Admin))
                         {
-                            seat.selected = false;
+                            seat.Selected = false;
                             Invalidate();
                         }
-                        else if (seat.reserved && seat.reservedBy != loggedInUser.userid && !loggedInUser.admin)
+                        else if (seat.Reserved && seat.ReservedBy != loggedInUser.Userid && !loggedInUser.Admin)
                             MessageBox.Show("Seat already reserved by another user");
                     }
                 }
@@ -116,13 +116,13 @@ namespace SeatReserve_Pro
         // React to the Button Click
         private void ReserveButton_Click(object sender, EventArgs e)
         {
-            foreach (var seat in userBusSelected.seats)
+            foreach (var seat in userBusSelected.Seats)
             {
-                if (seat.selected && !seat.reserved)
+                if (seat.Selected && !seat.Reserved)
                 {
-                    seat.reserved = true;
-                    seat.selected = false;
-                    seat.reservedBy = loggedInUser.userid;
+                    seat.Reserved = true;
+                    seat.Selected = false;
+                    seat.ReservedBy = loggedInUser.Userid;
                 }
             }
             UpdateBusPartsDB();
@@ -131,13 +131,13 @@ namespace SeatReserve_Pro
         // Cancle Reservations with button
         private void CancelReservationButton_Click(object sender, EventArgs e)
         {
-            foreach (var seat in userBusSelected.seats)
+            foreach (var seat in userBusSelected.Seats)
             {
-                if (seat.selected && seat.reserved && (seat.reservedBy == loggedInUser.userid || loggedInUser.admin))
+                if (seat.Selected && seat.Reserved && (seat.ReservedBy == loggedInUser.Userid || loggedInUser.Admin))
                 {
-                    seat.reserved = false;
-                    seat.selected = false;
-                    seat.reservedBy = -1;
+                    seat.Reserved = false;
+                    seat.Selected = false;
+                    seat.ReservedBy = -1;
                 }
             }
             UpdateBusPartsDB();
@@ -154,11 +154,11 @@ namespace SeatReserve_Pro
             {
                 foreach (var bus in busses)
                 {
-                    if (bus.destination == selectedValue)
+                    if (bus.Destination == selectedValue)
                     {
-                        bus.destination = selectedValue;
+                        bus.Destination = selectedValue;
                         userBusSelected = bus;
-                        busTitle.Text = bus.destination;
+                        busTitle.Text = bus.Destination;
                         SetBusSelectionPartsVisibility(false);
                         SetSeatReservePartsVisibility(true);
                     }
@@ -196,7 +196,7 @@ namespace SeatReserve_Pro
             var username = usernameSignUpInput.Text;
             foreach (var oldUser in users)
             {
-                if (oldUser.username == username)
+                if (oldUser.Username == username)
                 {
                     MessageBox.Show("Dieser Benutzernamen wird bereits verwendet");
                     usernameUsed = true;
@@ -205,7 +205,7 @@ namespace SeatReserve_Pro
             }
             var password = passwordSignUpInput.Text;
             // Hash the two informations
-            var passwordHashed = hashString.HashBCrypt(password);
+            var passwordHashed = HashString.HashBCrypt(password);
 
             var user = new SeatReserveLibrary.UserManagementClasses.User(username, passwordHashed, false);
 
@@ -244,7 +244,7 @@ namespace SeatReserve_Pro
                 foreach (var user in users)
                 {
                     // This if loggs the user in
-                    if (hashString.VerifyBCrypt(user.password, password) && user.username == username)
+                    if (HashString.VerifyBCrypt(user.Password, password) && user.Username == username)
                     {
                         loggedIn = true;
                         openedLoginForm = false;
@@ -294,7 +294,7 @@ namespace SeatReserve_Pro
             string? selectedValue = comboBox.SelectedItem as string;
             users = dbClient.ReadUsers();
             // Save the first user for the buttonhandler
-            firstUser = users.Find(user => user.userid == 0);
+            firstUser = users.Find(user => user.Userid == 0);
             // Save the username for the buttonhandler
             selectedUsernameNewAdmin = selectedValue;
 
@@ -302,7 +302,7 @@ namespace SeatReserve_Pro
                 if (selectedValue != null)
                 {
                     // Display the needed components
-                    passwordFirstAdminInput.PlaceholderText = $"Passwort von {firstUser.username} eingeben";
+                    passwordFirstAdminInput.PlaceholderText = $"Passwort von {firstUser.Username} eingeben";
                     SetCreateNewAdminUserPartsVisibility(true);
 
                     // Get Length of string and adjust textbox
@@ -321,10 +321,10 @@ namespace SeatReserve_Pro
             var dbClient = new DBOperations();
             HashString hashString = new HashString();
             if (password != "")
-                if (hashString.VerifyBCrypt(firstUser.password, password))
+                if (HashString.VerifyBCrypt(firstUser.Password, password))
                 {
-                    User user = users.Find(user => user.username == selectedUsernameNewAdmin);
-                    dbClient.UpdateExistingUser(true, user.userid);
+                    User user = users.Find(user => user.Username == selectedUsernameNewAdmin);
+                    dbClient.UpdateExistingUser(true, user.Userid);
 
                     passwordFirstAdminInput.Text = "";
                     newAdminSelection.Text = "";
@@ -353,8 +353,8 @@ namespace SeatReserve_Pro
 
             foreach (var bus in busses)
             {
-                if (!string.IsNullOrEmpty(bus.destination) && !existingDestinations.Contains(bus.destination))
-                    busSelection.Items.Add(bus.destination);
+                if (!string.IsNullOrEmpty(bus.Destination) && !existingDestinations.Contains(bus.Destination))
+                    busSelection.Items.Add(bus.Destination);
             }
         }
         // Fill the user selection to create new admins
@@ -366,8 +366,8 @@ namespace SeatReserve_Pro
             newAdminSelection.Items.Clear();
             foreach (var user in users)
             {
-                if (!string.IsNullOrEmpty(user.username) && !user.admin)
-                    newAdminSelection.Items.Add(user.username);
+                if (!string.IsNullOrEmpty(user.Username) && !user.Admin)
+                    newAdminSelection.Items.Add(user.Username);
             }
         }
         // Decides which parts should be displayed on the form
@@ -393,7 +393,7 @@ namespace SeatReserve_Pro
                 SetSeatReservePartsVisibility(false);
                 SetAdminPartsVisibility(false);
                 SetBusSelectionPartsVisibility(true);
-                if (loggedInUser.admin)
+                if (loggedInUser.Admin)
                     SetAdminPartsVisibility(true);
                 else
                     SetAdminPartsVisibility(false);
@@ -466,54 +466,54 @@ namespace SeatReserve_Pro
             // Brush when seat is reserved by another user
             SolidBrush reservedByOtherUserBrush = new SolidBrush(Color.FromArgb(255, 94, 12, 5));
 
-            if (seat.selected && !seat.reserved)
-                graphics.FillRectangle(selectedNotReservedBrush, seat.seatRectangle);
-            else if (seat.selected && seat.reserved)
-                graphics.FillRectangle(selectedReservedBrush, seat.seatRectangle);
-            else if (!seat.selected && seat.reserved && (seat.reservedBy == loggedInUser.userid || loggedInUser.admin))
-                graphics.FillRectangle(reservedByLogedInUserBrush, seat.seatRectangle);
-            else if (!seat.selected && seat.reserved && seat.reservedBy != loggedInUser.userid)
-                graphics.FillRectangle(reservedByOtherUserBrush, seat.seatRectangle);
+            if (seat.Selected && !seat.Reserved)
+                graphics.FillRectangle(selectedNotReservedBrush, seat.SeatRectangle);
+            else if (seat.Selected && seat.Reserved)
+                graphics.FillRectangle(selectedReservedBrush, seat.SeatRectangle);
+            else if (!seat.Selected && seat.Reserved && (seat.ReservedBy == loggedInUser.Userid || loggedInUser.Admin))
+                graphics.FillRectangle(reservedByLogedInUserBrush, seat.SeatRectangle);
+            else if (!seat.Selected && seat.Reserved && seat.ReservedBy != loggedInUser.Userid)
+                graphics.FillRectangle(reservedByOtherUserBrush, seat.SeatRectangle);
             else
-                graphics.FillRectangle(grayBrush, seat.seatRectangle);
+                graphics.FillRectangle(grayBrush, seat.SeatRectangle);
         }
         // Method which draws all the seats and also saves them in the seat objects
         private void DrawSeats(Graphics graphics, int yCounter, int xPos, int yPos, int maxWidth, int maxHeight, SolidBrush darkGreyBrush, Pen blackPen, Bus bus)
         {
             // Foreach to iterate throug the seats list
-            foreach (var seat in bus.seats)
+            foreach (var seat in bus.Seats)
             {
                 // If the seatRectangle property of the seat is empty, asign a new Rectangle to it
-                if (seat.seatRectangle == new Rectangle(0, 0, 0, 0))
+                if (seat.SeatRectangle == new Rectangle(0, 0, 0, 0))
                 {
-                    Rectangle seatRectangle = new Rectangle(xPos, yPos, seat.width, seat.height);
-                    seat.seatRectangle = seatRectangle;
+                    Rectangle seatRectangle = new Rectangle(xPos, yPos, seat.Width, seat.Height);
+                    seat.SeatRectangle = seatRectangle;
                 }
                 // Choose the color for the seat
                 DrawSeatCorrectColor(seat, graphics, bus);
                 // Draw the border for the seat
-                graphics.DrawRectangle(blackPen, seat.seatRectangle);
+                graphics.DrawRectangle(blackPen, seat.SeatRectangle);
                 yCounter++;
                 if (yCounter == 4)
                 {
                     yPos = 80;
-                    xPos += seat.width + 10;
+                    xPos += seat.Width + 10;
                     // Set the max width of the seat rows
-                    maxWidth = xPos + seat.width + 10;
+                    maxWidth = xPos + seat.Width + 10;
                     yCounter = 0;
                 }
                 else if (yCounter == 2)
                 {
-                    yPos += seat.width + 20;
+                    yPos += seat.Width + 20;
                 }
                 else
                 {
-                    yPos += seat.height + 10;
-                    graphics.DrawRectangle(blackPen, new Rectangle(xPos, yPos - 10, seat.width, 10));
-                    graphics.FillRectangle(darkGreyBrush, xPos, yPos - 10, seat.width, 10);
+                    yPos += seat.Height + 10;
+                    graphics.DrawRectangle(blackPen, new Rectangle(xPos, yPos - 10, seat.Width, 10));
+                    graphics.FillRectangle(darkGreyBrush, xPos, yPos - 10, seat.Width, 10);
                 }
                 // Check which of the heights is higher and chose the higher one as maxHeight 
-                maxHeight = Math.Max(maxHeight, yPos + seat.height);
+                maxHeight = Math.Max(maxHeight, yPos + seat.Height);
             }
             // Call the DrawOutline Method with fiting parameters
             DrawOutline(80, 80, graphics, maxWidth - 80, maxHeight - 80, blackPen);
@@ -548,7 +548,7 @@ namespace SeatReserve_Pro
             backToSelectionButton.Visible = setVisibility;
             busTitle.Visible = setVisibility;
             cancelReservationButton.Visible = setVisibility;
-            if (!loggedInUser.admin)
+            if (!loggedInUser.Admin)
                 ReserveButton.Visible = setVisibility;
             else
                 ReserveButton.Visible = setVisibility;
@@ -560,7 +560,7 @@ namespace SeatReserve_Pro
             busSelection.Visible = setVisibility;
             logoutButton.Visible = setVisibility;
             loggedInStatus.Visible = setVisibility;
-            loggedInStatus.Text = $"Angemeldet als {loggedInUser.username}";
+            loggedInStatus.Text = $"Angemeldet als {loggedInUser.Username}";
         }
         // Set the visibility of the login/signup selection
         private void SetLoginSignUpPartsVisibility(bool setVisibility)

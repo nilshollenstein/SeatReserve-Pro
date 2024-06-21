@@ -31,29 +31,29 @@ namespace SeatReserveLibrary.DrawBusClasses
 {
     public class Seat
     {
-        public int id { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
-        public Rectangle seatRectangle { get; set; }
-        public bool reserved { get; set; }
-        public bool selected { get; set; }
-        public int busid { get; set; }
-        public int reservedBy { get; set; }
+        public int Id { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public Rectangle SeatRectangle { get; set; }
+        public bool Reserved { get; set; }
+        public bool Selected { get; set; }
+        public int Busid { get; set; }
+        public int ReservedBy { get; set; }
         public Seat()
         {
-            selected = false;
-            width = 30;
-            height = 30;
+            Selected = false;
+            Width = 30;
+            Height = 30;
         }
         public Seat(int id, int width, int height, bool reserved, int busid, int reserveByUser)
         {
-            this.id = id;
-            this.width = width;
-            this.height = height;
-            this.reserved = reserved;
-            selected = false;
-            this.busid = busid;
-            this.reservedBy = reserveByUser;
+            Id = id;
+            Width = width;
+            Height = height;
+            Reserved = reserved;
+            Selected = false;
+            Busid = busid;
+            ReservedBy = reserveByUser;
         }
     }
 }

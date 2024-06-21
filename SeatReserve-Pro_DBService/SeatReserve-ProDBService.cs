@@ -84,9 +84,9 @@ namespace SeatReserve_Pro_DBService
                     {
                         Parameters =
                             {
-                                new("p1", bus.id),
-                                new("p2", bus.destination),
-                                new("p3", bus.seatCount),
+                                new("p1", bus.Id),
+                                new("p2", bus.Destination),
+                                new("p3", bus.SeatCount),
                             }
                     };
                     cmd.ExecuteNonQuery();
@@ -100,7 +100,7 @@ namespace SeatReserve_Pro_DBService
             int seatID = 1;
             foreach (var bus in busses)
             {
-                foreach (var seat in bus.seats)
+                foreach (var seat in bus.Seats)
                 {
 
                     using var cmd = new NpgsqlCommand("INSERT INTO seat(seatid, width, height, reserved, busID) VALUES (@p0, @p1, @p2, @p3, @p4)", connection)
@@ -108,10 +108,10 @@ namespace SeatReserve_Pro_DBService
                         Parameters =
                             {
                                 new("p0", seatID),
-                                new("p1", seat.width),
-                                new("p2", seat.height),
-                                new("p3", seat.reserved),
-                                new("p4", bus.id),
+                                new("p1", seat.Width),
+                                new("p2", seat.Height),
+                                new("p3", seat.Reserved),
+                                new("p4", bus.Id),
                             }
                     };
                     cmd.ExecuteNonQuery();

@@ -31,18 +31,18 @@ namespace SeatReserveLibrary.DrawBusClasses
 {
     public class Bus
     {
-        public int id { get; set; }
-        public List<Seat> seats { get; set; }
-        public string destination { get; set; }
-        public int seatCount { get; set; }
+        public int Id { get; set; }
+        public List<Seat> Seats { get; set; }
+        public string? Destination { get; set; }
+        public int SeatCount { get; set; }
 
         // Constructor to create the seats with the bus
         public Bus(int id, int seatCount, string destination)
         {
-            this.id = id;
-            this.destination = destination;
-            this.seatCount = seatCount;
-            seats = new List<Seat>();
+            Id = id;
+            Destination = destination;
+            SeatCount = seatCount;
+            Seats = new List<Seat>();
             while (seatCount % 4 != 0)
             {
                 seatCount++;
@@ -52,7 +52,7 @@ namespace SeatReserveLibrary.DrawBusClasses
                 Seat seat = new Seat();
                 if (seat != null)
                 {
-                    seats.Add(seat);
+                    Seats.Add(seat);
                 }
             }
         }
@@ -60,10 +60,10 @@ namespace SeatReserveLibrary.DrawBusClasses
         // Constructor to give the seats to the bus
         public Bus(int id, string destination, int seatCount, List<Seat> seats)
         {
-            this.id = id;
-            this.destination = destination;
-            this.seatCount = seatCount;
-            this.seats = seats;
+            Id = id;
+            Destination = destination;
+            SeatCount = seatCount;
+            Seats = seats;
         }
         public Bus() { }
     }
