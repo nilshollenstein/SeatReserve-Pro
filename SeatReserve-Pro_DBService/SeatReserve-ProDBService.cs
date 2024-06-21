@@ -33,7 +33,7 @@ namespace SeatReserve_Pro_DBService
     {
         //  Variables
         private List<Bus> busses = new List<Bus>();
-        private string connectionString = "Host=10.80.4.136:5432;Username=postgres;Password=postgres;Database=SeatReserve-Pro";
+        private string connectionString = "Host=localhost:5432;Username=postgres;Password=postgres;Database=SeatReserve-Pro";
         List<string> targetDestinations = new List<string>
         {
             "Berlin, Deutschland",
