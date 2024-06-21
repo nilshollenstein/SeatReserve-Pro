@@ -2,7 +2,7 @@
 
 ## Inhaltsverzeichnis
 
-- [Begriffe zur Datensicherheit](#begriffe-zur-datenbank)
+- [Begriffe zur Datensicherheit](#begriffe-zur-datensicherheit)
 - [Begriffe zur Datenbank](#begriffe-zur-datenbank)
 - [Windows Form Komponenten](#windows-form-komponenten)
 
@@ -12,9 +12,9 @@
 
 Hashing ist ein Methode um Daten zu schützen.  
 Hierbei wird ein Text mithilfe eines Algorithmuses in eine Zeichenfolge umgewandelt. Diese kann man nicht mehr zurückberechnen.  
-Durch dies ist man in der Lage Passwörter so zu speichern, da der potentielle Angreifer keinen Schlüssel finden kann, sondern mit Bruteforce oder ähnlichen Methoden arbeiten.
+Durch dies ist man in der Lage Passwörter so zu speichern, da der potentielle Angreifer keinen Schlüssel finden kann, sondern mit Bruteforce oder ähnlichen Methoden arbeiten müsste.
 
-#### BCRypt
+### BCRypt
 
 [BCrypt](https://en.wikipedia.org/wiki/Bcrypt) ist ein speziell für das sichere Speichern von Passwörtern entwickelter Algorithmus. Der Algorithmus integriert automatisch einen Salt und verwendet einen einstellbaren Kostenfaktor, welcher die Berechnung des Hashes absichtlich verlangsamt und somit sicherer gegen Angriffe macht.  
 Beispielhash: `$2a$12$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW`  
@@ -59,6 +59,7 @@ Eine TextBox kann verschiedene Modi unterstützen:
 - PasswordChar: Ein Zeichen, das anstelle des tatsächlichen Textes angezeigt wird, um Passwörter zu maskieren.
 - ReadOnly: Wenn auf true gesetzt, kann der Text nur angezeigt, aber nicht bearbeitet werden.
 - MaxLength: Die maximale Anzahl von Zeichen, die eingegeben werden können.
+- PlaceholderText: Ein Text, der angezeigt wird, wenn keine Eingabe erfolgt ist.
 
 Die TextBox ist vielseitig einsetzbar und kann beispielsweise für die Eingabe von Benutzernamen und Passwörtern ermöglichen.  
 ![TextBox Beispiel](./Glossar_Images/textBox.png)  
