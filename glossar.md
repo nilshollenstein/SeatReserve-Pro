@@ -15,10 +15,6 @@ Beispielhash: `$2a$12$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW`
 In C#/.Net kann BCrypt mit dem BCrypt.Net-Next Nuget-Paket verwendet werden.  
 [BCrypt.Net-Next Nuget](https://www.nuget.org/packages/BCrypt.Net-Next/)
 
-#### SHA-512
-
-[SHA-512](https://en.wikipedia.org/wiki/SHA-2) ist ein kryptographischer Hash-Algorithmus aus der SHA-2-Familie, der Daten in einen 512-Bit langen Hash umwandelt. Er wird verwendet, um die Integrität von Daten zu prüfen, da jede kleine Änderung in den Originaldaten zu einem vollständig veränderten Hash führt. SHA-512 wird häufig für Sicherheitsanwendungen und Protokolle, wie z.B. TLS und SSL, verwendet.
-
 ## Begriffe zur Datenbank
 
 #### Npgsql
@@ -26,3 +22,17 @@ In C#/.Net kann BCrypt mit dem BCrypt.Net-Next Nuget-Paket verwendet werden.
 Npgsql ist ein Nuget für .Net  
 Dieses ermöglicht es dem Anwender, PostgreSQL Abfragen an einen PostgreSQL-Server zu senden, sowie andere Datenbankoperationen durchführen.  
 [Npgsql Nuget](https://www.npgsql.org/doc/index.html)
+
+## Windows-Form Komponenten
+
+ComboBox
+Die ComboBox ist ein Steuerelement in Windows Forms, das dem Benutzer eine Dropdown-Liste zur Auswahl bietet. Es kann verwendet werden, um dem Benutzer eine Liste von Optionen anzuzeigen, aus der er eine auswählen kann.
+
+ComboBox unterstützt zwei Hauptmodi:
+
+1. Dropdown List: Der Benutzer kann nur eine der vordefinierten Optionen auswählen.
+2. Dropdown: Der Benutzer kann entweder eine der vordefinierten Optionen auswählen oder einen eigenen Text eingeben.
+
+Die ComboBox ist nützlich, um Platz im Benutzerinterface zu sparen und die Benutzererfahrung zu verbessern, indem sie eine übersichtliche Auswahlmöglichkeit bietet. In C#/.Net kann eine ComboBox leicht erstellt und konfiguriert werden, um verschiedene Anforderungen in einer Windows Forms-Anwendung zu erfüllen.
+![ComboBox Beispiel](./Glossar_Images/combobox_image.png)
+[ComboBox Dokumentation](https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.combobox?view=windowsdesktop-7.0)
