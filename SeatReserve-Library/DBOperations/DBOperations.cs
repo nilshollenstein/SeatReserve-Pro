@@ -1,5 +1,6 @@
 ﻿using Npgsql;
 using SeatReserveLibrary.DrawBusClasses;
+using UserClasses;
 
 /******************************************************************************
      * File:        DBOperations.cs
@@ -200,7 +201,7 @@ namespace SeatReserveLibrary.DBOperations
             return usercount;
         }
         // Insert single user
-        public void InsertNewUser(UserManagementClasses.User user)
+        public void InsertNewUser(User user)
         {
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
@@ -225,13 +226,13 @@ namespace SeatReserveLibrary.DBOperations
             }
         }
         // Reads all users from the database
-        public List<UserManagementClasses.User> ReadUsers()
+        public List<User> ReadUsers()
         {
             int userid = 0;
             string username = "";
             string password = "";
             bool admin = false;
-            List<UserManagementClasses.User> users = new List<UserManagementClasses.User>();
+            List<User> users = new List<User>();
 
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
@@ -256,7 +257,7 @@ namespace SeatReserveLibrary.DBOperations
                                 }
                             }
                         }
-                        users.Add(new UserManagementClasses.User(userid, username, password, admin));
+                        users.Add(new User(userid, username, password, admin));
                     }
                 }
             }

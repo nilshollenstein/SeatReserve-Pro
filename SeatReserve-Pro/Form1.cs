@@ -35,7 +35,7 @@
 using SeatReserveLibrary.DBOperations;
 using SeatReserveLibrary.DrawBusClasses;
 using SeatReserveLibrary.HashSecurityClasses;
-using SeatReserveLibrary.UserManagementClasses;
+using UserClasses;
 namespace SeatReserve_Pro
 {
     public partial class Form1 : Form

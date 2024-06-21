@@ -27,14 +27,14 @@ using System.Threading.Tasks;
      * 
      ******************************************************************************/
 
-namespace SeatReserveLibrary.UserManagementClasses
+namespace UserClasses
 {
     public class User
     {
         public int userid { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public bool admin { get; set; }
+        public string? username { get; set; }
+        public string? password { get; set; }
+        public bool? admin { get; set; }
         public User(int userid, string username, string password, bool admin)
         {
             this.userid = userid;
@@ -48,7 +48,8 @@ namespace SeatReserveLibrary.UserManagementClasses
             this.password = password;
             this.admin = admin;
         }
-        public User() {
+        public User()
+        {
             userid = -1;
         }
     }
