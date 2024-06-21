@@ -21,8 +21,10 @@ Dieses Projekt ist dazu da, einem Nutzer die Möglichkeit zu geben, Sitzplätze 
 
 ### Administratoren erstellen
 
-Es gibt zwei Methoden wie ein Administrator erstellt werden kann. 
+Es gibt zwei Methoden wie ein Administrator erstellt werden kann:
 1. Das erste Profil das erstellt wird, ist immer ein Administrator. Dieses Profil ist auch für die zweite Methode sehr wichtig. Aus diesem Grund sollte das Passwort zu diesem Profil immer bekannt sein.
 2. Diese Methode funktioniert mithilfe eines anderen Administratoren-Profil. Ein Administrator kann aus einer Liste aller Nutzer, die keine Administratoren-Rechte haben, auswählen. Danach kann er, wenn er das Passwort des ersten Nutzers kennt, das ausgewählte Profil zum Administrator befördern.
 
+## Nutzen des Projektes
 
+Um das Projekt zu nutzen muss man die Solution mithilfe von Visual Studio aus diesem Repository kopieren.
