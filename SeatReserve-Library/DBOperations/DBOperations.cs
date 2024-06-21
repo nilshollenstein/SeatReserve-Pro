@@ -29,9 +29,9 @@ namespace SeatReserveLibrary.DBOperations
     public class DBOperations
     {
         //  Variables
-        private List<Bus> busses = new List<Bus>();
+        private List<Bus> busses = new();
         private string connectionString = "Host=localhost;Username=postgres;Password=postgres;Database=SeatReserve-Pro";
-        List<string> targetDestinations = new List<string>
+        List<string> targetDestinations = new()
         {
             "Berlin, Deutschland",
             "Prag, Tschechien",
@@ -86,7 +86,7 @@ namespace SeatReserveLibrary.DBOperations
 
             for (int i = 1; i <= targetDestinations.Count; i++)
             {
-                List<Seat> seats = new List<Seat>();
+                var seats = new List<Seat>();
                 // Read the busses
                 using (var selectAllBusInformation = new NpgsqlCommand("SELECT bus.busid, bus.destination, bus.seatcount FROM bus WHERE bus.busid = :i;", connection))
                 {
@@ -232,7 +232,7 @@ namespace SeatReserveLibrary.DBOperations
             string username = "";
             string password = "";
             bool admin = false;
-            List<User> users = new List<User>();
+            var users = new List<User>();
 
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {

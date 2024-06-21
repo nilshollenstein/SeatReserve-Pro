@@ -49,7 +49,7 @@ namespace SeatReserveLibrary.DrawBusClasses
             }
             for (int i = 0; i < seatCount; i++)
             {
-                Seat seat = new Seat();
+                var seat = new Seat();
                 if (seat != null)
                 {
                     Seats.Add(seat);
