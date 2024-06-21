@@ -48,10 +48,10 @@ Die Beispieldaten oben sind die, die in den beiden Files eingetragen sind.
 
 Es gibt, wenn alle Vorbereitungen abgeschlossen sind mehrere Methoden das Programm zu starten.
 
-1. Starten mithilfe von Visual Studio:  In diesem Fall wird die Anwendung mithilfe des grünen Knopfes in Visual Studio gestartet.
- 1.1 Starten im Debug Mode, dabei kann der Anwender den Code debuggen
+1. Starten mithilfe von Visual Studio:  In diesem Fall wird die Anwendung mithilfe des grünen Knopfes in Visual Studio gestartet.  
+ 1.1 Starten im Debug Mode, dabei kann der Anwender den Code debuggen  
  1.2 Starten im Release Mode, dieser lässt nur das Programm laufen, ohne das Programm debuggen zu können
-2. Starten mithilfe von publish, In diesem Fall wird die Software mithilfe der Publish-Funktion von Visual Studio kompiliert
+2. Starten mithilfe von publish, In diesem Fall wird die Software mithilfe der Publish-Funktion von Visual Studio kompiliert  
  2.1 Als erstes muss das Programm gepublished werden. Hierfür muss man in Visual Studio das Programm auswählen.Danach muss man auf Build -> Publish Selection -> Folder  
  2.2 Wenn nun alles konfiguriert und gepublished wurde, kann man im ausgewählten Ordner eine .exe-Datei finden. Diese kann dann ausgeführt werden
 
