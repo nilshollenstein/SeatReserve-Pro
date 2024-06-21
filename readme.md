@@ -33,7 +33,7 @@ Um das Projekt zu nutzen muss man die Solution mithilfe von Visual Studio aus di
 
 Das benötigte ERD und SQL für die Datenbank sind im Ordner ./Database zu finden. Das Programm läuft über eine PostgreSQL Datenbank. Dem Repository liegt ein Docker-Compose File bei, das einen Docker erstellt, der auf die gezeigten Beispieldaten passt. Die Datenbank selber (SeatReserve-Pro) muss noch erstellt werden. Dies kann mit einem Programm wie [pgAdmin](https://www.pgadmin.org/download/) gelöst werden.  
 
-Um das Programm auf diese zu verbinden, muss man zwei Mal einen String bearbeiten. Diese sind in den Files ![DBOperations.cs](./SeatReserve-Library/DBOperations/DBOperations.cs) und ![SeatReserve-ProDBService.cs](./SeatReserve-Pro_DBService/SeatReserve-ProDBService.cs) zu finden. Die Variable hat den Namen connectionString.  
+Um das Programm auf diese zu verbinden, muss man zwei Mal einen String bearbeiten. Diese sind in den Files [DBOperations.cs](./SeatReserve-Library/DBOperations/DBOperations.cs) und [SeatReserve-ProDBService.cs](./SeatReserve-Pro_DBService/SeatReserve-ProDBService.cs) zu finden. Die Variable hat den Namen connectionString.  
 
 Dieser String enthält folgende Informationen:  
 
