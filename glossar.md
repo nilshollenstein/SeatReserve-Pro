@@ -36,7 +36,7 @@ ComboBox unterstützt zwei Hauptmodi:
 
 Die ComboBox ist nützlich, um Platz im Benutzerinterface zu sparen und die Benutzererfahrung zu verbessern, indem sie eine übersichtliche Auswahlmöglichkeit bietet. In C#/.Net kann eine ComboBox leicht erstellt und konfiguriert werden, um verschiedene Anforderungen in einer Windows Forms-Anwendung zu erfüllen.
 ![ComboBox Beispiel](./Glossar_Images/combobox_image.png)  
-[ComboBox Dokumentation](https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.combobox?view=windowsdesktop-7.0)
+[ComboBox Dokumentation](https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.combobox?view=windowsdesktop-8.0)
 
 ### TextBox
 
@@ -55,5 +55,5 @@ Eine TextBox kann verschiedene Modi unterstützen:
 - MaxLength: Die maximale Anzahl von Zeichen, die eingegeben werden können.
 
 Die TextBox ist vielseitig einsetzbar und kann beispielsweise für die Eingabe von Benutzernamen und Passwörtern ermöglichen.  
-![TextBox Beispiel](./Glossar_Images/textBox.png)
-[TextBox Dokumentation](https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms
+![TextBox Beispiel](./Glossar_Images/textBox.png)  
+[TextBox Dokumentation](https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.textbox?view=windowsdesktop-8.0)
