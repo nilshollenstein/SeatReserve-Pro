@@ -19,7 +19,7 @@ Dieses Projekt ist dazu da, einem Nutzer die Möglichkeit zu geben, Sitzplätze 
 - Kann alle Reservationen absagen
 - Kann andere Nutzer zum Administrator benennen, benötigt das Passwort des ersten Profils
 
-##### Administratoren erstellen
+### Administratoren erstellen
 
 Es gibt zwei Methoden wie ein Administrator erstellt werden kann. 
 1. Das erste Profil das erstellt wird, ist immer ein Administrator. Dieses Profil ist auch für die zweite Methode sehr wichtig. Aus diesem Grund sollte das Passwort zu diesem Profil immer bekannt sein.
