@@ -6,7 +6,7 @@
 - [Funktionen der Profile](#funktionen-der-profile)
 - [Administratoren erstellen](#administratoren-erstellen)
 - [Aufsetzen des Projektes](#aufsetzen-des-projektes)
-- [Starten des Projektes](#starten-des-programmes)
+- [Starten des Programmes](#starten-des-programmes)
 - [Mitarbeitende](#mitarbeitende)
 
 ## Beschreibung
@@ -41,7 +41,7 @@ Es gibt zwei Methoden wie ein Administrator erstellt werden kann:
 ### Benötigte Programme
 
 - [Visual Studio 2022](https://visualstudio.microsoft.com/de/downloads/)
-- [Postgres-Docker](./docker-compose.yml) oder Postgres-Server
+- [Postgres-Docker](./docker-compose.yml) oder anderer Postgres-Server
 - Tool um mit Postgres zu arbeiten, z.B. [pgAdmin](https://www.pgadmin.org/download/)
 
 ### Aufsetzen der Datenbank
