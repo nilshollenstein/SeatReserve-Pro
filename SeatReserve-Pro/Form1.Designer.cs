@@ -72,6 +72,10 @@ namespace SeatReserve_Pro
             logoutButton = new Button();
             cancelReservationButton = new Button();
             backToStartButton = new Button();
+            newAdminSelection = new ComboBox();
+            labelNewAdmin = new Label();
+            passwordFirstAdminInput = new TextBox();
+            createNewAdminSubmitButton = new Button();
             SuspendLayout();
             // 
             // ReserveButton
@@ -284,11 +288,55 @@ namespace SeatReserve_Pro
             backToStartButton.UseVisualStyleBackColor = true;
             backToStartButton.Click += backToStartButton_Click;
             // 
+            // newAdminSelection
+            // 
+            newAdminSelection.FormattingEnabled = true;
+            newAdminSelection.Location = new Point(729, 104);
+            newAdminSelection.Name = "newAdminSelection";
+            newAdminSelection.Size = new Size(121, 23);
+            newAdminSelection.TabIndex = 24;
+            newAdminSelection.Visible = false;
+            newAdminSelection.SelectedIndexChanged += newAdminSelection_SelectedIndexChanged;
+            // 
+            // labelNewAdmin
+            // 
+            labelNewAdmin.AutoSize = true;
+            labelNewAdmin.Font = new Font("Segoe UI", 11F);
+            labelNewAdmin.Location = new Point(729, 78);
+            labelNewAdmin.Name = "labelNewAdmin";
+            labelNewAdmin.Size = new Size(173, 20);
+            labelNewAdmin.TabIndex = 25;
+            labelNewAdmin.Text = "Neuen Admin auswählen";
+            labelNewAdmin.Visible = false;
+            // 
+            // passwordFirstAdminInput
+            // 
+            passwordFirstAdminInput.Location = new Point(729, 133);
+            passwordFirstAdminInput.Name = "passwordFirstAdminInput";
+            passwordFirstAdminInput.PasswordChar = '*';
+            passwordFirstAdminInput.PlaceholderText = "Password of user ....";
+            passwordFirstAdminInput.Size = new Size(157, 23);
+            passwordFirstAdminInput.TabIndex = 26;
+            // 
+            // createNewAdminSubmitButton
+            // 
+            createNewAdminSubmitButton.Location = new Point(913, 133);
+            createNewAdminSubmitButton.Name = "createNewAdminSubmitButton";
+            createNewAdminSubmitButton.Size = new Size(75, 23);
+            createNewAdminSubmitButton.TabIndex = 27;
+            createNewAdminSubmitButton.Text = "Bestätigen";
+            createNewAdminSubmitButton.UseVisualStyleBackColor = true;
+            createNewAdminSubmitButton.Click += createNewAdminSubmitButton_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1048, 450);
+            Controls.Add(createNewAdminSubmitButton);
+            Controls.Add(passwordFirstAdminInput);
+            Controls.Add(labelNewAdmin);
+            Controls.Add(newAdminSelection);
             Controls.Add(backToStartButton);
             Controls.Add(cancelReservationButton);
             Controls.Add(logoutButton);
@@ -343,5 +391,9 @@ namespace SeatReserve_Pro
         private Button logoutButton;
         private Button cancelReservationButton;
         private Button backToStartButton;
+        private ComboBox newAdminSelection;
+        private Label labelNewAdmin;
+        private TextBox passwordFirstAdminInput;
+        private Button createNewAdminSubmitButton;
     }
 }

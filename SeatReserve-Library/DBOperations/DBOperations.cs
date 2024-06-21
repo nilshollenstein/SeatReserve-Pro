@@ -200,7 +200,7 @@ namespace SeatReserveLibrary.DBOperations
             return usercount;
         }
         // Insert single user
-        public void InsertUserData(UserManagementClasses.User user)
+        public void InsertNewUser(UserManagementClasses.User user)
         {
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
             {
@@ -208,6 +208,8 @@ namespace SeatReserveLibrary.DBOperations
                 {
                     int usercount = GetUserCount(connection);
                     int newID = usercount++;
+                    if (newID == 0)
+                        user.admin = true;
                     using var cmd = new NpgsqlCommand("INSERT INTO users (userid, username, password, admin) VALUES (@p1, @p2, @p3, @p4) ", connection)
                     {
                         Parameters =
@@ -221,10 +223,9 @@ namespace SeatReserveLibrary.DBOperations
                     cmd.ExecuteNonQuery();
                 }
             }
-
         }
         // Reads all users from the database
-        public List<UserManagementClasses.User> ReadUserData()
+        public List<UserManagementClasses.User> ReadUsers()
         {
             int userid = 0;
             string username = "";
@@ -260,6 +261,25 @@ namespace SeatReserveLibrary.DBOperations
                 }
             }
             return users;
+        }
+
+        public void UpdateExistingUser(bool admin, int userid)
+        {
+            using (var dataSource = NpgsqlDataSource.Create(connectionString))
+            {
+                using (var connection = dataSource.OpenConnection())
+                {
+                    using var cmd = new NpgsqlCommand("UPDATE users SET admin = @p1 WHERE userid = @p2", connection)
+                    {
+                        Parameters =
+                            {
+                                new("p1", admin),
+                                new("p2", userid),
+                            }
+                    };
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

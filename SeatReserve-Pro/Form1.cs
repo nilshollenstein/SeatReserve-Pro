@@ -2,7 +2,7 @@
      * File:        Form1.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-05
-	 * Version:     1.2
+	 * Version:     1.3
      * Description: This file contains the partial Form1 class, which contains the handlers for the different UI-elements.
      * 
      * History:
@@ -21,6 +21,7 @@
      * 2024-06-19  Nils Hollenstein   User can cancel his own reservation
      * 2024-06-20  Nils Hollenstein   Admin interface blocks reservations
      * 2024-06-20  Nils Hollenstein   Admin can cancel reservations of all users
+     * 2024-06-20  Nils Hollenstein   Admin can cancel reservations of all users
      * 
      * License:
      * This software is provided 'as-is', without any express or implied
@@ -34,18 +35,22 @@
 using SeatReserveLibrary.DBOperations;
 using SeatReserveLibrary.DrawBusClasses;
 using SeatReserveLibrary.HashSecurityClasses;
+using SeatReserveLibrary.UserManagementClasses;
 namespace SeatReserve_Pro
 {
     public partial class Form1 : Form
     {
         // Variables
+        User loggedInUser = new();
+        User firstUser = new();
         List<Bus> busses = new List<Bus>();
+        List<User> users = new List<User>();
         private Bus userBusSelected = new();
         private bool busSelected = false;
         private bool loggedIn = false;
         private bool openedLoginForm = false;
         private bool openedSignUpForm = false;
-        SeatReserveLibrary.UserManagementClasses.User loggedInUser = new();
+        private string selectedUsernameNewAdmin;
 
 
         // Constructor
@@ -53,7 +58,9 @@ namespace SeatReserve_Pro
         {
             GetBusPartsDB();
             InitializeComponent();
+            FillBusSelection();
             DisplayCorrectUIComponents();
+            FillNewAdminSelection();
         }
 
         // Methods
@@ -159,6 +166,7 @@ namespace SeatReserve_Pro
                 DrawBus(userBusSelected);
                 busSelected = true;
             }
+            DisplayCorrectUIComponents();
         }
         // Buttonhandler for the menu button
         private void BackToSelectionButton_Click(object sender, EventArgs e)
@@ -166,6 +174,7 @@ namespace SeatReserve_Pro
             busSelected = false;
             SetBusSelectionPartsVisibility(true);
             SetSeatReservePartsVisibility(false);
+            DisplayCorrectUIComponents();
             Invalidate();
         }
         // Opens the sign up form
@@ -180,7 +189,7 @@ namespace SeatReserve_Pro
             // Variables
             var hashString = new HashString();
             var dbClient = new DBOperations();
-            var users = dbClient.ReadUserData();
+            var users = dbClient.ReadUsers();
             bool usernameUsed = false;
 
             // Checks if someone has the same username
@@ -206,13 +215,14 @@ namespace SeatReserve_Pro
             else if (!usernameUsed)
             {
                 // Registrates the user
-                dbClient.InsertUserData(user);
+                dbClient.InsertNewUser(user);
                 openedSignUpForm = false;
                 loggedIn = false;
+                usernameSignUpInput.Text = "";
+                passwordSignUpInput.Text = "";
                 DisplayCorrectUIComponents();
             }
-            usernameSignUpInput.Text = "";
-            passwordSignUpInput.Text = "";
+
         }
         // Buttonhandler for the login button
         private void LoginButton_Click(object sender, EventArgs e)
@@ -222,7 +232,7 @@ namespace SeatReserve_Pro
             var dbClient = new DBOperations();
             string username = usernameLoginInput.Text;
             string password = passwordLoginInput.Text;
-            var users = dbClient.ReadUserData();
+            var users = dbClient.ReadUsers();
             bool wrongLoginData = false;
 
             // Check if a field is empty
@@ -241,6 +251,8 @@ namespace SeatReserve_Pro
                         loggedInUser = user;
                         wrongLoginData = false;
                         DisplayCorrectUIComponents();
+                        usernameLoginInput.Text = "";
+                        passwordLoginInput.Text = "";
                         break;
                     }
                     else
@@ -253,8 +265,7 @@ namespace SeatReserve_Pro
                     wrongLoginData = false;
                 }
             }
-            usernameLoginInput.Text = "";
-            passwordLoginInput.Text = "";
+
         }
         // Buttonhandler for the logout button
         private void logoutButton_Click(object sender, EventArgs e)
@@ -277,11 +288,11 @@ namespace SeatReserve_Pro
             DisplayCorrectUIComponents();
         }
         // Other methods
-        // Decides which UI should be displayed
-        private void DisplayCorrectUIComponents()
+
+        // Fills the Bus selection with busses
+        private void FillBusSelection()
         {
             busTitle.Location = new Point(Width / 2 - busTitle.Width / 2, 30);
-
             // Only adds the locations to the selection if it does not contain the location
             List<string> existingDestinations = new List<string>();
             foreach (var item in busSelection.Items)
@@ -295,7 +306,24 @@ namespace SeatReserve_Pro
                 if (!string.IsNullOrEmpty(bus.destination) && !existingDestinations.Contains(bus.destination))
                     busSelection.Items.Add(bus.destination);
             }
+        }
+        // Fill the user selection to create new admins
+        private void FillNewAdminSelection()
+        {
+            var dbService = new DBOperations();
+            List<User> users = dbService.ReadUsers();
+            // Only adds the locations to the selection if it does not contain the location
+            newAdminSelection.Items.Clear();
+            foreach (var user in users)
+            {
+                if (!string.IsNullOrEmpty(user.username) && !user.admin)
+                    newAdminSelection.Items.Add(user.username);
+            }
+        }
 
+        private void DisplayCorrectUIComponents()
+        {
+            // Decides which UI should be displayed
             // check what should be displayed
             if (busSelected && loggedIn && !openedLoginForm && !openedSignUpForm)
             {
@@ -303,6 +331,7 @@ namespace SeatReserve_Pro
                 SetLoginSignUpPartsVisibility(false);
                 SetSignUpFormVisibility(false);
                 SetBusSelectionPartsVisibility(false);
+                SetAdminPartsVisibility(false);
                 SetSeatReservePartsVisibility(true);
 
             }
@@ -312,7 +341,12 @@ namespace SeatReserve_Pro
                 SetLoginSignUpPartsVisibility(false);
                 SetSignUpFormVisibility(false);
                 SetSeatReservePartsVisibility(false);
+                SetAdminPartsVisibility(false);
                 SetBusSelectionPartsVisibility(true);
+                if (loggedInUser.admin)
+                    SetAdminPartsVisibility(true);
+                else
+                    SetAdminPartsVisibility(false);
             }
             else if (openedLoginForm && !loggedIn)
             {
@@ -320,8 +354,8 @@ namespace SeatReserve_Pro
                 SetSignUpFormVisibility(false);
                 SetSeatReservePartsVisibility(false);
                 SetBusSelectionPartsVisibility(false);
+                SetAdminPartsVisibility(false);
                 SetLoginFormVisibility(true);
-
             }
             else if (openedSignUpForm && !loggedIn)
             {
@@ -329,8 +363,8 @@ namespace SeatReserve_Pro
                 SetLoginSignUpPartsVisibility(false);
                 SetSeatReservePartsVisibility(false);
                 SetBusSelectionPartsVisibility(false);
+                SetAdminPartsVisibility(false);
                 SetSignUpFormVisibility(true);
-
             }
             else
             {
@@ -338,6 +372,7 @@ namespace SeatReserve_Pro
                 SetSignUpFormVisibility(false);
                 SetSeatReservePartsVisibility(false);
                 SetBusSelectionPartsVisibility(false);
+                SetAdminPartsVisibility(false);
                 SetLoginSignUpPartsVisibility(true);
             }
         }
@@ -464,9 +499,9 @@ namespace SeatReserve_Pro
             busTitle.Visible = setVisibility;
             cancelReservationButton.Visible = setVisibility;
             if (!loggedInUser.admin)
-                ReserveButton.Visible = true;
+                ReserveButton.Visible = setVisibility;
             else
-                ReserveButton.Visible = false;
+                ReserveButton.Visible = setVisibility;
         }
         // Set the visibility of the bus selection
         private void SetBusSelectionPartsVisibility(bool setVisibility)
@@ -542,6 +577,21 @@ namespace SeatReserve_Pro
 
         }
 
+        private void SetAdminPartsVisibility(bool setVisibility)
+        {
+            labelNewAdmin.Visible = setVisibility;
+            newAdminSelection.Visible = setVisibility;
+            if (!setVisibility)
+            {
+                SetCreateNewAdminUserPartsVisibility(false);
+            }
+        }
+
+        private void SetCreateNewAdminUserPartsVisibility(bool setVisibility)
+        {
+            passwordFirstAdminInput.Visible = setVisibility;
+            createNewAdminSubmitButton.Visible = setVisibility;
+        }
         // Operate with the database 
 
         // Methodes to update the database
@@ -559,5 +609,50 @@ namespace SeatReserve_Pro
             busses = dbService.ReadBusPartsDB();
         }
 
+        private void newAdminSelection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            var dbClient = new DBOperations();
+            string? selectedValue = comboBox.SelectedItem as string;
+            users = dbClient.ReadUsers();
+            firstUser = users.Find(user => user.userid == 0);
+            selectedUsernameNewAdmin = selectedValue;
+            if (firstUser != null)
+                if (selectedValue != null)
+                {
+                    passwordFirstAdminInput.PlaceholderText = $"Passwort von {firstUser.username} eingeben";
+                    SetCreateNewAdminUserPartsVisibility(true);
+
+                    // Get Length of string and adjust textbox
+                    // https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.measurestring?view=net-8.0
+                    Graphics graphics;
+                    graphics = this.CreateGraphics();
+                    SizeF size = new SizeF();
+                    size = graphics.MeasureString(passwordFirstAdminInput.PlaceholderText, passwordFirstAdminInput.Font);
+                    passwordFirstAdminInput.Width = (int)size.Width;
+                }
+        }
+
+        private void createNewAdminSubmitButton_Click(object sender, EventArgs e)
+        {
+            string password = passwordFirstAdminInput.Text;
+            var dbClient = new DBOperations();
+            HashString hashString = new HashString();
+            if (password != "")
+                if (hashString.VerifyBCrypt(firstUser.password, password))
+                {
+                    User user = users.Find(user => user.username == selectedUsernameNewAdmin);
+                    dbClient.UpdateExistingUser(true, user.userid);
+
+                    passwordFirstAdminInput.Text = "";
+                    newAdminSelection.Text = "";
+                    SetCreateNewAdminUserPartsVisibility(false);
+                }
+                else
+                    MessageBox.Show("Falsches Passwort");
+            else
+                MessageBox.Show("Bitte geben sie das Passwort ein");
+            FillNewAdminSelection();
+        }
     }
 }
