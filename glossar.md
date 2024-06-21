@@ -37,3 +37,23 @@ ComboBox unterstützt zwei Hauptmodi:
 Die ComboBox ist nützlich, um Platz im Benutzerinterface zu sparen und die Benutzererfahrung zu verbessern, indem sie eine übersichtliche Auswahlmöglichkeit bietet. In C#/.Net kann eine ComboBox leicht erstellt und konfiguriert werden, um verschiedene Anforderungen in einer Windows Forms-Anwendung zu erfüllen.
 ![ComboBox Beispiel](./Glossar_Images/combobox_image.png)  
 [ComboBox Dokumentation](https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.combobox?view=windowsdesktop-7.0)
+
+### TextBox
+
+Die TextBox ist ein weiteres Steuerelement in Windows Forms, das es dem Benutzer ermöglicht, eigene Texte einzugeben. Sie ermöglicht es dem Benutzer Text einzugeben, anzuzeigen und auch zu bearbeiten.
+
+Eine TextBox kann verschiedene Modi unterstützen:
+
+1. Einzeilige TextBox: Standardmäßig zur Eingabe kurzer Texte.
+2. Mehrzeilige TextBox: Durch Setzen der Multiline-Eigenschaft auf true kann die TextBox mehrere Zeilen Text enthalten und zeigt automatisch Scrollbars an, wenn der Text die Größe der TextBox überschreitet.
+
+**Wichtige Eigenschaften und Methoden:**
+
+- Text: Der aktuelle Textinhalt der TextBox.
+- PasswordChar: Ein Zeichen, das anstelle des tatsächlichen Textes angezeigt wird, um Passwörter zu maskieren.
+- ReadOnly: Wenn auf true gesetzt, kann der Text nur angezeigt, aber nicht bearbeitet werden.
+- MaxLength: Die maximale Anzahl von Zeichen, die eingegeben werden können.
+
+Die TextBox ist vielseitig einsetzbar und kann beispielsweise für die Eingabe von Benutzernamen und Passwörtern ermöglichen.  
+![TextBox Beispiel](./Glossar_Images/textBox.png)
+[TextBox Dokumentation](https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms
