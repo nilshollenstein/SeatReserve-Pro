@@ -33,7 +33,7 @@ Um das Projekt zu nutzen muss man die Solution mithilfe von Visual Studio aus di
 
 Das benötigte ERD und SQL für die Datenbank sind im Ordner ./Database zu finden. Das Programm läuft über eine PostgreSQL Datenbank. Dem Repository liegt ein Docker-Compose File bei, das einen Docker erstellt, der auf die gezeigten Beispieldaten passt. Die Datenbank selber (SeatReserve-Pro) muss noch erstellt werden. Dies kann mit einem Programm wie [pgAdmin](https://www.pgadmin.org/download/) gelöst werden.  
 
-Um das Programm auf diese zu verbinden, muss man zwei Mal einen String bearbeiten. Diese sind in den Files [DBOperations.cs](./SeatReserve-Library/DBOperations/DBOperations.cs) und [SeatReserve-ProDBService.cs](./SeatReserve-Pro_DBService/SeatReserve-ProDBService.cs) zu finden. Die Variable hat den Namen connectionString.  
+Um das Programm auf diese zu verbinden, muss man zwei Mal einen String bearbeiten. Diese sind in den Files [DBOperations.cs](./SeatReserve-Library/DBOperations/DBOperations.cs) und [SeatReserve-ProDBService.cs](./SeatReserve-Pro_DBService/SeatReserve-ProDBService.cs) zu finden. Die Variable hat den Namen **connectionString**.  
 
 Dieser String enthält folgende Informationen:  
 
@@ -43,6 +43,17 @@ Dieser String enthält folgende Informationen:
 - Datenbankname, z.B. SeatReserve-Pro
 
 Die Beispieldaten oben sind die, die in den beiden Files eingetragen sind.
+
+### Starten des Projektes
+
+Es gibt, wenn alle Vorbereitungen abgeschlossen sind mehrere Methoden das Programm zu starten.
+
+1. Starten mithilfe von Visual Studio:  In diesem Fall wird die Anwendung mithilfe des grünen Knopfes in Visual Studio gestartet.
+ 1.1 Starten im Debug Mode, dabei kann der Anwender den Code debuggen
+ 1.2 Starten im Release Mode, dieser lässt nur das Programm laufen, ohne das Programm debuggen zu können
+2. Starten mithilfe von publish, In diesem Fall wird die Software mithilfe der Publish-Funktion von Visual Studio kompiliert
+ 2.1 Als erstes muss das Programm gepublished werden. Hierfür muss man in Visual Studio das Programm auswählen.Danach muss man auf Build -> Publish Selection -> Folder  
+ 2.2 Wenn nun alles konfiguriert und gepublished wurde, kann man im ausgewählten Ordner eine .exe-Datei finden. Diese kann dann ausgeführt werden
 
 ## Mitarbeitende
 
