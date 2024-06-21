@@ -27,4 +27,5 @@ Es gibt zwei Methoden wie ein Administrator erstellt werden kann:
 
 ## Nutzen des Projektes
 
-Um das Projekt zu nutzen muss man die Solution mithilfe von Visual Studio aus diesem Repository kopieren.
+Um das Projekt zu nutzen muss man die Solution mithilfe von Visual Studio aus diesem Repository klonen.  
+Das benötigte ERD und SQL für die Datenbank sind im Ordner (Datenbankinformationen)[]
