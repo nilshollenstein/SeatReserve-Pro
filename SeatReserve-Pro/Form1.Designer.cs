@@ -76,6 +76,7 @@ namespace SeatReserve_Pro
             labelNewAdmin = new Label();
             passwordFirstAdminInput = new TextBox();
             createNewAdminSubmitButton = new Button();
+            loggedInStatus = new Label();
             SuspendLayout();
             // 
             // ReserveButton
@@ -266,7 +267,7 @@ namespace SeatReserve_Pro
             logoutButton.TabIndex = 21;
             logoutButton.Text = "Abmelden";
             logoutButton.UseVisualStyleBackColor = true;
-            logoutButton.Click += logoutButton_Click;
+            logoutButton.Click += LogoutButton_Click;
             // 
             // cancelReservationButton
             // 
@@ -286,7 +287,7 @@ namespace SeatReserve_Pro
             backToStartButton.TabIndex = 23;
             backToStartButton.Text = "Zurück zur Startseite";
             backToStartButton.UseVisualStyleBackColor = true;
-            backToStartButton.Click += backToStartButton_Click;
+            backToStartButton.Click += BackToStartButton_Click;
             // 
             // newAdminSelection
             // 
@@ -296,7 +297,7 @@ namespace SeatReserve_Pro
             newAdminSelection.Size = new Size(121, 23);
             newAdminSelection.TabIndex = 24;
             newAdminSelection.Visible = false;
-            newAdminSelection.SelectedIndexChanged += newAdminSelection_SelectedIndexChanged;
+            newAdminSelection.SelectedIndexChanged += NewAdminSelection_SelectedIndexChanged;
             // 
             // labelNewAdmin
             // 
@@ -326,13 +327,25 @@ namespace SeatReserve_Pro
             createNewAdminSubmitButton.TabIndex = 27;
             createNewAdminSubmitButton.Text = "Bestätigen";
             createNewAdminSubmitButton.UseVisualStyleBackColor = true;
-            createNewAdminSubmitButton.Click += createNewAdminSubmitButton_Click;
+            createNewAdminSubmitButton.Click += CreateNewAdminSubmitButton_Click;
+            // 
+            // loggedInStatus
+            // 
+            loggedInStatus.AutoSize = true;
+            loggedInStatus.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            loggedInStatus.Location = new Point(12, 395);
+            loggedInStatus.Name = "loggedInStatus";
+            loggedInStatus.Size = new Size(121, 17);
+            loggedInStatus.TabIndex = 28;
+            loggedInStatus.Text = "LoggedInStatusText";
+            loggedInStatus.Click += loggedInStatus_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1048, 450);
+            Controls.Add(loggedInStatus);
             Controls.Add(createNewAdminSubmitButton);
             Controls.Add(passwordFirstAdminInput);
             Controls.Add(labelNewAdmin);
@@ -395,5 +408,6 @@ namespace SeatReserve_Pro
         private Label labelNewAdmin;
         private TextBox passwordFirstAdminInput;
         private Button createNewAdminSubmitButton;
+        private Label loggedInStatus;
     }
 }

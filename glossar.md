@@ -2,7 +2,7 @@
 
 ## Begriffe zur Datensicherheit
 
-#### Hashing
+### Hashing
 
 Hashing ist ein Methode um Daten zu schützen.  
 Hierbei wird ein Text mithilfe eines Algorithmuses in eine Zeichenfolge umgewandelt. Diese kann man nicht mehr zurückberechnen.  
@@ -17,7 +17,7 @@ In C#/.Net kann BCrypt mit dem BCrypt.Net-Next Nuget-Paket verwendet werden.
 
 ## Begriffe zur Datenbank
 
-#### Npgsql
+### Npgsql
 
 Npgsql ist ein Nuget für .Net  
 Dieses ermöglicht es dem Anwender, PostgreSQL Abfragen an einen PostgreSQL-Server zu senden, sowie andere Datenbankoperationen durchführen.  
@@ -25,7 +25,8 @@ Dieses ermöglicht es dem Anwender, PostgreSQL Abfragen an einen PostgreSQL-Serv
 
 ## Windows-Form Komponenten
 
-ComboBox
+### ComboBox
+
 Die ComboBox ist ein Steuerelement in Windows Forms, das dem Benutzer eine Dropdown-Liste zur Auswahl bietet. Es kann verwendet werden, um dem Benutzer eine Liste von Optionen anzuzeigen, aus der er eine auswählen kann.
 
 ComboBox unterstützt zwei Hauptmodi:
@@ -34,5 +35,5 @@ ComboBox unterstützt zwei Hauptmodi:
 2. Dropdown: Der Benutzer kann entweder eine der vordefinierten Optionen auswählen oder einen eigenen Text eingeben.
 
 Die ComboBox ist nützlich, um Platz im Benutzerinterface zu sparen und die Benutzererfahrung zu verbessern, indem sie eine übersichtliche Auswahlmöglichkeit bietet. In C#/.Net kann eine ComboBox leicht erstellt und konfiguriert werden, um verschiedene Anforderungen in einer Windows Forms-Anwendung zu erfüllen.
-![ComboBox Beispiel](./Glossar_Images/combobox_image.png)
+![ComboBox Beispiel](./Glossar_Images/combobox_image.png)  
 [ComboBox Dokumentation](https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.combobox?view=windowsdesktop-7.0)

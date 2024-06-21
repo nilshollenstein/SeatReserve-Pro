@@ -268,7 +268,7 @@ namespace SeatReserve_Pro
 
         }
         // Buttonhandler for the logout button
-        private void logoutButton_Click(object sender, EventArgs e)
+        private void LogoutButton_Click(object sender, EventArgs e)
         {
             // logs the user out
             loggedIn = false;
@@ -277,9 +277,8 @@ namespace SeatReserve_Pro
             loggedInUser = new SeatReserveLibrary.UserManagementClasses.User();
             DisplayCorrectUIComponents();
         }
-
         // Button to get out of the Login/Sign-up form
-        private void backToStartButton_Click(object sender, EventArgs e)
+        private void BackToStartButton_Click(object sender, EventArgs e)
         {
             if (openedSignUpForm)
                 openedSignUpForm = false;
@@ -287,6 +286,57 @@ namespace SeatReserve_Pro
                 openedLoginForm = false;
             DisplayCorrectUIComponents();
         }
+        // ComboBox to select user for new admin
+        private void NewAdminSelection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            var dbClient = new DBOperations();
+            string? selectedValue = comboBox.SelectedItem as string;
+            users = dbClient.ReadUsers();
+            // Save the first user for the buttonhandler
+            firstUser = users.Find(user => user.userid == 0);
+            // Save the username for the buttonhandler
+            selectedUsernameNewAdmin = selectedValue;
+
+            if (firstUser != null)
+                if (selectedValue != null)
+                {
+                    // Display the needed components
+                    passwordFirstAdminInput.PlaceholderText = $"Passwort von {firstUser.username} eingeben";
+                    SetCreateNewAdminUserPartsVisibility(true);
+
+                    // Get Length of string and adjust textbox
+                    // https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.measurestring?view=net-8.0
+                    Graphics graphics;
+                    graphics = this.CreateGraphics();
+                    SizeF size = new SizeF();
+                    size = graphics.MeasureString(passwordFirstAdminInput.PlaceholderText, passwordFirstAdminInput.Font);
+                    passwordFirstAdminInput.Width = (int)size.Width;
+                }
+        }
+        // Buttonhandler to create new admin out of selected user
+        private void CreateNewAdminSubmitButton_Click(object sender, EventArgs e)
+        {
+            string password = passwordFirstAdminInput.Text;
+            var dbClient = new DBOperations();
+            HashString hashString = new HashString();
+            if (password != "")
+                if (hashString.VerifyBCrypt(firstUser.password, password))
+                {
+                    User user = users.Find(user => user.username == selectedUsernameNewAdmin);
+                    dbClient.UpdateExistingUser(true, user.userid);
+
+                    passwordFirstAdminInput.Text = "";
+                    newAdminSelection.Text = "";
+                    SetCreateNewAdminUserPartsVisibility(false);
+                }
+                else
+                    MessageBox.Show("Falsches Passwort");
+            else
+                MessageBox.Show("Bitte geben sie das Passwort ein");
+            FillNewAdminSelection();
+        }
+
         // Other methods
 
         // Fills the Bus selection with busses
@@ -320,7 +370,7 @@ namespace SeatReserve_Pro
                     newAdminSelection.Items.Add(user.username);
             }
         }
-
+        // Decides which parts should be displayed on the form
         private void DisplayCorrectUIComponents()
         {
             // Decides which UI should be displayed
@@ -335,7 +385,7 @@ namespace SeatReserve_Pro
                 SetSeatReservePartsVisibility(true);
 
             }
-            else if (loggedIn && !openedSignUpForm && !openedLoginForm)
+            else if (!busSelected && loggedIn && !openedSignUpForm && !openedLoginForm)
             {
                 SetLoginFormVisibility(false);
                 SetLoginSignUpPartsVisibility(false);
@@ -509,6 +559,8 @@ namespace SeatReserve_Pro
             subTitleBusSelection.Visible = setVisibility;
             busSelection.Visible = setVisibility;
             logoutButton.Visible = setVisibility;
+            loggedInStatus.Visible = setVisibility;
+            loggedInStatus.Text = $"Angemeldet als {loggedInUser.username}";
         }
         // Set the visibility of the login/signup selection
         private void SetLoginSignUpPartsVisibility(bool setVisibility)
@@ -576,7 +628,7 @@ namespace SeatReserve_Pro
             }
 
         }
-
+        //
         private void SetAdminPartsVisibility(bool setVisibility)
         {
             labelNewAdmin.Visible = setVisibility;
@@ -586,12 +638,13 @@ namespace SeatReserve_Pro
                 SetCreateNewAdminUserPartsVisibility(false);
             }
         }
-
+        //
         private void SetCreateNewAdminUserPartsVisibility(bool setVisibility)
         {
             passwordFirstAdminInput.Visible = setVisibility;
             createNewAdminSubmitButton.Visible = setVisibility;
         }
+
         // Operate with the database 
 
         // Methodes to update the database
@@ -609,50 +662,9 @@ namespace SeatReserve_Pro
             busses = dbService.ReadBusPartsDB();
         }
 
-        private void newAdminSelection_SelectedIndexChanged(object sender, EventArgs e)
+        private void loggedInStatus_Click(object sender, EventArgs e)
         {
-            ComboBox comboBox = (ComboBox)sender;
-            var dbClient = new DBOperations();
-            string? selectedValue = comboBox.SelectedItem as string;
-            users = dbClient.ReadUsers();
-            firstUser = users.Find(user => user.userid == 0);
-            selectedUsernameNewAdmin = selectedValue;
-            if (firstUser != null)
-                if (selectedValue != null)
-                {
-                    passwordFirstAdminInput.PlaceholderText = $"Passwort von {firstUser.username} eingeben";
-                    SetCreateNewAdminUserPartsVisibility(true);
 
-                    // Get Length of string and adjust textbox
-                    // https://learn.microsoft.com/en-us/dotnet/api/system.drawing.graphics.measurestring?view=net-8.0
-                    Graphics graphics;
-                    graphics = this.CreateGraphics();
-                    SizeF size = new SizeF();
-                    size = graphics.MeasureString(passwordFirstAdminInput.PlaceholderText, passwordFirstAdminInput.Font);
-                    passwordFirstAdminInput.Width = (int)size.Width;
-                }
-        }
-
-        private void createNewAdminSubmitButton_Click(object sender, EventArgs e)
-        {
-            string password = passwordFirstAdminInput.Text;
-            var dbClient = new DBOperations();
-            HashString hashString = new HashString();
-            if (password != "")
-                if (hashString.VerifyBCrypt(firstUser.password, password))
-                {
-                    User user = users.Find(user => user.username == selectedUsernameNewAdmin);
-                    dbClient.UpdateExistingUser(true, user.userid);
-
-                    passwordFirstAdminInput.Text = "";
-                    newAdminSelection.Text = "";
-                    SetCreateNewAdminUserPartsVisibility(false);
-                }
-                else
-                    MessageBox.Show("Falsches Passwort");
-            else
-                MessageBox.Show("Bitte geben sie das Passwort ein");
-            FillNewAdminSelection();
         }
     }
 }

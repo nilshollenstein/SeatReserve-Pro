@@ -262,7 +262,7 @@ namespace SeatReserveLibrary.DBOperations
             }
             return users;
         }
-
+        // Method to update the admin status of the user
         public void UpdateExistingUser(bool admin, int userid)
         {
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
