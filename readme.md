@@ -43,3 +43,9 @@ Dieser String enthält folgende Informationen:
 - Datenbankname, z.B. SeatReserve-Pro
 
 Die Beispieldaten oben sind die, die in den beiden Files eingetragen sind.
+
+## Mitarbeitende
+
+Code: [Nils Hollenstein](https://github.com/nilshollenstein)
+Tester: [Matian Dauti](https://github.com/Matianz30), [Mischa Barmettler](https://github.com/Mischa50)  
+Glossar und Readme: [Nils Hollenstein](https://github.com/nilshollenstein)
