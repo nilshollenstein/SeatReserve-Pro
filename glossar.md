@@ -73,7 +73,8 @@ Eine MessageBox ist eine Möglichkeit dem Benutzer eines Programmes eine auffäl
 1. string? text - Nachricht in der MessageBox
 2. string? caption - Text oben im Fenster-Rand
 3. MessageBoxButtons buttons - Welche Art von Knöpfen angezeigt wird(z.B. Yes/No, OK, etc)
-4. MessageBoxIcon icon - Icon das angezeigt wird(z.B. Error mit Kreuz)
+4. MessageBoxIcon icon - Icon das angezeigt wird(z.B. Error mit Kreuz)  
+
 Dies sind die wichtigsten Parameter, es gibt noch drei weitere.  
 
 ![MessageBox Error Beispiel](./Glossar_Images/messageBox-example.png)  
