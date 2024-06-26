@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Publish-Ready publish ready programm as .exe and .dll
+Publish-Ready/

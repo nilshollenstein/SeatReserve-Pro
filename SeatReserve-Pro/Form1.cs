@@ -2,7 +2,7 @@
      * File:        Form1.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-05
-	 * Version:     1.3
+	 * Version:     1.3.2
      * Description: This file contains the partial Form1 class, which contains the handlers for the different UI-elements.
      * 
      * History:
