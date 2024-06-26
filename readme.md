@@ -74,7 +74,7 @@ Es gibt, wenn alle Vorbereitungen abgeschlossen sind mehrere Methoden das Progra
  1.1 Starten im Debug Mode, dabei kann der Anwender den Code debuggen  
  1.2 Starten im Release Mode, dieser lässt nur das Programm laufen, ohne das Programm debuggen zu können
 2. Starten mithilfe von publish, In diesem Fall wird die Software mithilfe der Publish-Funktion von Visual Studio kompiliert.  
- 2.1 Als erstes muss das Programm gepublished werden. Hierfür muss man in Visual Studio das Programm auswählen.Danach muss man auf Build -> Publish Selection -> Folder  
+ 2.1 Als erstes muss das Programm gepublished werden. Hierfür muss man in Visual Studio das Programm auswählen. Danach muss man auf Build -> Publish Selection -> Folder  
  2.2 Wenn nun alles konfiguriert und gepublished wurde, kann man im ausgewählten Ordner eine .exe-Datei finden. Diese kann dann ausgeführt werden
 
 ## Mitarbeitende
