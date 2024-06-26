@@ -1,6 +1,6 @@
 ﻿using Npgsql;
 using SeatReserveLibrary.DrawBusClasses;
-using UserClasses;
+using SeatReserveLibrary.UserClasses;
 
 /******************************************************************************
      * File:        DBOperations.cs
@@ -30,7 +30,7 @@ namespace SeatReserveLibrary.DBOperations
     {
         //  Variables
         private List<Bus> busses = new();
-        private string connectionString = "Host=localhost;Username=postgres;Password=postgres;Database=SeatReserve-Pro";
+        private string connectionString = "Host=localhost:5432;Username=postgres;Password=postgres;Database=SeatReserve-Pro";
         List<string> targetDestinations = new()
         {
             "Berlin, Deutschland",

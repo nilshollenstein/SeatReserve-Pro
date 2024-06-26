@@ -29,7 +29,7 @@ using SeatReserveLibrary.DrawBusClasses;
 
 namespace SeatReserve_Pro_DBService
 {
-    public class SeatReserve_ProDBServiceR
+    public class SeatReserve_ProDBService
     {
         //  Variables
         private List<Bus> busses = new List<Bus>();

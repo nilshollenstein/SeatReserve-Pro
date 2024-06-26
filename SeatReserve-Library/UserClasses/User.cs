@@ -9,7 +9,7 @@ using System.Threading.Tasks;
      * File:        User.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-13
-	 * Version:     1.0
+	 * Version:     1.0.1
      * Description: This file contains the User class, which stores informations about users of the database
      * 
      * History:
@@ -27,14 +27,14 @@ using System.Threading.Tasks;
      * 
      ******************************************************************************/
 
-namespace UserClasses
+namespace SeatReserveLibrary.UserClasses
 {
     public class User
     {
         public int Userid { get; set; }
-        public string? Username { get; set; }
-        public string? Password { get; set; }
-        public bool? Admin { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public bool Admin { get; set; }
         public User(int userid, string username, string password, bool admin)
         {
             Userid = userid;

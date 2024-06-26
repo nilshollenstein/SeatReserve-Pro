@@ -35,7 +35,7 @@
 using SeatReserveLibrary.DBOperations;
 using SeatReserveLibrary.DrawBusClasses;
 using SeatReserveLibrary.HashSecurityClasses;
-using UserClasses;
+using SeatReserveLibrary.UserClasses;
 namespace SeatReserve_Pro
 {
     public partial class Form1 : Form
@@ -207,8 +207,8 @@ namespace SeatReserve_Pro
             // Hash the two informations
             var passwordHashed = HashString.HashBCrypt(password);
 
-            var user = new SeatReserveLibrary.UserManagementClasses.User(username, passwordHashed, false);
-
+            var user = new SeatReserveLibrary.UserClasses.User(username, passwordHashed, false);
+            
             // Checks if a field is empty
             if (username == null || password == null || username == "" || password == "")
                 MessageBox.Show("Bitte füllens sie alle Felder aus");
@@ -274,7 +274,7 @@ namespace SeatReserve_Pro
             loggedIn = false;
             openedSignUpForm = false;
             openedLoginForm = false;
-            loggedInUser = new SeatReserveLibrary.UserManagementClasses.User();
+            //loggedInUser = new SeatReserveLibrary.UserClasses.User();
             DisplayCorrectUIComponents();
         }
         // Button to get out of the Login/Sign-up form
