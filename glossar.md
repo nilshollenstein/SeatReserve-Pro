@@ -21,16 +21,16 @@
 
 ## B
 
-### BCrypt.Net-Next
-
-Dies ist ein weiteres [Nuget](#nuget) für Visual Studio Projekte welche Methoden bereitstellt, um einen String mit BCrypt zu hashen und auch um einen gehashten String mit einem nicht gehashten abzugleichen.
-[BCrypt.Net-Next Nuget](https://www.nuget.org/packages/BCrypt.Net-Next/)
-
 ### BCRypt
 
 [BCrypt](https://en.wikipedia.org/wiki/Bcrypt) ist ein speziell für das sichere Speichern von Passwörtern entwickelter Algorithmus. Der Algorithmus integriert automatisch einen Salt und verwendet einen einstellbaren Kostenfaktor, welcher die Berechnung des Hashes absichtlich verlangsamt und somit sicherer gegen Angriffe macht.  
 Beispielhash: `$2a$12$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW`  
-In C#/.Net kann BCrypt mit dem [BCrypt.Net-Next](#bcryptnet-next) Nuget-Paket verwendet werden.  
+In C#/.Net kann BCrypt mit dem [BCrypt.Net-Next](#bcryptnet-next) Nuget-Paket verwendet werden.
+
+### BCrypt.Net-Next
+
+Dies ist ein  [Nuget](#nuget) für Visual Studio Projekte welche Methoden bereitstellt, um einen String mit BCrypt zu hashen und auch um einen gehashten String mit einem nicht gehashten abzugleichen.
+[BCrypt.Net-Next Nuget](https://www.nuget.org/packages/BCrypt.Net-Next/)
 
 ## C
 
