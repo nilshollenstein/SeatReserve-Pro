@@ -3,24 +3,30 @@
 ## Inhaltsverzeichnis
 
 - [B](#b)
+  - [BCrypt.Net-Next](#bcryptnet-next)
   - [BCrypt](#bcrypt)
 - [C](#c)
   - [ComboBox](#combobox)
 - [H](#h)
   - [Hashing](#hashing)
 - [N](#n)
+  - [Nuget](#nuget)
   - [Npgsql](#npgsql)
 - [T](#t)
   - [TextBox](#textbox)
 
 ## B
 
+### BCrypt.Net-Next
+
+Dies ist ein weiteres [Nuget](#nuget) für Visual Studio Projekte welche Methoden bereitstellt, um einen String mit BCrypt zu hashen und auch um einen gehashten String mit einem nicht gehashten abzugleichen.
+[BCrypt.Net-Next Nuget](https://www.nuget.org/packages/BCrypt.Net-Next/)
+
 ### BCRypt
 
 [BCrypt](https://en.wikipedia.org/wiki/Bcrypt) ist ein speziell für das sichere Speichern von Passwörtern entwickelter Algorithmus. Der Algorithmus integriert automatisch einen Salt und verwendet einen einstellbaren Kostenfaktor, welcher die Berechnung des Hashes absichtlich verlangsamt und somit sicherer gegen Angriffe macht.  
 Beispielhash: `$2a$12$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW`  
-In C#/.Net kann BCrypt mit dem BCrypt.Net-Next Nuget-Paket verwendet werden.  
-[BCrypt.Net-Next Nuget](https://www.nuget.org/packages/BCrypt.Net-Next/)
+In C#/.Net kann BCrypt mit dem [BCrypt.Net-Next](#bcryptnet-next) Nuget-Paket verwendet werden.  
 
 ## C
 
@@ -47,9 +53,13 @@ Durch dies ist man in der Lage Passwörter so zu speichern, da der potentielle A
 
 ## N
 
+### Nuget
+
+Ein Nuget ist eine Library für Visual Studio Projekte. Es gibt viele verschiedene Nugets welche verschiedene neue Möglichkeiten eröffnen. Beispiele dazu sind Nugets um auf Datenbanken zuzugreifen oder auch um beispielsweise bestimmte APIs abzugreifen.
+
 ### Npgsql
 
-Npgsql ist ein Nuget für .Net  
+Npgsql ist ein [Nuget](#nuget) für .Net  
 Dieses ermöglicht es dem Anwender, PostgreSQL Abfragen an einen PostgreSQL-Server zu senden, sowie andere Datenbankoperationen durchführen.  
 [Npgsql Nuget](https://www.npgsql.org/doc/index.html)
 
