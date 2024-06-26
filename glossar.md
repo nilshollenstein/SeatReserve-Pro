@@ -2,17 +2,18 @@
 
 ## Inhaltsverzeichnis
 
-- [Begriffe zur Datensicherheit](#begriffe-zur-datensicherheit)
-- [Begriffe zur Datenbank](#begriffe-zur-datenbank)
-- [Windows Form Komponenten](#windows-form-komponenten)
+- [B](#b)
+  - [BCrypt](#bcrypt)
+- [C](#c)
+  - [ComboBox](#combobox)
+- [H](#h)
+  - [Hashing](#hashing)
+- [N](#n)
+  - [Npgsql](#npgsql)
+- [T](#t)
+  - [TextBox](#textbox)
 
-## Begriffe zur Datensicherheit
-
-### Hashing
-
-Hashing ist ein Methode um Daten zu schützen.  
-Hierbei wird ein Text mithilfe eines Algorithmuses in eine Zeichenfolge umgewandelt. Diese kann man nicht mehr zurückberechnen.  
-Durch dies ist man in der Lage Passwörter so zu speichern, da der potentielle Angreifer keinen Schlüssel finden kann, sondern mit Bruteforce oder ähnlichen Methoden arbeiten müsste.
+## B
 
 ### BCRypt
 
@@ -21,15 +22,7 @@ Beispielhash: `$2a$12$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW`
 In C#/.Net kann BCrypt mit dem BCrypt.Net-Next Nuget-Paket verwendet werden.  
 [BCrypt.Net-Next Nuget](https://www.nuget.org/packages/BCrypt.Net-Next/)
 
-## Begriffe zur Datenbank
-
-### Npgsql
-
-Npgsql ist ein Nuget für .Net  
-Dieses ermöglicht es dem Anwender, PostgreSQL Abfragen an einen PostgreSQL-Server zu senden, sowie andere Datenbankoperationen durchführen.  
-[Npgsql Nuget](https://www.npgsql.org/doc/index.html)
-
-## Windows-Form Komponenten
+## C
 
 ### ComboBox
 
@@ -43,6 +36,24 @@ ComboBox unterstützt zwei Hauptmodi:
 Die ComboBox ist nützlich, um Platz im Benutzerinterface zu sparen und die Benutzererfahrung zu verbessern, indem sie eine übersichtliche Auswahlmöglichkeit bietet. In C#/.Net kann eine ComboBox leicht erstellt und konfiguriert werden, um verschiedene Anforderungen in einer Windows Forms-Anwendung zu erfüllen.
 ![ComboBox Beispiel](./Glossar_Images/combobox_image.png)  
 [ComboBox Dokumentation](https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.combobox?view=windowsdesktop-8.0)
+
+## H
+
+### Hashing
+
+Hashing ist ein Methode um Daten zu schützen.  
+Hierbei wird ein Text mithilfe eines Algorithmuses in eine Zeichenfolge umgewandelt. Diese kann man nicht mehr zurückberechnen.  
+Durch dies ist man in der Lage Passwörter so zu speichern, da der potentielle Angreifer keinen Schlüssel finden kann, sondern mit Bruteforce oder ähnlichen Methoden arbeiten müsste.
+
+## N
+
+### Npgsql
+
+Npgsql ist ein Nuget für .Net  
+Dieses ermöglicht es dem Anwender, PostgreSQL Abfragen an einen PostgreSQL-Server zu senden, sowie andere Datenbankoperationen durchführen.  
+[Npgsql Nuget](https://www.npgsql.org/doc/index.html)
+
+## T
 
 ### TextBox
 
