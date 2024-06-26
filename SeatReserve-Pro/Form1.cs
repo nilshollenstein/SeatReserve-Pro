@@ -102,7 +102,7 @@ namespace SeatReserve_Pro
                             Invalidate();
                         }
                         else if (seat.Reserved && seat.ReservedBy != loggedInUser.Userid && !loggedInUser.Admin)
-                            MessageBox.Show("Seat already reserved by another user");
+                            MessageBox.Show("Sitz bereits von einem anderen Nutzer reserviert", "Sitz bereits reserviert", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -198,7 +198,7 @@ namespace SeatReserve_Pro
             {
                 if (oldUser.Username == username)
                 {
-                    MessageBox.Show("Dieser Benutzernamen wird bereits verwendet");
+                    MessageBox.Show("Dieser Benutzernamen wird bereits verwendet", "Nutzername bereits verwendet", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     usernameUsed = true;
                     break;
                 }
@@ -207,11 +207,11 @@ namespace SeatReserve_Pro
             // Hash the two informations
             var passwordHashed = HashString.HashBCrypt(password);
 
-            var user = new SeatReserveLibrary.UserClasses.User(username, passwordHashed, false);
+            var user = new User(username, passwordHashed, false);
             
             // Checks if a field is empty
             if (username == null || password == null || username == "" || password == "")
-                MessageBox.Show("Bitte füllens sie alle Felder aus");
+                MessageBox.Show("Bitte füllens sie alle Felder aus", "Felder leer gelassen", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else if (!usernameUsed)
             {
                 // Registrates the user
@@ -237,7 +237,7 @@ namespace SeatReserve_Pro
 
             // Check if a field is empty
             if (username == null || password == null || username == "" || password == "")
-                MessageBox.Show("Bitte füllens sie alle Felder aus");
+                MessageBox.Show("Bitte füllens sie alle Felder aus", "Felder leer gelassen", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
                 // Check if the inputs fit to an existing user
@@ -261,7 +261,8 @@ namespace SeatReserve_Pro
                 if (wrongLoginData)
                 {
                     // Error message in case of no fitting inputs
-                    MessageBox.Show("Benutzername und Passwort stimmen nicht überein");
+                    MessageBox.Show("Benutzername und Passwort stimmen nicht überein", "Benutzername oder Passwort nicht korrekt",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    
                     wrongLoginData = false;
                 }
             }
@@ -331,9 +332,11 @@ namespace SeatReserve_Pro
                     SetCreateNewAdminUserPartsVisibility(false);
                 }
                 else
-                    MessageBox.Show("Falsches Passwort");
+                    MessageBox.Show("Falsches Passwort", "Falsches Passwort", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+
             else
-                MessageBox.Show("Bitte geben sie das Passwort ein");
+                MessageBox.Show("Bitte geben sie das Passwort ein", "Passwort nicht eingegeben", MessageBoxButtons.OK, MessageBoxIcon.Error);
             FillNewAdminSelection();
         }
 
@@ -628,7 +631,7 @@ namespace SeatReserve_Pro
             }
 
         }
-        //
+        // Set the visibility for admin-only parts
         private void SetAdminPartsVisibility(bool setVisibility)
         {
             labelNewAdmin.Visible = setVisibility;
@@ -638,7 +641,7 @@ namespace SeatReserve_Pro
                 SetCreateNewAdminUserPartsVisibility(false);
             }
         }
-        //
+        // Set the visibility for the tools to create a new admin
         private void SetCreateNewAdminUserPartsVisibility(bool setVisibility)
         {
             passwordFirstAdminInput.Visible = setVisibility;
@@ -662,9 +665,5 @@ namespace SeatReserve_Pro
             busses = dbService.ReadBusPartsDB();
         }
 
-        private void loggedInStatus_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

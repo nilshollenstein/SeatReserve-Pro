@@ -7,8 +7,12 @@
   - [BCrypt](#bcrypt)
 - [C](#c)
   - [ComboBox](#combobox)
+- [G](#g)
+  - [GUI](#gui-graphical-user-interface)
 - [H](#h)
   - [Hashing](#hashing)
+- [M](#m)
+  - [MessageBox](#messagebox)
 - [N](#n)
   - [Nuget](#nuget)
   - [Npgsql](#npgsql)
@@ -43,6 +47,13 @@ Die ComboBox ist nützlich, um Platz im Benutzerinterface zu sparen und die Benu
 ![ComboBox Beispiel](./Glossar_Images/combobox_image.png)  
 [ComboBox Dokumentation](https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.combobox?view=windowsdesktop-8.0)
 
+## G
+
+### GUI (Graphical User Interface)
+
+GUI oder Graphical User Interface ist ein Element mit dem ein Nutzer interagieren kann. Es ist eine visuelle Übersicht für den Nutzer, die ihn mit dem eigentlichen Programm verbindet. Es dient dazu komplexe Befehle, die beispielsweise Konsolenprogramme haben in verständliche Visuelle Aktionen umzuwandeln.
+Diese Art der Benutzeroberfläche ist eine gute Möglichkeit, eine Anwendung benutzerfreundlicher zu machen.
+
 ## H
 
 ### Hashing
@@ -50,6 +61,22 @@ Die ComboBox ist nützlich, um Platz im Benutzerinterface zu sparen und die Benu
 Hashing ist ein Methode um Daten zu schützen.  
 Hierbei wird ein Text mithilfe eines Algorithmuses in eine Zeichenfolge umgewandelt. Diese kann man nicht mehr zurückberechnen.  
 Durch dies ist man in der Lage Passwörter so zu speichern, da der potentielle Angreifer keinen Schlüssel finden kann, sondern mit Bruteforce oder ähnlichen Methoden arbeiten müsste.
+
+## M
+
+### MessageBox
+
+Die MessageBox ist eine Komponente in Visual Studio. Sie ist ein Fenster das als Aktion auf ein Event geschehen kann.
+Eine MessageBox ist eine Möglichkeit dem Benutzer eines Programmes eine auffälige Nachricht zu senden, beispielsweise einen Fehler oder einer erneuten Abfrage ob der Benutzer das Programm wirklich schliessen will. Die MessageBox wird mithilfe von MessageBox.Show() angezeigt. Dabei kann man dieser Methode mehrere Parameter mitgeben.
+**Parameter:**
+
+1. string? text - Nachricht in der MessageBox
+2. string? caption - Text oben im Fenster-Rand
+3. MessageBoxButtons buttons - Welche Art von Knöpfen angezeigt wird(z.B. Yes/No, OK, etc)
+4. MessageBoxIcon icon - Icon das angezeigt wird(z.B. Error mit Kreuz)
+Dies sind die wichtigsten Parameter, es gibt noch drei weitere.
+![MessageBox Error Beispiel](./Glossar_Images/messageBox-example.png)  
+[MessageBox Dokumentation](https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.messagebox?view=windowsdesktop-8.0)
 
 ## N
 
@@ -60,7 +87,7 @@ Ein Nuget ist eine Library für Visual Studio Projekte. Es gibt viele verschiede
 ### Npgsql
 
 Npgsql ist ein [Nuget](#nuget) für .Net  
-Dieses ermöglicht es dem Anwender, PostgreSQL Abfragen an einen PostgreSQL-Server zu senden, sowie andere Datenbankoperationen durchführen.  
+Dieses ermöglicht es dem Anwender, PostgreSQL Abfragen an einen PostgreSQL-Server zu senden, sowie andere Datenbankoperationen durchzuführen.  
 [Npgsql Nuget](https://www.npgsql.org/doc/index.html)
 
 ## T

@@ -338,7 +338,6 @@ namespace SeatReserve_Pro
             loggedInStatus.Size = new Size(121, 17);
             loggedInStatus.TabIndex = 28;
             loggedInStatus.Text = "LoggedInStatusText";
-            loggedInStatus.Click += loggedInStatus_Click;
             // 
             // Form1
             // 
