@@ -75,6 +75,7 @@ Eine MessageBox ist eine Möglichkeit dem Benutzer eines Programmes eine auffäl
 3. MessageBoxButtons buttons - Welche Art von Knöpfen angezeigt wird(z.B. Yes/No, OK, etc)
 4. MessageBoxIcon icon - Icon das angezeigt wird(z.B. Error mit Kreuz)
 Dies sind die wichtigsten Parameter, es gibt noch drei weitere.  
+
 ![MessageBox Error Beispiel](./Glossar_Images/messageBox-example.png)  
 [MessageBox Dokumentation](https://learn.microsoft.com/en-us/dotnet/api/system.windows.forms.messagebox?view=windowsdesktop-8.0)
 
