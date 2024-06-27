@@ -552,9 +552,9 @@ namespace SeatReserve_Pro
             busTitle.Visible = setVisibility;
             cancelReservationButton.Visible = setVisibility;
             if (!loggedInUser.Admin)
-                ReserveButton.Visible = setVisibility;
+                ReserveButton.Visible = true;
             else
-                ReserveButton.Visible = setVisibility;
+                ReserveButton.Visible = false;
         }
         // Set the visibility of the bus selection
         private void SetBusSelectionPartsVisibility(bool setVisibility)
@@ -640,9 +640,7 @@ namespace SeatReserve_Pro
             {
                 SetCreateNewAdminUserPartsVisibility(false);
             }
-            if (setVisibility) { 
-                ReserveButton.Visible = false;
-            }
+            
         }
         // Set the visibility for the tools to create a new admin
         private void SetCreateNewAdminUserPartsVisibility(bool setVisibility)
