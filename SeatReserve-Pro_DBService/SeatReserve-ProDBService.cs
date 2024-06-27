@@ -72,6 +72,8 @@ namespace SeatReserve_Pro_DBService
             cmd.ExecuteNonQuery();
             using var cmd2 = new NpgsqlCommand("DELETE FROM bus", connection);
             cmd2.ExecuteNonQuery();
+            using var cmd3 = new NpgsqlCommand("DELETE FROM users", connection);
+            cmd3.ExecuteNonQuery();
         }
         // Method to insert the bus data into the db
         private void InsertBusData(NpgsqlConnection connection)
