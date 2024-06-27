@@ -128,7 +128,7 @@ namespace SeatReserve_Pro_DBService
             foreach (var target in targetDestinations)
             {
                 var random = new Random();
-                int randomNumber = random.Next(20, 40);
+                int randomNumber = random.Next(40, 56);
                 busses.Add(new Bus(busID, randomNumber, target));
                 busID++;
             }
