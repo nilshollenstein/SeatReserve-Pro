@@ -214,11 +214,12 @@ namespace SeatReserve_Pro
             // Checks if a field is empty
             if (username == null || password == null || repeatedPassword == null || username == "" || password == "" || repeatedPassword == "")
                 MessageBox.Show("Bitte füllens sie alle Felder aus", "Felder leer gelassen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else if (usernameUsed)
+                MessageBox.Show("Dieser Benutzernamen wird bereits verwendet", "Nutzername bereits verwendet", MessageBoxButtons.OK, MessageBoxIcon.Error);
             // Check if password is to short
             else if (password.Length < 8)
                 MessageBox.Show("Das Passwort sollte mindestens 8 Zeichen lang sein", "Passwort zu kurz", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else if(usernameUsed)
-                MessageBox.Show("Dieser Benutzernamen wird bereits verwendet", "Nutzername bereits verwendet", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            
             else if(password != repeatedPassword)
                 MessageBox.Show("Die eingegbenen Passwörter stimmen nicht überein", "Passwörter nicht übereinstimmend", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else if (!usernameUsed)
