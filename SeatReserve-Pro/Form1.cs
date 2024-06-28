@@ -172,6 +172,10 @@ namespace SeatReserve_Pro
         private void BackToSelectionButton_Click(object sender, EventArgs e)
         {
             busSelected = false;
+            foreach (var seat in userBusSelected.Seats)
+            {
+                seat.Selected = false;
+            }
             SetBusSelectionPartsVisibility(true);
             SetSeatReservePartsVisibility(false);
             DisplayCorrectUIComponents();
