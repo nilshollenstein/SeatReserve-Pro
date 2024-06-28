@@ -1,7 +1,4 @@
-﻿using Npgsql;
-using SeatReserveLibrary.DrawBusClasses;
-
-/******************************************************************************
+﻿/******************************************************************************
      * File:        SeatReserve_ProDBService.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-05
@@ -26,6 +23,9 @@ using SeatReserveLibrary.DrawBusClasses;
      * This file is part of the SeatReserve-Pro_DBService project.
      * 
      ******************************************************************************/
+
+using Npgsql;
+using SeatReserveLibrary.DrawBusClasses;
 
 namespace SeatReserve_Pro_DBService
 {
@@ -128,7 +128,7 @@ namespace SeatReserve_Pro_DBService
             foreach (var target in targetDestinations)
             {
                 var random = new Random();
-                int randomNumber = random.Next(40, 56);
+                int randomNumber = random.Next(32, 72);
                 busses.Add(new Bus(busID, randomNumber, target));
                 busID++;
             }

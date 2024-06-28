@@ -1,6 +1,4 @@
-﻿using SeatReserve_Pro_DBService;
-
-/******************************************************************************
+﻿/******************************************************************************
      * File:        Class1.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-05
@@ -21,6 +19,7 @@
      * 
      ******************************************************************************/
 
+using SeatReserve_Pro_DBService;
 // See https://aka.ms/new-console-template for more information
 Console.WriteLine("Hello, World!");
 var dbService = new SeatReserve_ProDBService();

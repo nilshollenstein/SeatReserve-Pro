@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-
-/******************************************************************************
+﻿/******************************************************************************
      * File:        HashString.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-13

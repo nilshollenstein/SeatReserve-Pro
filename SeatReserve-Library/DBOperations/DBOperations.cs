@@ -1,6 +1,4 @@
-﻿using Npgsql;
-using SeatReserveLibrary.DrawBusClasses;
-using SeatReserveLibrary.UserClasses;
+﻿
 
 /******************************************************************************
      * File:        DBOperations.cs
@@ -23,6 +21,10 @@ using SeatReserveLibrary.UserClasses;
      * This file is part of the SeatReserve-Pro project.
      * 
      ******************************************************************************/
+
+using Npgsql;
+using SeatReserveLibrary.DrawBusClasses;
+using SeatReserveLibrary.UserClasses;
 
 namespace SeatReserveLibrary.DBOperations
 {

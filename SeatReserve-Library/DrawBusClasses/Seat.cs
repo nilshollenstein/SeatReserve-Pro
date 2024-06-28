@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-
-/******************************************************************************
+﻿/******************************************************************************
      * File:        Seat.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-05
