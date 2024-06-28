@@ -202,22 +202,32 @@ namespace SeatReserve_Pro
             {
                 if (oldUser.Username == username)
                 {
-                    MessageBox.Show("Dieser Benutzernamen wird bereits verwendet", "Nutzername bereits verwendet", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     usernameUsed = true;
                     break;
                 }
             }
-            var password = passwordSignUpInput.Text;
-            // Hash the two informations
-            var passwordHashed = HashString.HashBCrypt(password);
-
-            var user = new User(username, passwordHashed, false);
             
+            var password = passwordSignUpInput.Text;
+            var repeatedPassword = repeatPasswordInput.Text;
+
+
             // Checks if a field is empty
-            if (username == null || password == null || username == "" || password == "")
+            if (username == null || password == null || repeatedPassword == null || username == "" || password == "" || repeatedPassword == "")
                 MessageBox.Show("Bitte füllens sie alle Felder aus", "Felder leer gelassen", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            // Check if password is to short
+            else if (password.Length < 8)
+                MessageBox.Show("Das Passwort sollte mindestens 8 Zeichen lang sein", "Passwort zu kurz", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else if(usernameUsed)
+                MessageBox.Show("Dieser Benutzernamen wird bereits verwendet", "Nutzername bereits verwendet", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else if(password != repeatedPassword)
+                MessageBox.Show("Die eingegbenen Passwörter stimmen nicht überein", "Passwörter nicht übereinstimmend", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else if (!usernameUsed)
             {
+                // Hash the password
+                var passwordHashed = HashString.HashBCrypt(password);
+
+                var user = new User(username, passwordHashed, false);
+
                 // Registrates the user
                 dbClient.InsertNewUser(user);
                 openedSignUpForm = false;
@@ -253,6 +263,7 @@ namespace SeatReserve_Pro
                         loggedIn = true;
                         openedLoginForm = false;
                         loggedInUser = user;
+                        FillNewAdminSelection();
                         wrongLoginData = false;
                         DisplayCorrectUIComponents();
                         usernameLoginInput.Text = "";
@@ -337,8 +348,6 @@ namespace SeatReserve_Pro
                 }
                 else
                     MessageBox.Show("Falsches Passwort", "Falsches Passwort", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-
             else
                 MessageBox.Show("Bitte geben sie das Passwort ein", "Passwort nicht eingegeben", MessageBoxButtons.OK, MessageBoxIcon.Error);
             FillNewAdminSelection();
@@ -616,8 +625,9 @@ namespace SeatReserve_Pro
             usernameSignUpInput.Visible = setVisibility;
             passwordSignUpInput.Visible = setVisibility;
             passwordSignUpLabel.Visible = setVisibility;
+            repeatPasswordInput.Visible = setVisibility;
+            repeatPasswordLabel.Visible = setVisibility;
             backToStartButton.Visible = setVisibility;
-
             signUpButton.Visible = setVisibility;
 
             if (setVisibility)
@@ -630,6 +640,8 @@ namespace SeatReserve_Pro
                 usernameSignUpLabel.Location = new Point(Width / 2 - usernameSignUpLabel.Width / 2, usernameSignUpLabel.Location.Y);
                 passwordSignUpInput.Location = new Point(Width / 2 - passwordSignUpInput.Width / 2, passwordSignUpInput.Location.Y);
                 passwordSignUpLabel.Location = new Point(Width / 2 - passwordSignUpLabel.Width / 2, passwordSignUpLabel.Location.Y);
+                repeatPasswordInput.Location = new Point(Width / 2 - repeatPasswordInput.Width / 2, repeatPasswordInput.Location.Y);
+                repeatPasswordLabel.Location = new Point(Width / 2 - repeatPasswordLabel.Width / 2, repeatPasswordLabel.Location.Y);
                 signUpButton.Location = new Point(Width / 2 - signUpButton.Width / 2, signUpButton.Location.Y);
             }
 

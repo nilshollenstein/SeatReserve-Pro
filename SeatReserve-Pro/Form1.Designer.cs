@@ -77,6 +77,8 @@ namespace SeatReserve_Pro
             passwordFirstAdminInput = new TextBox();
             createNewAdminSubmitButton = new Button();
             loggedInStatus = new Label();
+            repeatPasswordLabel = new Label();
+            repeatPasswordInput = new TextBox();
             SuspendLayout();
             // 
             // ReserveButton
@@ -250,7 +252,7 @@ namespace SeatReserve_Pro
             // 
             // signUpButton
             // 
-            signUpButton.Location = new Point(605, 266);
+            signUpButton.Location = new Point(605, 325);
             signUpButton.Name = "signUpButton";
             signUpButton.Size = new Size(127, 23);
             signUpButton.TabIndex = 20;
@@ -292,7 +294,7 @@ namespace SeatReserve_Pro
             // newAdminSelection
             // 
             newAdminSelection.FormattingEnabled = true;
-            newAdminSelection.Location = new Point(729, 104);
+            newAdminSelection.Location = new Point(736, 104);
             newAdminSelection.Name = "newAdminSelection";
             newAdminSelection.Size = new Size(121, 23);
             newAdminSelection.TabIndex = 24;
@@ -303,7 +305,7 @@ namespace SeatReserve_Pro
             // 
             labelNewAdmin.AutoSize = true;
             labelNewAdmin.Font = new Font("Segoe UI", 11F);
-            labelNewAdmin.Location = new Point(729, 78);
+            labelNewAdmin.Location = new Point(736, 78);
             labelNewAdmin.Name = "labelNewAdmin";
             labelNewAdmin.Size = new Size(173, 20);
             labelNewAdmin.TabIndex = 25;
@@ -312,7 +314,7 @@ namespace SeatReserve_Pro
             // 
             // passwordFirstAdminInput
             // 
-            passwordFirstAdminInput.Location = new Point(729, 133);
+            passwordFirstAdminInput.Location = new Point(736, 133);
             passwordFirstAdminInput.Name = "passwordFirstAdminInput";
             passwordFirstAdminInput.PasswordChar = '*';
             passwordFirstAdminInput.PlaceholderText = "Password of user ....";
@@ -321,7 +323,7 @@ namespace SeatReserve_Pro
             // 
             // createNewAdminSubmitButton
             // 
-            createNewAdminSubmitButton.Location = new Point(913, 133);
+            createNewAdminSubmitButton.Location = new Point(920, 133);
             createNewAdminSubmitButton.Name = "createNewAdminSubmitButton";
             createNewAdminSubmitButton.Size = new Size(75, 23);
             createNewAdminSubmitButton.TabIndex = 27;
@@ -339,11 +341,31 @@ namespace SeatReserve_Pro
             loggedInStatus.TabIndex = 28;
             loggedInStatus.Text = "LoggedInStatusText";
             // 
+            // repeatPasswordLabel
+            // 
+            repeatPasswordLabel.AutoSize = true;
+            repeatPasswordLabel.Location = new Point(605, 274);
+            repeatPasswordLabel.Name = "repeatPasswordLabel";
+            repeatPasswordLabel.Size = new Size(122, 15);
+            repeatPasswordLabel.TabIndex = 30;
+            repeatPasswordLabel.Text = "Passwort wiederholen";
+            // 
+            // repeatPasswordInput
+            // 
+            repeatPasswordInput.Location = new Point(605, 292);
+            repeatPasswordInput.Name = "repeatPasswordInput";
+            repeatPasswordInput.PasswordChar = '*';
+            repeatPasswordInput.PlaceholderText = "Passwort wiederholen";
+            repeatPasswordInput.Size = new Size(127, 23);
+            repeatPasswordInput.TabIndex = 31;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1048, 450);
+            Controls.Add(repeatPasswordInput);
+            Controls.Add(repeatPasswordLabel);
             Controls.Add(loggedInStatus);
             Controls.Add(createNewAdminSubmitButton);
             Controls.Add(passwordFirstAdminInput);
@@ -408,5 +430,7 @@ namespace SeatReserve_Pro
         private TextBox passwordFirstAdminInput;
         private Button createNewAdminSubmitButton;
         private Label loggedInStatus;
+        private Label repeatPasswordLabel;
+        private TextBox repeatPasswordInput;
     }
 }
