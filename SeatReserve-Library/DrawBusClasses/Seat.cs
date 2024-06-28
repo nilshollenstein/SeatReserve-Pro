@@ -39,12 +39,14 @@ namespace SeatReserveLibrary.DrawBusClasses
         public bool Selected { get; set; }
         public int Busid { get; set; }
         public int ReservedBy { get; set; }
+        // Constructor to create empy seat
         public Seat()
         {
             Selected = false;
             Width = 30;
             Height = 30;
         }
+        // Constructor to fill seat with extern data
         public Seat(int id, int width, int height, bool reserved, int busid, int reserveByUser)
         {
             Id = id;

@@ -35,6 +35,7 @@ namespace SeatReserveLibrary.UserClasses
         public string Username { get; set; }
         public string Password { get; set; }
         public bool Admin { get; set; }
+        // Constructor to fill data into user
         public User(int userid, string username, string password, bool admin)
         {
             Userid = userid;
@@ -42,12 +43,14 @@ namespace SeatReserveLibrary.UserClasses
             Password = password;
             Admin = admin;
         }
+        // Constructor to create new user (has no id at the moment)
         public User(string username, string password, bool admin)
         {
             Username = username;
             Password = password;
             Admin = admin;
         }
+        // Constructor to create invalid user
         public User()
         {
             Userid = -1;

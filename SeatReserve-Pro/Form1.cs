@@ -2,7 +2,7 @@
      * File:        Form1.cs
      * Author:      Nils Hollenstein
      * Created:     2024-06-05
-	 * Version:     1.3.2
+	 * Version:     1.4.2
      * Description: This file contains the partial Form1 class, which contains the handlers for the different UI-elements.
      * 
      * History:
@@ -580,7 +580,6 @@ namespace SeatReserve_Pro
             openLoginButton.Location = new Point(Width / 2 - openLoginButton.Width / 2, openLoginButton.Location.Y);
             openSignUpButton.Location = new Point(Width / 2 - openSignUpButton.Width / 2, openSignUpButton.Location.Y);
 
-
         }
         // Set the visibility of the login form
         private void SetLoginFormVisibility(bool setVisibility)
@@ -651,7 +650,7 @@ namespace SeatReserve_Pro
 
         // Operate with the database 
 
-        // Methodes to update the database
+        // Method to update the database
         private void UpdateBusPartsDB()
         {
             var dbService = new DBOperations();
@@ -659,7 +658,7 @@ namespace SeatReserve_Pro
             GetBusPartsDB();
 
         }
-        // Methodes to get the data from databases
+        // Method to get the data from databases
         private void GetBusPartsDB()
         {
             var dbService = new DBOperations();

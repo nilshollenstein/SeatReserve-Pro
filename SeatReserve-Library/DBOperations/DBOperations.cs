@@ -58,7 +58,7 @@ namespace SeatReserveLibrary.DBOperations
             }
             return busses;
         }
-        // Method to update the whole database
+        // Method to update the seat and bus tables
         public void UpdateBusPartsDB(Bus bus)
         {
             using (var dataSource = NpgsqlDataSource.Create(connectionString))
