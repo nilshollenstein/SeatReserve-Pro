@@ -113,7 +113,7 @@ namespace SeatReserve_Pro
             openedLoginForm = true;
             DisplayCorrectUIComponents();
         }
-        // React to the Button Click
+        // Reserve reservations with button
         private void ReserveButton_Click(object sender, EventArgs e)
         {
             foreach (var seat in userBusSelected.Seats)
@@ -128,7 +128,7 @@ namespace SeatReserve_Pro
             UpdateBusPartsDB();
             Invalidate();
         }
-        // Cancle Reservations with button
+        // Cancle reservations with button
         private void CancelReservationButton_Click(object sender, EventArgs e)
         {
             foreach (var seat in userBusSelected.Seats)
@@ -168,7 +168,7 @@ namespace SeatReserve_Pro
             }
             DisplayCorrectUIComponents();
         }
-        // Buttonhandler for the menu button
+        // Buttonhandler for the back to menu button
         private void BackToSelectionButton_Click(object sender, EventArgs e)
         {
             busSelected = false;
