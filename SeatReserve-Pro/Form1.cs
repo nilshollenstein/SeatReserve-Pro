@@ -565,7 +565,7 @@ namespace SeatReserve_Pro
             backToSelectionButton.Visible = setVisibility;
             busTitle.Visible = setVisibility;
             cancelReservationButton.Visible = setVisibility;
-            if (!loggedInUser.Admin && loggedIn)
+            if (!loggedInUser.Admin && loggedIn && busSelected)
                 ReserveButton.Visible = true;
             else
                 ReserveButton.Visible = false;
